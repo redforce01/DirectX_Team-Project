@@ -28,6 +28,12 @@
     <Filter Include="Scenes\cScene_Main">
       <UniqueIdentifier>{c5f2216f-0186-4ccd-8c7b-13a80e2cf992}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataBase">
+      <UniqueIdentifier>{a94786f4-0eed-4c6c-bc3b-81254775374f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\cSoundData">
+      <UniqueIdentifier>{9cedcd13-baa5-45e2-8269-dac79355c154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -162,6 +168,15 @@
     <ClInclude Include="cImage.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="txtData.h">
+      <Filter>DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundData.h">
+      <Filter>소스 파일\cSoundData</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundUtil.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -286,6 +301,15 @@
     </ClCompile>
     <ClCompile Include="cImage.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="txtData.cpp">
+      <Filter>DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundData.cpp">
+      <Filter>소스 파일\cSoundData</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundUtil.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

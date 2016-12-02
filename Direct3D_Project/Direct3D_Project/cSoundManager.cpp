@@ -108,6 +108,7 @@ void cSoundManager::play( string keyName, float volume )
 			break;
 		}
 	}
+
 }
 
 //사운드 정지
@@ -177,7 +178,7 @@ bool cSoundManager::isPauseSound( string keyName )
 			break;
 		}
 	}
-	return isPause;
+ 	return isPause;
 }
 
 //플레이 중이냐?

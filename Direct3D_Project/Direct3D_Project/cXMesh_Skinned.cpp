@@ -82,7 +82,7 @@ HRESULT cXMesh_Skinned::Init(std::string filePath, const D3DXMATRIXA16* pmatCorr
 void cXMesh_Skinned::Release()
 {
 	//불러온 AnimationSet 해제
-	for (int i = 0; i < this->m_vecAnimSet.size(); i++)
+	for (unsigned int i = 0; i < this->m_vecAnimSet.size(); i++)
 		SAFE_RELEASE(m_vecAnimSet[i]);
 
 	//에니메이션 콘트롤러 해제

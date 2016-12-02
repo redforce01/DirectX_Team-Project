@@ -224,7 +224,7 @@ void cXMesh_Static::Render(const cTransform* Trans)
 		sStaticMeshEffect->BeginPass(i);
 
 		//서브셋수만큼 돌아 재낀다...
-		for (int m = 0; m < this->dwMaterialsNum; m++){
+		for (unsigned int m = 0; m < this->dwMaterialsNum; m++){
 
 			//텍스쳐 셋팅
 			sStaticMeshEffect->SetTexture("Diffuse_Tex", this->vecDiffuseTex[m]);
@@ -485,7 +485,7 @@ void cXMesh_Static::SetLighting(std::vector<cLight*>* pLights)
 
 	//라이트 행렬 셋팅
 	D3DXMATRIXA16 matLight[10];
-	for (int i = 0; i < pLights->size(); i++)
+	for (unsigned int i = 0; i < pLights->size(); i++)
 		matLight[i] = (*(pLights))[i]->GetLightMatrix();
 
 	//Effect 에 라이팅 셋팅

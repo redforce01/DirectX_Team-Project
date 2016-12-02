@@ -3,11 +3,10 @@
 class cScene_Main : public cScene
 {
 private:
-	
 
 
 public:
-
+	
 
 public:
 	cScene_Main();

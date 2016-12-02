@@ -30,6 +30,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -42,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -76,6 +77,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -86,14 +89,19 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <StackReserveSize>41943040</StackReserveSize>
+      <StackCommitSize>41943040</StackCommitSize>
+      <HeapReserveSize>20971520</HeapReserveSize>
+      <HeapCommitSize>20971520</HeapCommitSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -177,6 +185,7 @@
     <ClInclude Include="cSetBoundObject.h" />
     <ClInclude Include="cSingletonBase.h" />
     <ClInclude Include="cSkinnedAnimation.h" />
+    <ClInclude Include="cSoundData.h" />
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cSpriteManager.h" />
     <ClInclude Include="cTerrain.h" />
@@ -188,8 +197,10 @@
     <ClInclude Include="Direct3D_Project.h" />
     <ClInclude Include="MyUtil.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SoundUtil.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="txtData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoneHierachy.cpp" />
@@ -222,6 +233,7 @@
     <ClCompile Include="cSetBoundObject.cpp" />
     <ClCompile Include="cSingletonBase.cpp" />
     <ClCompile Include="cSkinnedAnimation.cpp" />
+    <ClCompile Include="cSoundData.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cSpriteManager.cpp" />
     <ClCompile Include="cTerrain.cpp" />
@@ -232,12 +244,14 @@
     <ClCompile Include="cXMesh_Static.cpp" />
     <ClCompile Include="Direct3D_Project.cpp" />
     <ClCompile Include="MyUtil.cpp" />
+    <ClCompile Include="SoundUtil.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="txtData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct3D_Project.rc" />

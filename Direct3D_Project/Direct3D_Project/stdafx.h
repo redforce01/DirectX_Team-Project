@@ -66,6 +66,8 @@ extern HINSTANCE	g_hInst;	//프로그램 인스턴스 핸들 ( OS 가 부여한 프로그램 번호 
 								// 매니져
 								//
 #include "MyUtil.h"
+#include "SoundUtil.h"
+using namespace SoundUtil;
 
 using namespace MyUtil;
 using namespace std;
@@ -86,3 +88,6 @@ using namespace std;
 #include "cResourceMgr_XStaticMesh.h"
 #include "cResourceMgr_XSkinnedMesh.h"
 #include "cSoundManager.h"
+
+#include "txtData.h"
+#include "cSoundData.h"

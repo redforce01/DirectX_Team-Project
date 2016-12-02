@@ -25,6 +25,9 @@ HRESULT cMainGame::Init( void )
 	GIZMO_MGR->Init(Device);
 	SPRITE_MGR->Init(Device);
 
+	SOUNDMANAGER->init();
+	SOUNDDATA->Init();
+
 	//DXFONT_MGR->addStyle(Device, "차차차", "펜흘림", 30.f);
 
 
@@ -69,6 +72,10 @@ void cMainGame::Release()
 	RESOURCE_STATICXMESH->ClearResource();
 	cResourceMgr_XStaticMesh::ReleaseInstance();
 
+	SOUNDMANAGER->release();
+	cSoundManager::ReleaseInstance();
+	SOUNDDATA->Release();
+	cSoundData::ReleaseInstance();
 
 	//디바이스 해제
 	ReleaseDevice();
