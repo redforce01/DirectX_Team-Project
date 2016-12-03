@@ -67,11 +67,10 @@ extern HINSTANCE	g_hInst;	//프로그램 인스턴스 핸들 ( OS 가 부여한 프로그램 번호 
 								//
 #include "MyUtil.h"
 #include "SoundUtil.h"
-using namespace SoundUtil;
 
 using namespace MyUtil;
+using namespace SoundUtil;
 using namespace std;
-
 
 //
 // 기타 등등

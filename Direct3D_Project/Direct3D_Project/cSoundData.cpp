@@ -76,141 +76,8 @@ void cSoundData::addSoundList()
 	}
 }
 
-void cSoundData::playSound(SOUND_TYPE soundType, SOUND_PLAY_TYPE situation, int soundNum)
+void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum)
 {
-	switch (situation)
-	{
-	case SoundUtil::SOUND_PLAY_TYPE_MENUBGM:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MENUEFFECT:
-		break;
-	case SoundUtil::SOUND_PLAY_GAME_BGM:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_NORMAL:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_WOOD:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_IRON:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_SOIL:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_ATTACKED:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_ATTACKED_RELAX:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_ROPE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_BREATH_ROUGH:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_DAED:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_FEAR:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_FEARHIGH:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_NERVOUS:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_PAIN:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_RELAX:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_SCRAG:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_SURPRISE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_USE_KEY:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_OPEN_CABINET:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_TURN_VALVE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_CLOSE_VALVE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_OPEN_TAPE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_SEARCH_DESK:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TYPEKEYBOARD:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_CAM_EFFECT:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_SCISSORS:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_KNIFE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ATTACK:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_HEAVY:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_NORMAL:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_STAIR:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_IRON:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_WATER:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_BREECHING:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_TRY_BREECHING:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_CHAIN:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_CUTBODY:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_TRYOPEN_DOOR:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_NPC_OPEN_DOOR:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ROOM_RUN_FAR:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ROOM_RUN_CLOSE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ROOM_SHOWER:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_HALLWAYRUN_FAR:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_HALLWAYRUN_CLOSE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_LOOKEVENT:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_THUNDER:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MOOD_HALL:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MOOD_ROOM:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_BEND:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MACHINE_01:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MACHINE_02:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ELECTRIC:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ELECTRIC_NOICE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_SWITCH:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_WATERFALL:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_CAN:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_DOORCLOSE:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_FALLOBJECT:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_HALLWAYRUN:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_HALLWAY:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_IRONEFFECT:
-		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ROPE:
-		break;
-	default:
-		break;
-	}
 
 }
 
@@ -237,13 +104,13 @@ void cSoundStruct::SoundMgrAdd()
 
 			iterPartSound->second[i];
 			soundFile = "SoundData";
-			soundFile.append("/");
-			soundFile.append(DirectoryHigh);
-			soundFile.append("/");
-			soundFile.append(vDirectoryLow[soundPartNum]);
-			soundFile.append("/");
-			soundFile.append(iterPartSound->second->arrSound[i]);
-			soundFile.append(".mp3");
+			soundFile = soundFile.append("/");
+			soundFile = soundFile.append(DirectoryHigh);
+			soundFile = soundFile.append("/");
+			soundFile = soundFile.append(vDirectoryLow[soundPartNum]);
+			soundFile = soundFile.append("/");
+			soundFile = soundFile.append(iterPartSound->second->arrSound[i]);
+			soundFile = soundFile.append(".mp3");
 
 			SOUNDMANAGER->addSound(soundKey, soundFile, FALSE, FALSE);
 			soundCount++;

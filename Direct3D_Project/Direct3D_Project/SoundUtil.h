@@ -2,7 +2,7 @@
 
 namespace SoundUtil
 {
-	enum SOUND_TYPE
+	enum SOUND_DATA_TYPE
 	{
 		SOUND_TYPE_MENU,
 		SOUND_TYPE_UI,
@@ -11,12 +11,9 @@ namespace SoundUtil
 		SOUND_TYPE_NPC,
 		SOUND_TYPE_STRUCT,
 		SOUND_TYPE_ETC,
-
-
-		SOUND_TYPE_NULL
 	};
 
-	enum SOUND_PLAY_TYPE
+	enum SOUND_DATA_PLAY_TYPE
 	{
 		//MENU SOUND
 		SOUND_PLAY_TYPE_MENUBGM,
@@ -110,7 +107,6 @@ namespace SoundUtil
 		SOUND_PLAY_TYPE_HALLWAY,
 		SOUND_PLAY_TYPE_IRONEFFECT,
 		SOUND_PLAY_TYPE_ROPE,
-
 
 	};
 }

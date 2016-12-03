@@ -11,8 +11,8 @@
 #pragma comment ( lib, "lib/fmodex_vc.lib" )
 
 //여유분의 채널 갯수 설정(버퍼)
-#define EXTRA_SOUND_CHANNEL 5
-#define SOUNDBUFFER 10
+#define EXTRA_SOUND_CHANNEL 10
+#define SOUNDBUFFER 20
 
 //총 사운드 갯수
 #define TOTAL_SOUND_CHANNEL SOUNDBUFFER + EXTRA_SOUND_CHANNEL

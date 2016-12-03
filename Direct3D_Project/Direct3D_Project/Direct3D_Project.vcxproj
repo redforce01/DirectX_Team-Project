@@ -77,8 +77,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -195,6 +195,8 @@
     <ClInclude Include="cXMesh_Skinned.h" />
     <ClInclude Include="cXMesh_Static.h" />
     <ClInclude Include="Direct3D_Project.h" />
+    <ClInclude Include="inc\fmod.h" />
+    <ClInclude Include="inc\fmod.hpp" />
     <ClInclude Include="MyUtil.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SoundUtil.h" />

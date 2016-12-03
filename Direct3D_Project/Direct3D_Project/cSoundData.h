@@ -1,6 +1,5 @@
 #pragma once
 #include "cSingletonBase.h"
-#include <list>
 
 struct tagSoundList
 {
@@ -37,7 +36,7 @@ public:
 	void LoadSoundList();
 	void addSoundList();
 
-	void playSound(SOUND_TYPE soundType, SOUND_PLAY_TYPE situation, int soundNum);
+	void playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
 };
 
 #define SOUNDDATA cSoundData::GetInstance()

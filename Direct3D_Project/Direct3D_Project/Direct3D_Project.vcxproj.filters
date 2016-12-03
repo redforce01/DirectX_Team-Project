@@ -156,9 +156,6 @@
     <ClInclude Include="cSetBoundObject.h">
       <Filter>BaseObject</Filter>
     </ClInclude>
-    <ClInclude Include="cSoundManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
     <ClInclude Include="cBoundSphere.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -176,6 +173,15 @@
     </ClInclude>
     <ClInclude Include="SoundUtil.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundManager.h">
+      <Filter>소스 파일\cSoundData</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\fmod.h">
+      <Filter>소스 파일\cSoundData</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\fmod.hpp">
+      <Filter>소스 파일\cSoundData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,9 +296,6 @@
     <ClCompile Include="cSetBoundObject.cpp">
       <Filter>BaseObject</Filter>
     </ClCompile>
-    <ClCompile Include="cSoundManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
     <ClCompile Include="cBoundBox.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -310,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="SoundUtil.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundManager.cpp">
+      <Filter>소스 파일\cSoundData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
