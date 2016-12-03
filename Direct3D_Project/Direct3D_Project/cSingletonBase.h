@@ -22,7 +22,7 @@ public:
 
 //인스턴스 포인터 초기화
 template<typename T>
-T*		cSingletonBase<T>::s_pInstance = NULL;
+T* cSingletonBase<T>::s_pInstance = NULL;
 
 
 
@@ -45,5 +45,3 @@ void cSingletonBase<T>::ReleaseInstance( void )
 		s_pInstance = NULL;
 	}
 }
-
-

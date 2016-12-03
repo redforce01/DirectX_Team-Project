@@ -28,7 +28,8 @@ void cSoundData::Release()
 
 void cSoundData::LoadSoundList()
 {
-	vector<string> vTemp = TXTDATA->txtLoad("Database/testSoundList.txt");
+	//vector<string> vTemp = TXTDATA->txtLoad("Database/testSoundList.txt");
+	vector<string> vTemp = TXTDATA->txtLoad("Database/SoundList.txt");
 
 	string category;
 	string part;
@@ -42,9 +43,9 @@ void cSoundData::LoadSoundList()
 		{
 			category = strstr(vTemp[i].c_str(), "*");
 			category = category.substr(1, category.size());
-			cSoundStruct* sound = new cSoundStruct;
-			sound->DirectoryHigh = category;
-			arrTotalSound.insert(make_pair(category, sound));
+			cSoundStruct* newSoundPart = new cSoundStruct;
+			newSoundPart->DirectoryHigh = category;
+			arrTotalSound.insert(make_pair(category, newSoundPart));
 			iterTotalSound = arrTotalSound.begin();
 		}
 
@@ -74,11 +75,6 @@ void cSoundData::addSoundList()
 	{
 		iterTotalSound->second->SoundMgrAdd();
 	}
-}
-
-void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum)
-{
-
 }
 
 void cSoundStruct::SoundMgrAdd()

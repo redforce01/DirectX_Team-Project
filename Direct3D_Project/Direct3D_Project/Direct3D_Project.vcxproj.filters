@@ -177,12 +177,6 @@
     <ClInclude Include="cSoundManager.h">
       <Filter>소스 파일\cSoundData</Filter>
     </ClInclude>
-    <ClInclude Include="inc\fmod.h">
-      <Filter>소스 파일\cSoundData</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\fmod.hpp">
-      <Filter>소스 파일\cSoundData</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

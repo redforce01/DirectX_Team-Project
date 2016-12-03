@@ -5,14 +5,28 @@
 #include <string>
 
 //fmod.hpp 추가
+#include "inc/fmod.h"
 #include "inc/fmod.hpp"
+#include "inc/fmod_codec.h"
+#include "inc/fmod_dsp.h"
+#include "inc/fmod_errors.h"
+#include "inc/fmod_memoryinfo.h"
+#include "inc/fmod_output.h"
 
 //lib 링크
 #pragma comment ( lib, "lib/fmodex_vc.lib" )
+#pragma comment ( lib, "lib/fmodex64_vc.lib")
+
+//#pragma comment ( lib, "lib/fmodex_bc.lib")
+//#pragma comment ( lib, "lib/fmodex_lcc.lib")
+//#pragma comment ( lib, "lib/fmodexL_bc.lib")
+//#pragma comment ( lib, "lib/fmodexL_lcc.lib")
+//#pragma comment ( lib, "lib/fmodexL_vc.lib")
+//#pragma comment ( lib, "lib/fmodexL64_vc.lib")
 
 //여유분의 채널 갯수 설정(버퍼)
-#define EXTRA_SOUND_CHANNEL 10
-#define SOUNDBUFFER 20
+#define EXTRA_SOUND_CHANNEL 50
+#define SOUNDBUFFER 100
 
 //총 사운드 갯수
 #define TOTAL_SOUND_CHANNEL SOUNDBUFFER + EXTRA_SOUND_CHANNEL

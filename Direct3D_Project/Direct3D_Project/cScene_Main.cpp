@@ -13,6 +13,7 @@ cScene_Main::~cScene_Main()
 
 HRESULT cScene_Main::Scene_Init()
 {
+	SOUNDMANAGER->play("MenuSound_MenuBGM0", 0.5);
 
 	return S_OK;
 }

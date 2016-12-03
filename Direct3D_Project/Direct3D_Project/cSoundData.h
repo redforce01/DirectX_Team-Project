@@ -17,6 +17,9 @@ public:
 	map<string, tagSoundList*>::iterator	iterPartSound;
 
 	void SoundMgrAdd();
+
+	cSoundStruct() {};
+	~cSoundStruct() {};
 };
 
 class cSoundData : public cSingletonBase<cSoundData>
@@ -36,7 +39,7 @@ public:
 	void LoadSoundList();
 	void addSoundList();
 
-	void playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
+	//void playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
 };
 
 #define SOUNDDATA cSoundData::GetInstance()
