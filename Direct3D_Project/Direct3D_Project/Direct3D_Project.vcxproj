@@ -192,6 +192,7 @@
     <ClInclude Include="cSkinnedAnimation.h" />
     <ClInclude Include="cSoundData.h" />
     <ClInclude Include="cSoundManager.h" />
+    <ClInclude Include="cSoundObject.h" />
     <ClInclude Include="cSpriteManager.h" />
     <ClInclude Include="cTerrain.h" />
     <ClInclude Include="cTimeMgr.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="cSkinnedAnimation.cpp" />
     <ClCompile Include="cSoundData.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
+    <ClCompile Include="cSoundObject.cpp" />
     <ClCompile Include="cSpriteManager.cpp" />
     <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="cTimeMgr.cpp" />

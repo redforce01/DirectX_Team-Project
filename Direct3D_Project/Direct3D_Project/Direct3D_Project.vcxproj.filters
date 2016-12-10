@@ -37,7 +37,10 @@
     <Filter Include="Scenes\cMap">
       <UniqueIdentifier>{bacbc012-374c-4c17-8c3a-3b4e98d67469}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes\cSoundData">
+    <Filter Include="Scenes\cObject_Sound">
+      <UniqueIdentifier>{aa405af9-17d7-47ca-9325-95ccedb649c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundData">
       <UniqueIdentifier>{9cedcd13-baa5-45e2-8269-dac79355c154}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -175,13 +178,13 @@
       <Filter>DataBase</Filter>
     </ClInclude>
     <ClInclude Include="cSoundData.h">
-      <Filter>Scenes\cSoundData</Filter>
+      <Filter>SoundData</Filter>
     </ClInclude>
     <ClInclude Include="SoundUtil.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cSoundManager.h">
-      <Filter>Scenes\cSoundData</Filter>
+      <Filter>SoundData</Filter>
     </ClInclude>
     <ClInclude Include="cObject_EventObj.h">
       <Filter>Scenes\cObject_Event</Filter>
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="cSceneChangeEffectUpDown.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundObject.h">
+      <Filter>Scenes\cObject_Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -324,13 +330,13 @@
       <Filter>DataBase</Filter>
     </ClCompile>
     <ClCompile Include="cSoundData.cpp">
-      <Filter>Scenes\cSoundData</Filter>
+      <Filter>SoundData</Filter>
     </ClCompile>
     <ClCompile Include="SoundUtil.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cSoundManager.cpp">
-      <Filter>Scenes\cSoundData</Filter>
+      <Filter>SoundData</Filter>
     </ClCompile>
     <ClCompile Include="cObject_EventObj.cpp">
       <Filter>Scenes\cObject_Event</Filter>
@@ -346,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="cSceneChangeEffectUpDown.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundObject.cpp">
+      <Filter>Scenes\cObject_Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
