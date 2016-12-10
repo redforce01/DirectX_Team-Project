@@ -10,7 +10,8 @@ public:
 	float camNear;		//카메라 Near
 	float camFar;		//카메라 Far
 	float aspect;		//카메라 종횡비
-
+	bool bOrtho;		//직교니?
+	float orthoSize;	//직교시사이즈
 
 protected:
 	D3DXMATRIXA16		matView;		//뷰행렬
@@ -60,11 +61,11 @@ public:
 	}
 
 	//화각 셋팅
-	void SetFov(float fov){
+	void SetFov(float fov) {
 		this->fov = fov;
 	}
 
-	float GetFov(){
+	float GetFov() {
 		return this->fov;
 	}
 
@@ -76,6 +77,9 @@ public:
 
 	//랜더 Texture 를 준비 한다.
 	void ReadyRenderToTexture(int width, int height);
+
+	//Shadow Map Texture를 준비한다.
+	void ReadyShadowTexture(int size);
 
 	//랜더 Texture 로 랜더링 시작
 	void RenderTextureBegin(DWORD backColor);

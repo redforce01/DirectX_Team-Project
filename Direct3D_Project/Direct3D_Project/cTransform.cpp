@@ -85,7 +85,7 @@ void cTransform::AddChild(cTransform* pNewChild)
 	D3DXVec3TransformCoord(&pNewChild->position, &pNewChild->position, &matInvFinal);
 
 	//축3개 변환하고 
-	for (int i = 0; i < 3; i++){
+	for (int i = 0; i < 3; i++) {
 		D3DXVec3TransformNormal(pNewChild->axis + i, pNewChild->axis + i, &matInvFinal);
 	}
 
@@ -107,16 +107,16 @@ void cTransform::AddChild(cTransform* pNewChild)
 	cTransform* pChild = this->pFirstChild;
 
 	//자식이 없는 쓸쓸한 독거노인이라면...
-	if (pChild == NULL){
+	if (pChild == NULL) {
 		//안심하고 추가
 		this->pFirstChild = pNewChild;
 		pNewChild->pParent = this;
 	}
 
 	//대가족에 들어간다.
-	else{
+	else {
 
-		while (pChild != NULL){
+		while (pChild != NULL) {
 
 			//내가 들어갈 자리를 찾았다면...
 			if (pChild->pNextSibling == NULL)
@@ -155,7 +155,7 @@ void cTransform::ReleaseParent()
 	cTransform* pChild = this->pParent->pFirstChild;
 
 	//내가 부모의 첫째자식이니?
-	if (pChild == this){
+	if (pChild == this) {
 
 		//내다음 자식이 첫번째 자식이 된다.
 		this->pParent->pFirstChild = this->pNextSibling;
@@ -166,10 +166,10 @@ void cTransform::ReleaseParent()
 
 	else
 	{
-		while (pChild != NULL){
+		while (pChild != NULL) {
 
 			//현재 자식의 다음이 나니?
-			if (pChild->pNextSibling == this){
+			if (pChild->pNextSibling == this) {
 
 				pChild->pNextSibling = this->pNextSibling;
 
@@ -763,7 +763,7 @@ void cTransform::SetRotateWorld(float eAngleX, float eAngleY, float aAngleZ)
 	D3DXMATRIXA16 matRotate;
 	D3DXMatrixRotationQuaternion(&matRotate, &quatRot);		//사원수에 의한 회전값으로 회전행렬이 만들어진다.
 
-	//만약 부모가 있다면...
+															//만약 부모가 있다면...
 	if (this->pParent)
 	{
 		//회전 성분에 부모 역행렬 곱해....
@@ -795,7 +795,7 @@ void cTransform::SetRotateLocal(float eAngleX, float eAngleY, float aAngleZ)
 	D3DXMATRIXA16 matRotate;
 	D3DXMatrixRotationQuaternion(&matRotate, &quatRot);		//사원수에 의한 회전값으로 회전행렬이 만들어진다.
 
-	//축리셋
+															//축리셋
 	this->right = D3DXVECTOR3(1, 0, 0);
 	this->up = D3DXVECTOR3(0, 1, 0);
 	this->forward = D3DXVECTOR3(0, 0, 1);
@@ -863,7 +863,7 @@ void cTransform::SetRotateWorld(const D3DXQUATERNION& matWorldRotate)
 	D3DXMATRIXA16 matRotate;
 	D3DXMatrixRotationQuaternion(&matRotate, &quatRot);		//사원수에 의한 회전값으로 회전행렬이 만들어진다.
 
-	//만약 부모가 있다면...
+															//만약 부모가 있다면...
 	if (this->pParent)
 	{
 		//회전 성분에 부모 역행렬 곱해....
@@ -894,7 +894,7 @@ void cTransform::SetRotateLocal(const D3DXQUATERNION& matWorldRotate)
 	D3DXMATRIXA16 matRotate;
 	D3DXMatrixRotationQuaternion(&matRotate, &quatRot);		//사원수에 의한 회전값으로 회전행렬이 만들어진다.
 
-	//축리셋
+															//축리셋
 	this->right = D3DXVECTOR3(1, 0, 0);
 	this->up = D3DXVECTOR3(0, 1, 0);
 	this->forward = D3DXVECTOR3(0, 0, 1);
@@ -1179,7 +1179,7 @@ D3DXVECTOR3 cTransform::GetWorldPosition() const
 {
 	D3DXVECTOR3 pos = this->position;
 
-	if (this->pParent){
+	if (this->pParent) {
 		D3DXVec3TransformCoord(&pos, &pos, &this->pParent->matFinal);
 	}
 
@@ -1193,14 +1193,14 @@ D3DXVECTOR3 cTransform::GetLocalPosition() const
 //축을 얻는다. ( 월드 기준 )
 void cTransform::GetScaledAxies(D3DXVECTOR3* pVecArr) const
 {
-	for (int i = 0; i < 3; i++){
+	for (int i = 0; i < 3; i++) {
 		pVecArr[i] = this->axis[i];
 	}
 
 	//부모가 있다면..
-	if (this->pParent){
+	if (this->pParent) {
 		D3DXMATRIXA16 matParentFinal = this->pParent->matFinal;
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			D3DXVec3TransformNormal(&pVecArr[i], &pVecArr[i], &matParentFinal);
 		}
 	}
@@ -1208,14 +1208,14 @@ void cTransform::GetScaledAxies(D3DXVECTOR3* pVecArr) const
 }
 void cTransform::GetUnitAxies(D3DXVECTOR3* pVecArr) const
 {
-	for (int i = 0; i < 3; i++){
+	for (int i = 0; i < 3; i++) {
 		D3DXVec3Normalize(pVecArr + i, this->axis + i);
 	}
 
 	//부모가 있다면..
-	if (this->pParent){
+	if (this->pParent) {
 		D3DXMATRIXA16 matParentFinal = this->pParent->matFinal;
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			D3DXVec3TransformNormal(&pVecArr[i], &pVecArr[i], &matParentFinal);
 		}
 	}
@@ -1225,7 +1225,7 @@ D3DXVECTOR3 cTransform::GetScaledAxis(int axisNum) const
 	D3DXVECTOR3 result = this->axis[axisNum];
 
 	//부모가 있다면..
-	if (this->pParent){
+	if (this->pParent) {
 		D3DXMATRIXA16 matParentFinal = this->pParent->matFinal;
 		D3DXVec3TransformNormal(&result, &result, &matParentFinal);
 	}
@@ -1238,7 +1238,7 @@ D3DXVECTOR3 cTransform::GetUnitAxis(int axisNum) const
 	D3DXVec3Normalize(&result, this->axis + axisNum);
 
 	//부모가 있다면..
-	if (this->pParent){
+	if (this->pParent) {
 		D3DXMATRIXA16 matParentFinal = this->pParent->matFinal;
 		D3DXVec3TransformNormal(&result, &result, &matParentFinal);
 	}
@@ -1291,7 +1291,7 @@ void cTransform::UpdateTransform()
 	}
 
 	//내가 부모가 있다면...
-	else{
+	else {
 		this->matFinal = matLocal * this->pParent->matFinal;
 	}
 
@@ -1341,8 +1341,8 @@ void cTransform::DefaultControl(float timeDelta)
 	static float maxSpeed = 10.0f;						//최고 속도 
 
 
-	//최초 누를때는 마우스 위치를 가운데로 놓고 시작
-	if (KEY_MGR->IsOnceDown(VK_RBUTTON)){
+														//최초 누를때는 마우스 위치를 가운데로 놓고 시작
+	if (KEY_MGR->IsOnceDown(VK_RBUTTON)) {
 
 		//화면의 중심위치
 		int screenCenterX = WINSIZE_X / 2;
@@ -1353,7 +1353,7 @@ void cTransform::DefaultControl(float timeDelta)
 	}
 
 	//우클릭을 할때만 Default Control 을 한다
-	else if (KEY_MGR->IsStayDown(VK_RBUTTON)){
+	else if (KEY_MGR->IsStayDown(VK_RBUTTON)) {
 
 		//
 		// 이동 처리
@@ -1362,27 +1362,27 @@ void cTransform::DefaultControl(float timeDelta)
 		//입력 방향벡터
 		D3DXVECTOR3 inputVector(0, 0, 0);
 
-		if (KEY_MGR->IsStayDown('W')){
+		if (KEY_MGR->IsStayDown('W')) {
 			inputVector.z = 1.0f;
 		}
 
-		else if (KEY_MGR->IsStayDown('S')){
+		else if (KEY_MGR->IsStayDown('S')) {
 			inputVector.z = -1.0f;
 		}
 
-		if (KEY_MGR->IsStayDown('A')){
+		if (KEY_MGR->IsStayDown('A')) {
 			inputVector.x = -1.0f;
 		}
 
-		else if (KEY_MGR->IsStayDown('D')){
+		else if (KEY_MGR->IsStayDown('D')) {
 			inputVector.x = 1.0f;
 		}
 
-		if (KEY_MGR->IsStayDown('R')){
+		if (KEY_MGR->IsStayDown('R')) {
 			inputVector.y = 1.0f;
 		}
 
-		else if (KEY_MGR->IsStayDown('F')){
+		else if (KEY_MGR->IsStayDown('F')) {
 			inputVector.y = -1.0f;
 		}
 

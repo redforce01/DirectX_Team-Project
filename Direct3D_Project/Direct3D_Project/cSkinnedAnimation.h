@@ -52,7 +52,7 @@ public:
 	void Play(LPD3DXANIMATIONSET animSet, float crossFadeTime = 0.0);
 	void PlayOneShot(std::string animName, float inCrossFadeTime = 0.0, float outCrossFadeTime = 0.0f);
 	void PlayOneShotAfterHold(std::string animName, float crossFadeTime = 0.0);
-	void Stop(){
+	void Stop() {
 		this->m_bPlay = false;
 	}
 	void SetPlaySpeed(float speed);

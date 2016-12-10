@@ -147,3 +147,17 @@ void cTimeMgr::DrawShadowText( HDC hdc, int x, int y, char* szText, COLORREF tex
 	//Text 불투명으로
 	SetBkMode( hdc, OPAQUE );
 }
+
+double cTimeMgr::GetNowRealTimeSec(void)
+{
+	__int64 nowTime;
+
+
+	//현제 시간을 얻는다.
+	if (m_bHardWare)
+		QueryPerformanceCounter((LARGE_INTEGER*)&nowTime);
+	else
+		nowTime = GetTickCount();
+
+	return nowTime * m_TimeScaleSec;
+}

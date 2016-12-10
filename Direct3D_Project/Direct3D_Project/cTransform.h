@@ -23,11 +23,11 @@ protected:
 	// ( 부모가 있으면 부모에대한 상태적인 로컬방향 없으면 월드방향 )
 	union {
 
-		struct{
+		struct {
 			D3DXVECTOR3		axis[3];
 		};
 
-		struct{
+		struct {
 			//바라보는 방향 값 아래의 3개는 반드시 직교화 되어있어야 한다.
 			//항상정규화 되어있다.
 			D3DXVECTOR3		right;
@@ -46,7 +46,7 @@ protected:
 	//로컬행렬	
 	D3DXMATRIXA16	matLocal;				//부모를 기준으로한 상태적인 행렬 ( 만약 부모가 없다면 matFinal 이랑 같다 )
 
-	//최종 행렬		( 부모가 있든없은 가장월드에 정직한행렬 )
+											//최종 행렬		( 부모가 있든없은 가장월드에 정직한행렬 )
 	D3DXMATRIXA16	matFinal;
 
 

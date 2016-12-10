@@ -46,6 +46,11 @@ public:
 
 	void DrawShadowText( HDC hdc, int x, int y, char* szText, COLORREF textColor );
 
+
+	//게임이 시작되고난뒤 지난시간을 얻는다.
+	double GetTotalDeltaSec(void) { return m_TotalSec; }
+
+	double GetNowRealTimeSec(void);
 };
 
 

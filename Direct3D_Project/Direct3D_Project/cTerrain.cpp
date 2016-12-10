@@ -49,7 +49,7 @@ HRESULT cTerrain::Init(
 	m_nTotalVerNum = m_nVerNumX * m_nVerNumZ;		//총 정점 갯수
 
 
-	//가로세로 셀수
+													//가로세로 셀수
 	m_nCellNumX = m_nVerNumX - 1;
 	m_nCellNumZ = m_nVerNumZ - 1;
 	m_nTotalCellNum = m_nCellNumX * m_nCellNumZ;
@@ -132,10 +132,13 @@ void cTerrain::Render(cCamera* pCam, cLight_Direction* pDirectionLight)
 	D3DXVECTOR3 dirLight = pDirectionLight->pTransform->GetForward();
 	m_pTerrainEffect->SetVector("worldLightDir", &D3DXVECTOR4(dirLight, 1));
 
+	//추가
+	m_pTerrainEffect->SetTechnique("Base");
+
 	UINT passNum = 0;
 	m_pTerrainEffect->Begin(&passNum, 0);
 
-	for (UINT i = 0; i < passNum; i++){
+	for (UINT i = 0; i < passNum; i++) {
 
 		m_pTerrainEffect->BeginPass(i);
 
@@ -149,6 +152,98 @@ void cTerrain::Render(cCamera* pCam, cLight_Direction* pDirectionLight)
 	}
 	m_pTerrainEffect->End();
 
+}
+
+//추가
+void cTerrain::Render(cCamera* pCam, cLight_Direction* pDirectionLight, cCamera* pDirectionLightCamera)
+{
+	//ShadowMap 셋팅
+	m_pTerrainEffect->SetTexture("Shadow_Tex", pDirectionLightCamera->GetRenderTexture());
+
+	//ShadowViewProjection 셋팅 
+	m_pTerrainEffect->SetMatrix("matLightViewProjection", &pDirectionLightCamera->GetViewProjectionMatrix());
+
+
+
+
+
+	//월드 행렬셋팅
+	D3DXMATRIXA16 matInd;
+	D3DXMatrixIdentity(&matInd);
+	m_pTerrainEffect->SetMatrix("matWorld", &matInd);
+
+	//뷰 행렬셋팅
+	m_pTerrainEffect->SetMatrix("matViewProjection", &pCam->GetViewProjectionMatrix());
+
+	//Texture 셋팅
+	m_pTerrainEffect->SetTexture("Terrain0_Tex", m_pTexTile_0);
+	m_pTerrainEffect->SetTexture("Terrain1_Tex", m_pTexTile_1);
+	m_pTerrainEffect->SetTexture("Terrain2_Tex", m_pTexTile_2);
+	m_pTerrainEffect->SetTexture("Terrain3_Tex", m_pTexTile_3);
+	m_pTerrainEffect->SetTexture("TerrainControl_Tex", m_pTexSlat);
+
+	//광원 셋팅
+	D3DXVECTOR3 dirLight = pDirectionLight->pTransform->GetForward();
+	m_pTerrainEffect->SetVector("worldLightDir", &D3DXVECTOR4(dirLight, 1));
+
+
+	//광원 셋팅
+	//m_pTerrainEffect->SetVector( "worldLightDir", &D3DXVECTOR4( dirLight, 1 ) );
+
+
+	m_pTerrainEffect->SetTechnique("ReciveShadow");
+
+	UINT passNum = 0;
+	m_pTerrainEffect->Begin(&passNum, 0);
+
+
+
+
+
+	for (UINT i = 0; i < passNum; i++) {
+
+		m_pTerrainEffect->BeginPass(i);
+
+		Device->SetStreamSource(0, m_pTerrainVB, 0, sizeof(TERRAINVERTEX));
+		Device->SetVertexDeclaration(this->m_pTerrainDecl);
+		Device->SetIndices(m_pTerrainIB);
+		Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_nTotalVerNum, 0, m_nTotalTri);
+
+		m_pTerrainEffect->EndPass();
+
+	}
+	m_pTerrainEffect->End();
+}
+
+//추가
+void cTerrain::RenderShadow(cCamera* pDirectionLightCam)
+{
+	//월드 행렬셋팅
+	D3DXMATRIXA16 matInd;
+	D3DXMatrixIdentity(&matInd);
+	m_pTerrainEffect->SetMatrix("matWorld", &matInd);
+
+	//뷰 행렬셋팅
+	m_pTerrainEffect->SetMatrix("matViewProjection", &pDirectionLightCam->GetViewProjectionMatrix());
+
+	m_pTerrainEffect->SetTechnique("CreateShadow");
+
+	UINT passNum = 0;
+	m_pTerrainEffect->Begin(&passNum, 0);
+
+	for (UINT i = 0; i < passNum; i++) {
+
+		m_pTerrainEffect->BeginPass(i);
+
+		Device->SetStreamSource(0, m_pTerrainVB, 0, sizeof(TERRAINVERTEX));
+		Device->SetVertexDeclaration(this->m_pTerrainDecl);
+		Device->SetIndices(m_pTerrainIB);
+		Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_nTotalVerNum, 0, m_nTotalTri);
+
+		m_pTerrainEffect->EndPass();
+
+	}
+	m_pTerrainEffect->End();
 }
 
 //Ray 히트 위치를 얻는다.
@@ -369,8 +464,8 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	//lockRect->pBits	이미지데이터가 시작되는 포인터 주소
 
 	//정정위치와 정점 UV 를 계산했음....
-	for (int z = 0; z < m_nVerNumZ; z++){
-		for (int x = 0; x < m_nVerNumX; x++){
+	for (int z = 0; z < m_nVerNumZ; z++) {
+		for (int x = 0; x < m_nVerNumX; x++) {
 
 			D3DXVECTOR3 pos;
 
@@ -379,13 +474,13 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 			pos.z = (-z + (m_nCellNumZ * 0.5)) * m_fCellScale;
 
 			//가로마지막 라인이라면 ( 이전 왼쪽의 정점 Y 위치와 맞춘다 )
-			if (x == m_nVerNumX - 1){
+			if (x == m_nVerNumX - 1) {
 				int idx = z * m_nVerNumX + x - 1;
 				pos.y = m_pTerrainVertices[idx].pos.y;
 			}
 
 			//세로 마지막 라인이라면 ( 이전 위쪽의 정점 Y 위치와 맞춘다 )
-			else if (z == m_nVerNumZ - 1){
+			else if (z == m_nVerNumZ - 1) {
 				int idx = (z - 1) * m_nVerNumX + x;
 				pos.y = m_pTerrainVertices[idx].pos.y;
 			}
@@ -450,7 +545,7 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 
 	for (DWORD z = 0; z < m_nCellNumZ; z++)
 	{
-		for (DWORD x = 0; x < m_nCellNumX; x++){
+		for (DWORD x = 0; x < m_nCellNumX; x++) {
 
 			// lt-----rt
 			//  |    /|
@@ -560,21 +655,21 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	//정점의 형태를 알려주는 배열
 	D3DVERTEXELEMENT9 vertElement[7];			//배열을 정점정보 갯수 + 1
 
-	/*
+												/*
 
-	//Terrain 정점 구조체
-	typedef struct tagTERRAINVERTEX{
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 normal;
-	D3DXVECTOR3 binormal;
-	D3DXVECTOR3 tangent;
-	D3DXVECTOR2 baseUV;			//0~1 UV
-	D3DXVECTOR2 tileUV;			//타일 UV
-	}TERRAINVERTEX, *LPTERRAINVERTEX;
-	*/
+												//Terrain 정점 구조체
+												typedef struct tagTERRAINVERTEX{
+												D3DXVECTOR3 pos;
+												D3DXVECTOR3 normal;
+												D3DXVECTOR3 binormal;
+												D3DXVECTOR3 tangent;
+												D3DXVECTOR2 baseUV;			//0~1 UV
+												D3DXVECTOR2 tileUV;			//타일 UV
+												}TERRAINVERTEX, *LPTERRAINVERTEX;
+												*/
 
 
-	//Position 
+												//Position 
 	vertElement[0].Stream = 0;							//Stream 은 0
 	vertElement[0].Offset = 0;							//메모리의 시작 Byte 단위 0
 	vertElement[0].Type = D3DDECLTYPE_FLOAT3;			//자료의 타입
@@ -583,7 +678,7 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	vertElement[0].UsageIndex = 0;						//UsageIndex 일단 0
 
 
-	//Normal
+														//Normal
 	vertElement[1].Stream = 0;					//Stream 은 0
 	vertElement[1].Offset = 12;					//메모리의 시작 Byte 단위 0
 	vertElement[1].Type = D3DDECLTYPE_FLOAT3;	//자료의 타입
@@ -591,7 +686,7 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	vertElement[1].Usage = D3DDECLUSAGE_NORMAL;		//정보 타입
 	vertElement[1].UsageIndex = 0;						//UsageIndex 일단 0
 
-	//BiNormal
+														//BiNormal
 	vertElement[2].Stream = 0;					//Stream 은 0
 	vertElement[2].Offset = 24;					//메모리의 시작 Byte 단위 0
 	vertElement[2].Type = D3DDECLTYPE_FLOAT3;	//자료의 타입
@@ -599,7 +694,7 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	vertElement[2].Usage = D3DDECLUSAGE_BINORMAL;		//정보 타입
 	vertElement[2].UsageIndex = 0;						//UsageIndex 일단 0
 
-	//Tangent
+														//Tangent
 	vertElement[3].Stream = 0;					//Stream 은 0
 	vertElement[3].Offset = 36;					//메모리의 시작 Byte 단위 0
 	vertElement[3].Type = D3DDECLTYPE_FLOAT3;	//자료의 타입
@@ -608,7 +703,7 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	vertElement[3].UsageIndex = 0;						//UsageIndex 일단 0
 
 
-	//BaseUV
+														//BaseUV
 	vertElement[4].Stream = 0;						//Stream 은 0
 	vertElement[4].Offset = 48;						//메모리의 시작 Byte 단위 0
 	vertElement[4].Type = D3DDECLTYPE_FLOAT2;		//자료의 타입
@@ -617,7 +712,7 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	vertElement[4].UsageIndex = 0;						//UsageIndex 일단 0
 
 
-	//tileUV
+														//tileUV
 	vertElement[5].Stream = 0;						//Stream 은 0
 	vertElement[5].Offset = 56;						//메모리의 시작 Byte 단위 0
 	vertElement[5].Type = D3DDECLTYPE_FLOAT2;		//자료의 타입
@@ -625,7 +720,7 @@ HRESULT cTerrain::CreateTerrain(int smooth, int tileNum)
 	vertElement[5].Usage = D3DDECLUSAGE_TEXCOORD;		//정보 타입
 	vertElement[5].UsageIndex = 1;						//UsageIndex 두번째 UV 1 
 
-	//더이상 없어
+														//더이상 없어
 	D3DVERTEXELEMENT9 end = D3DDECL_END(); //{0xFF,0,D3DDECLTYPE_UNUSED,0,0,0}
 	vertElement[6] = end;
 
@@ -657,48 +752,48 @@ void cTerrain::SmoothTerrain(int passed)
 
 	float* smooth = new float[m_nTotalVerNum];
 
-	while (passed > 0){
+	while (passed > 0) {
 
 		passed--;
 
-		for (int z = 0; z < m_nVerNumZ; z++){
-			for (int x = 0; x < m_nVerNumX; x++){
+		for (int z = 0; z < m_nVerNumZ; z++) {
+			for (int x = 0; x < m_nVerNumX; x++) {
 
 				int adjacentSections = 0;		//몇개의 정점과 평균값을 내니?
 				float totalSections = 0.0f;		//주변의 정점 높이 총합은 얼마니?
 
 
-				//왼쪽체크
-				if ((x - 1) > 0){
+												//왼쪽체크
+				if ((x - 1) > 0) {
 					totalSections += m_pTerrainVertices[(z * m_nVerNumX) + (x - 1)].pos.y;
 					adjacentSections++;
 
 					//왼쪽 상단
-					if ((z - 1) > 0){
+					if ((z - 1) > 0) {
 						totalSections += m_pTerrainVertices[((z - 1) * m_nVerNumX) + (x - 1)].pos.y;
 						adjacentSections++;
 					}
 
 					//왼쪽 하단
-					if ((z + 1) < m_nVerNumZ){
+					if ((z + 1) < m_nVerNumZ) {
 						totalSections += m_pTerrainVertices[((z + 1) * m_nVerNumX) + (x - 1)].pos.y;
 						adjacentSections++;
 					}
 				}
 
 				//오른쪽 체크
-				if ((x + 1) < m_nVerNumX){
+				if ((x + 1) < m_nVerNumX) {
 					totalSections += m_pTerrainVertices[(z * m_nVerNumX) + (x + 1)].pos.y;
 					adjacentSections++;
 
 					//오른쪽 상단
-					if ((z - 1) > 0){
+					if ((z - 1) > 0) {
 						totalSections += m_pTerrainVertices[((z - 1) * m_nVerNumX) + (x + 1)].pos.y;
 						adjacentSections++;
 					}
 
 					//오른쪽 하단 
-					if ((z + 1) < m_nVerNumZ){
+					if ((z + 1) < m_nVerNumZ) {
 						totalSections += m_pTerrainVertices[((z + 1) * m_nVerNumX) + (x + 1)].pos.y;
 						adjacentSections++;
 					}
@@ -726,7 +821,7 @@ void cTerrain::SmoothTerrain(int passed)
 
 
 		//위에서 계산된 y 스무싱 적용
-		for (int i = 0; i < m_nTotalVerNum; i++){
+		for (int i = 0; i < m_nTotalVerNum; i++) {
 			m_pTerrainVertices[i].pos.y = smooth[i];
 		}
 	}

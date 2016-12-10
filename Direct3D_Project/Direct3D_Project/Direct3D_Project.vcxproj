@@ -183,7 +183,10 @@
     <ClInclude Include="cResourceMgr_XSkinnedMesh.h" />
     <ClInclude Include="cResourceMgr_XStaticMesh.h" />
     <ClInclude Include="cScene.h" />
+    <ClInclude Include="cSceneChangeEffect.h" />
+    <ClInclude Include="cSceneChangeEffectUpDown.h" />
     <ClInclude Include="cScene_Main.h" />
+    <ClInclude Include="cScene_Mgr.h" />
     <ClInclude Include="cSetBoundObject.h" />
     <ClInclude Include="cSingletonBase.h" />
     <ClInclude Include="cSkinnedAnimation.h" />
@@ -233,7 +236,10 @@
     <ClCompile Include="cResourceMgr_XSkinnedMesh.cpp" />
     <ClCompile Include="cResourceMgr_XStaticMesh.cpp" />
     <ClCompile Include="cScene.cpp" />
+    <ClCompile Include="cSceneChangeEffect.cpp" />
+    <ClCompile Include="cSceneChangeEffectUpDown.cpp" />
     <ClCompile Include="cScene_Main.cpp" />
+    <ClCompile Include="cScene_Mgr.cpp" />
     <ClCompile Include="cSetBoundObject.cpp" />
     <ClCompile Include="cSingletonBase.cpp" />
     <ClCompile Include="cSkinnedAnimation.cpp" />

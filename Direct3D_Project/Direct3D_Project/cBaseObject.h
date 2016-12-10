@@ -2,38 +2,33 @@
 
 class cXMesh;
 class cTransform;
+class cSkinnedAnimation;
 
 class cBaseObject
 {
 public:
-	cTransform*	pTransform;
-	cXMesh*		pMesh;
-	cBoundBox	BoundBox;
+	cTransform*			pTransform;
+	cXMesh*				pMesh;
+	cBoundBox			BoundBox;
+	bool				IgnoreCreateShadow;			//쉐도우맵 만들때 무시되니
 
 protected:
-	bool		bActive; //활성화 여부
+	bool				bActive;	//활성화 여부
+	cSkinnedAnimation*	pSkinned;	//스킨드 Animtion
 
 public:
 	cBaseObject();
 	~cBaseObject();
 
-	void Update(float timeDelta){
-		if (this->bActive)
-			this->BaseObjectUpdate(timeDelta);
-		else
-			this->BaseObjectNoActiveUpdate(timeDelta);
-	}
+	void Update(float timeDelta);
 
-	void Render(){
+	void Render() {
 		if (this->bActive)
 			this->BaseObjectRender();
 	}
 
 	//랜더링 될 메쉬를 셋팅한다.
-	void SetMesh(cXMesh*	pMesh){
-		this->pMesh = pMesh;
-		this->ComputeBoundBox();
-	}
+	void SetMesh(cXMesh*	pMesh);
 
 	//활성화 셋팅
 	void SetActive(bool bActive);
@@ -51,9 +46,9 @@ protected:
 
 	//override 해서 쓰시오....
 	virtual void BaseObjectEnable() {}							//BaseObject 가 활성화 될때 실행
-	virtual void BaseObjectDisable(){}							//BaseObject 가 비활성화 될때 실행
+	virtual void BaseObjectDisable() {}							//BaseObject 가 비활성화 될때 실행
 	virtual void BaseObjectUpdate(float timeDelta) {}			//BaseObject 가 Update 때 실행....
-	virtual void BaseObjectNoActiveUpdate(float timeDelte){}	//BaseObject 가 비활성화시 업데이트 실행....
+	virtual void BaseObjectNoActiveUpdate(float timeDelte) {}	//BaseObject 가 비활성화시 업데이트 실행....
 
 	virtual void BaseObjectRender();							//BaseObject 를 그릴때 실행
 };

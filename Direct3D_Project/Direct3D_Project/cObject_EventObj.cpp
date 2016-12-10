@@ -20,7 +20,7 @@ cObject_EventObj::~cObject_EventObj()
 HRESULT cObject_EventObj::Init()
 {
 
-
+	
 	return E_NOTIMPL;
 }
 

@@ -189,6 +189,15 @@
     <ClInclude Include="cMap.h">
       <Filter>Scenes\cMap</Filter>
     </ClInclude>
+    <ClInclude Include="cScene_Mgr.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneChangeEffect.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneChangeEffectUpDown.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -328,6 +337,15 @@
     </ClCompile>
     <ClCompile Include="cMap.cpp">
       <Filter>Scenes\cMap</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene_Mgr.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneChangeEffect.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneChangeEffectUpDown.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

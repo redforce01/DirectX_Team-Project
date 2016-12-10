@@ -8,7 +8,7 @@ class cTerrain
 {
 public:
 	//터레인 정점 구조체
-	typedef struct tagTERRAINVERTEX{
+	typedef struct tagTERRAINVERTEX {
 		D3DXVECTOR3 pos;
 		D3DXVECTOR3 normal;
 		D3DXVECTOR3 binormal;
@@ -18,7 +18,7 @@ public:
 	}TERRAINVERTEX, *LPTERRAINVERTEX;
 
 	//터레인 인덱스 구조체 ( 폴리곤 하나의 인덱싱 )
-	typedef struct tagTERRAINTRI{
+	typedef struct tagTERRAINTRI {
 		DWORD dw0;
 		DWORD dw1;
 		DWORD dw2;
@@ -46,7 +46,7 @@ private:
 	float				m_fTerrainSizeZ;			//터레인 가로 사이즈
 	float				m_fTerrainSizeX;			//터레인 세로 사이즈
 
-	//정확한 높이 계산을 위해 필요하다...
+													//정확한 높이 계산을 위해 필요하다...
 	float				m_fTerrainStartX;			//터레인 시작 위치X
 	float				m_fTerrainStartZ;			//터레인 시작 위치Z
 	float				m_fTerrainEndX;
@@ -64,8 +64,8 @@ private:
 	LPDIRECT3DTEXTURE9	m_pTexTile_3;				//터레인 3 층 타일
 	LPDIRECT3DTEXTURE9  m_pTexSlat;					//스플렛팅 Texture
 
+public:
 	LPD3DXEFFECT		m_pTerrainEffect;			//터레인 Effect
-
 
 
 public:
@@ -91,6 +91,8 @@ public:
 
 	//랜더
 	void Render(cCamera* pCam, cLight_Direction* pDirectionLight);
+	void Render(cCamera* pCam, cLight_Direction* pDirectionLight, cCamera* pDirectionLightCamera);
+	void RenderShadow(cCamera* pDirectionLightCam);
 
 	//Ray 히트 위치를 얻는다.
 	bool IsIntersectRay(D3DXVECTOR3* pOut, const LPRay pRay);

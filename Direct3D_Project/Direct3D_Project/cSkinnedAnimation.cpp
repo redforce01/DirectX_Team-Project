@@ -70,7 +70,7 @@ void cSkinnedAnimation::Update(float timeDelta)
 	//마지막에 도달했다면...
 	if (m_AnimationPlayFactor >= 0.95f)
 	{
-		if (this->m_bLoop == false){
+		if (this->m_bLoop == false) {
 
 			//돌아갈 Animation 이 있다면..
 			if (this->m_pPrevPlayAnimationSet != NULL)
@@ -123,7 +123,7 @@ void cSkinnedAnimation::Update(float timeDelta)
 			float w1 = (m_fLeftCrossFadeTime / m_fCrossFadeTime);		//1번 Track 가중치
 			float w0 = 1.0f - w1;										//0번 Track 가중치
 
-			//가중치 셋팅
+																		//가중치 셋팅
 			m_pAnimController->SetTrackWeight(0, w0);
 			m_pAnimController->SetTrackWeight(1, w1);
 		}
@@ -138,7 +138,7 @@ void cSkinnedAnimation::Render(cTransform* pTransform)
 	m_pAnimController->AdvanceTime(m_fAnimDelta, NULL);
 	m_fAnimDelta = 0.0f;		//애니메이션을 진행시켰기 때문에 delta 량은 0 으로....
 
-	//각 본에 행렬 대입
+								//각 본에 행렬 대입
 	MAP_BONETRANSFORM::iterator iterBone;
 	for (iterBone = m_mapBoneTransform.begin(); iterBone != m_mapBoneTransform.end(); ++iterBone)
 		iterBone->first->pBoneTransform = iterBone->second;
@@ -155,7 +155,7 @@ void cSkinnedAnimation::RenderBoneName(cCamera* pCam, cTransform* pTransform)
 	m_pAnimController->AdvanceTime(m_fAnimDelta, NULL);
 	m_fAnimDelta = 0.0f;		//애니메이션을 진행시켰기 때문에 delta 량은 0 으로....
 
-	//각 본에 행렬 대입
+								//각 본에 행렬 대입
 	MAP_BONETRANSFORM::iterator iterBone;
 	for (iterBone = m_mapBoneTransform.begin(); iterBone != m_mapBoneTransform.end(); ++iterBone)
 		iterBone->first->pBoneTransform = iterBone->second;
@@ -320,11 +320,11 @@ void cSkinnedAnimation::SetAnimation(LPD3DXANIMATIONSET animSet)
 		m_pAnimController->SetTrackWeight(1, 1.0f); //1 번 Track 가중치
 		m_pAnimController->SetTrackSpeed(1, m_Track_Desc_0.Speed);		//속도 
 
-		//지금셋팅되는 Animation 을 0 번Track 으로 셋팅
+																		//지금셋팅되는 Animation 을 0 번Track 으로 셋팅
 		m_pNowPlayAnimationSet = animSet;
 		m_pAnimController->SetTrackAnimationSet(0, animSet);
 		m_pAnimController->SetTrackPosition(0, 0.0f);
-		m_pAnimController->SetTrackWeight(0, 0.0f);	//가중치는 0 으로 
+		m_pAnimController->SetTrackWeight(0, 0.0f);						//가중치는 0 으로 
 
 		//현재 플레이 되고 있는 AnimationSet 갱신
 		this->m_pNowPlayAnimationSet = animSet;

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "cXMesh_Skinned.h"
 #include "cCamera.h"
+#include "cLight_Direction.h"
+#include "cLight_Point.h"
 
 char szTemp[128];
 LPD3DXEFFECT cXMesh_Skinned::sSkinnedMeshEffect = NULL;
@@ -82,7 +84,7 @@ HRESULT cXMesh_Skinned::Init(std::string filePath, const D3DXMATRIXA16* pmatCorr
 void cXMesh_Skinned::Release()
 {
 	//불러온 AnimationSet 해제
-	for (unsigned int i = 0; i < this->m_vecAnimSet.size(); i++)
+	for (int i = 0; i < this->m_vecAnimSet.size(); i++)
 		SAFE_RELEASE(m_vecAnimSet[i]);
 
 	//에니메이션 콘트롤러 해제
@@ -107,7 +109,7 @@ void cXMesh_Skinned::Update(float timeDelta)
 	//마지막에 도달했다면...
 	if (m_AnimationPlayFactor >= 1.0)
 	{
-		if (this->m_bLoop == false){
+		if (this->m_bLoop == false) {
 
 			//돌아갈 Animation 이 있다면..
 			if (this->m_pPrevPlayAnimationSet != NULL)
@@ -152,7 +154,7 @@ void cXMesh_Skinned::Update(float timeDelta)
 			float w1 = (m_fLeftCrossFadeTime / m_fCrossFadeTime);		//1번 Track 가중치
 			float w0 = 1.0f - w1;										//0번 Track 가중치
 
-			//가중치 셋팅
+																		//가중치 셋팅
 			m_pAnimController->SetTrackWeight(0, w0);
 			m_pAnimController->SetTrackWeight(1, w1);
 		}
@@ -552,7 +554,7 @@ void cXMesh_Skinned::UpdateMatrices(BONE* pBone, D3DXMATRIXA16* pParentMatrix)
 	if (pBone->pFrameSibling)
 		UpdateMatrices((BONE*)pBone->pFrameSibling, pParentMatrix);	//이웃은 같은레벨이기 때문에 부모가 같다 따라서 매개변로 받은 부모의 행렬을 넘기면 된다.
 
-	//자식 본이 존재한다면...
+																	//자식 본이 존재한다면...
 	if (pBone->pFrameFirstChild)
 		UpdateMatrices((BONE*)pBone->pFrameFirstChild, &pBone->CombinedTransformationMatrix);
 
@@ -576,13 +578,13 @@ void cXMesh_Skinned::SetAnimation(LPD3DXANIMATIONSET animSet)
 		m_pAnimController->SetTrackWeight(1, 1.0f); //1 번 Track 가중치
 		m_pAnimController->SetTrackSpeed(1, m_Track_Desc_0.Speed);		//속도 
 
-		//지금셋팅되는 Animation 을 0 번Track 으로 셋팅
+																		//지금셋팅되는 Animation 을 0 번Track 으로 셋팅
 		m_pNowPlayAnimationSet = animSet;
 		m_pAnimController->SetTrackAnimationSet(0, animSet);
 		m_pAnimController->SetTrackPosition(0, 0.0f);
 		m_pAnimController->SetTrackWeight(0, 0.0f);	//가중치는 0 으로 
 
-		//현재 플레이 되고 있는 AnimationSet 갱신
+													//현재 플레이 되고 있는 AnimationSet 갱신
 		this->m_pNowPlayAnimationSet = animSet;
 	}
 
@@ -608,6 +610,10 @@ void cXMesh_Skinned::SetAnimation(LPD3DXANIMATIONSET animSet)
 
 void cXMesh_Skinned::SetCamera(const cCamera* Camera)
 {
+	//Skinned Effect 로딩
+	if (sSkinnedMeshEffect == NULL)
+		sSkinnedMeshEffect = RESOURCE_FX->GetResource("../Resources/Shaders/SkinnedMesh.fx");
+
 	D3DXMATRIXA16 matViewProj = Camera->GetViewProjectionMatrix();
 
 	sSkinnedMeshEffect->SetMatrix("matViewProjection", &matViewProj);
@@ -615,4 +621,45 @@ void cXMesh_Skinned::SetCamera(const cCamera* Camera)
 	D3DXVECTOR3 vEyePos = Camera->GetWorldPosition();
 
 	sSkinnedMeshEffect->SetVector("vEyePos", &D3DXVECTOR4(vEyePos, 1));
+	sSkinnedMeshEffect->SetFloat("camFar", Camera->camFar);
+	sSkinnedMeshEffect->SetFloat("camNear", Camera->camNear);
+}
+
+
+//베이스 라이팅 설정 ( 베이스 라이팅은 방향성 광원이다 )
+//void cXMesh_Skinned::SetBaseLight(cLight_Direction* pDirLight)
+//{
+//	sSkinnedMeshEffect->SetMatrix("baseDirectionLight", &pDirLight->GetLightMatrix());
+//}
+
+
+//라이팅 셋팅
+void cXMesh_Skinned::SetLighting(cLight** pLights, int lightNum)
+{
+	//라이트 행렬 셋팅
+	D3DXMATRIXA16 matLight[10];
+	for (int i = 0; i < lightNum; i++)
+		matLight[i] = pLights[i]->GetLightMatrix();
+
+	//Effect 에 라이팅 셋팅
+	sSkinnedMeshEffect->SetMatrixArray("matLights", matLight, 10);
+	sSkinnedMeshEffect->SetInt("LightNum", lightNum);
+}
+
+void cXMesh_Skinned::SetLighting(std::vector<cLight*>* pLights)
+{
+	//라이트 행렬 셋팅
+	D3DXMATRIXA16 matLight[10];
+	for (int i = 0; i < pLights->size(); i++)
+		matLight[i] = (*(pLights))[i]->GetLightMatrix();
+
+	//Effect 에 라이팅 셋팅
+	sSkinnedMeshEffect->SetMatrixArray("matLights", matLight, 10);
+	sSkinnedMeshEffect->SetInt("LightNum", pLights->size());
+}
+
+//technique 설정
+void cXMesh_Skinned::SetTechniqueName(std::string name)
+{
+	sSkinnedMeshEffect->SetTechnique(name.c_str());
 }

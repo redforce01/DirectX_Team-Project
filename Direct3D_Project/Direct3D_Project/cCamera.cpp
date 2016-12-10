@@ -3,7 +3,8 @@
 #include "cCamera.h"
 
 cCamera::cCamera(void)
-	: m_pRenderSurface(NULL)
+	: bOrtho(false)
+	, m_pRenderSurface(NULL)
 	, m_pRenderTexture(NULL)
 	, m_pDeviceTargetSurface(NULL)
 	, m_pDeviceDepthAndStencilSurface(NULL)
@@ -20,6 +21,7 @@ cCamera::cCamera(void)
 	//종횡비 default
 	this->aspect = static_cast<float>(WINSIZE_X) / static_cast<float>(WINSIZE_Y);
 
+	this->orthoSize = 10;
 }
 
 
@@ -36,12 +38,26 @@ cCamera::~cCamera(void)
 void cCamera::UpdateMatrix()
 {
 	//화각에 의한 Projection 행렬 업데이트
-	D3DXMatrixPerspectiveFovLH(
-		&matProjection,
-		this->fov,
-		static_cast<float>(WINSIZE_X) / static_cast<float>(WINSIZE_Y),
-		this->camNear,
-		this->camFar);
+	if (this->bOrtho == false)
+	{
+		//화각에 의한 Projection 행렬 업데이트
+		D3DXMatrixPerspectiveFovLH(
+			&matProjection,
+			this->fov,
+			this->aspect,
+			this->camNear,
+			this->camFar);
+	}
+
+	else
+	{
+		D3DXMatrixOrthoLH(
+			&matProjection,
+			this->aspect * orthoSize,
+			orthoSize,
+			this->camNear,
+			this->camFar);
+	}
 
 	//뷰행렬 카메라 월드위치에 대한 역행렬이다.
 	D3DXMatrixInverse(&matView, NULL, &matFinal);
@@ -186,6 +202,36 @@ void cCamera::ReadyRenderToTexture(int width, int height)
 		NULL);
 
 
+}
+
+//Shadow Map Texture를 준비한다.
+void cCamera::ReadyShadowTexture(int size)
+{
+	SAFE_RELEASE(m_pRenderTexture);
+	SAFE_RELEASE(m_pRenderSurface);
+
+	//RenderTarget 빈 Texture 만들기
+	Device->CreateTexture(
+		size,						//Texture 가로 해상도 
+		size,						//Texture 세로 해상도
+		1,							//밉맵체인 레벨
+		D3DUSAGE_RENDERTARGET,		//RenderTarget 용 Texture이다
+		D3DFMT_R32F,				//모든 컬러 버퍼를 Red 로 다사용 ( 4byte float 실수로 사용 )
+		D3DPOOL_DEFAULT,			//RenderTarget 용 Texture 는 Pool 을 Default
+		&m_pRenderTexture,			//생성된 Texture 받아올 포인터
+		NULL
+		);
+
+	//Render 할 Surface 
+	Device->CreateDepthStencilSurface(
+		size,					//Texture 가로 해상도 
+		size,					//Texture 세로 해상도
+		D3DFMT_D24S8,				//Deapth 는 24 비트 Stencil 은 8 비트	
+		D3DMULTISAMPLE_NONE,		//멀티 샘플링 안티알리아싱은 존재하지 않는다, 
+		0,							//멀티 샘플링 퀄리티는 0
+		TRUE,						//버퍼 교체시 이전 퍼버내용을 유지하지 않니? ( TRUE 로 쓰면 버퍼교체 될때 이전에 써진 버퍼내용을 기억하지 않는다 )
+		&m_pRenderSurface,			//얻어올 포인터...
+		NULL);
 }
 
 

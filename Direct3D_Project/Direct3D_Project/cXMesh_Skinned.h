@@ -7,6 +7,7 @@
 
 class cTransform;
 class cCamera;
+class cLight;
 
 class cXMesh_Skinned : public cXMesh
 {
@@ -30,7 +31,7 @@ private:
 	DWORD						m_dwWorkingPaletteSize;		//행렬 작업 팔래트수
 	D3DXMATRIX *				m_pmWorkingPalette;			//행렬 작업 팔래트 
 
-	/////////////////////////////////////////////////////////////////////////////////
+															/////////////////////////////////////////////////////////////////////////////////
 
 	LPD3DXANIMATIONCONTROLLER		m_pAnimController;			//Animation 컨트롤러
 	UINT							m_AnimNum;					//Animation 갯수
@@ -69,7 +70,7 @@ public:
 	void PlayOneShot(std::string animName, float inCrossFadeTime = 0.0, float outCrossFadeTime = 0.0f);
 	void PlayOneShotAfterHold(std::string animName, float crossFadeTime = 0.0);
 
-	void Stop(){
+	void Stop() {
 		this->m_bPlay = false;
 	}
 
@@ -110,5 +111,16 @@ private:
 public:
 	static void SetCamera(const cCamera* Camera);
 
-};
 
+	//베이스 라이팅 설정 ( 베이스 라이팅은 방향성 광원이다 )
+	//static void SetBaseLight(cLight_Direction* pDirLight);  //Syntax Error로 인해 주석 처리(Team Project)
+	
+
+
+	//라이팅 셋팅
+	static void SetLighting(cLight** pLights, int lightNum);
+	static void SetLighting(std::vector<cLight*>* pLights);
+
+	//technique 설정
+	static void SetTechniqueName(std::string name);
+};

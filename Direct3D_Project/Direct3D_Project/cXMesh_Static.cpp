@@ -14,20 +14,20 @@ LPDIRECT3DTEXTURE9		cXMesh_Static::sDefaultEmissionTex = NULL;
 cXMesh_Static::cXMesh_Static()
 {
 	if (sStaticMeshEffect == NULL){
-		sStaticMeshEffect = RESOURCE_FX->GetResource("../../Resources/Shaders/StaticMesh2.fx");
+		sStaticMeshEffect = RESOURCE_FX->GetResource("../Resources/Shaders/StaticMesh2.fx");
 	}
 
 	if (sDefaultDiffuseTex == NULL)
-		sDefaultDiffuseTex = RESOURCE_TEXTURE->GetResource("../../Resources/Meshes/diffuseDefault.png");
+		sDefaultDiffuseTex = RESOURCE_TEXTURE->GetResource("../Resources/Meshes/diffuseDefault.png");
 
 	if (sDefaultNormalTex == NULL)
-		sDefaultNormalTex = RESOURCE_TEXTURE->GetResource("../../Resources/Meshes/normalDefault.png");
+		sDefaultNormalTex = RESOURCE_TEXTURE->GetResource("../Resources/Meshes/normalDefault.png");
 
 	if (sDefaultSpecularTex == NULL)
-		sDefaultSpecularTex = RESOURCE_TEXTURE->GetResource("../../Resources/Meshes/specularDefault.png");
+		sDefaultSpecularTex = RESOURCE_TEXTURE->GetResource("../Resources/Meshes/specularDefault.png");
 
 	if (sDefaultEmissionTex == NULL)
-		sDefaultEmissionTex = RESOURCE_TEXTURE->GetResource("../../Resources/Meshes/emissionDefault.png");
+		sDefaultEmissionTex = RESOURCE_TEXTURE->GetResource("../Resources/Meshes/emissionDefault.png");
 }
 
 

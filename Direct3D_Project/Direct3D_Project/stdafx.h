@@ -87,6 +87,7 @@ using namespace std;
 #include "cResourceMgr_XStaticMesh.h"
 #include "cResourceMgr_XSkinnedMesh.h"
 #include "cSoundManager.h"
+#include "cScene_Mgr.h"
 
 #include "txtData.h"
 #include "cSoundData.h"
