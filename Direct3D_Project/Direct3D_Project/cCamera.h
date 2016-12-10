@@ -35,7 +35,7 @@ public:
 
 
 
-
+	virtual void CameraUpdate(float timeDelta) = 0;
 	//투영행렬과 View 행렬을 업데이트
 	void UpdateMatrix();
 
@@ -89,5 +89,47 @@ public:
 
 	//랜터 Texture 얻는다.
 	LPDIRECT3DTEXTURE9 GetRenderTexture();
+};
+
+
+class PlayerCamera : public cCamera
+{
+public:
+	PlayerCamera() : cCamera()
+	{
+		//기본화각 60 도
+		this->fov = 60.0f * ONE_RAD;
+
+		//기본 Near
+		this->camNear = 0.1f;
+
+		//기본 Far
+		this->camFar = 1000.0f;
+	}
+
+	void CameraUpdate(float timeDelta)
+	{
+		this->DefaultControl3(timeDelta);
+	}
+};
+
+class FreeCamera : public cCamera
+{
+public:
+	FreeCamera() : cCamera()
+	{
+		//기본화각 60 도
+		this->fov = 60.0f * ONE_RAD;
+
+		//기본 Near
+		this->camNear = 0.1f;
+
+		//기본 Far
+		this->camFar = 1000.0f;
+	}
+	void CameraUpdate(float timeDelta)
+	{
+		this->DefaultControl(timeDelta);
+	}
 };
 

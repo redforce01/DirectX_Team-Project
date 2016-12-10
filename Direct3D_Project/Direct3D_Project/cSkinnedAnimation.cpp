@@ -324,9 +324,9 @@ void cSkinnedAnimation::SetAnimation(LPD3DXANIMATIONSET animSet)
 		m_pNowPlayAnimationSet = animSet;
 		m_pAnimController->SetTrackAnimationSet(0, animSet);
 		m_pAnimController->SetTrackPosition(0, 0.0f);
-		m_pAnimController->SetTrackWeight(0, 0.0f);						//가중치는 0 으로 
+		m_pAnimController->SetTrackWeight(0, 0.0f);	//가중치는 0 으로 
 
-		//현재 플레이 되고 있는 AnimationSet 갱신
+													//현재 플레이 되고 있는 AnimationSet 갱신
 		this->m_pNowPlayAnimationSet = animSet;
 	}
 

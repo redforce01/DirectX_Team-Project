@@ -220,7 +220,8 @@ public:
 	//디폴트 컨트롤 을해준다.
 	void DefaultControl(float timeDelta);
 	void DefaultControl2(float timeDelta);
-
+	void DefaultControl3(float timeDelta);
+	void PlayerControll(float timeDelta);
 
 	//Transform 에 대한 기즈모를 그린다.
 	void RenderGimozo(bool applyScale = false) const;
@@ -242,6 +243,10 @@ public:
 	//흔들림 축 설정
 	void SetShakePosFlag(int flag);
 	void SetShakeRotFlag(int flag);
+	cTransform* GetChild()
+	{
+		return pFirstChild;
+	}
 
 
 

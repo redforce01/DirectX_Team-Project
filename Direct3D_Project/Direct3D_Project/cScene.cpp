@@ -11,7 +11,40 @@ cScene::cScene()
 	this->evironmentEffect =
 		RESOURCE_FX->GetResource("../Resources/Shaders/EvironmentCUBE.fx");
 
-	this->pMainCamera = new cCamera();
+	cCamera* DebuggingCamera = new FreeCamera;
+	cCamera* MilesCamera = new PlayerCamera;
+
+	vCamera.push_back(MilesCamera);
+	vCamera.push_back(DebuggingCamera);
+
+	viCamera = vCamera.begin();
+	pMainCamera = vCamera[PLAYER];
+
+	//기본 광원 생성
+	this->pSceneBaseDirectionLight = new cLight_Direction();
+
+	//방향성 광원에 카메라 를 생성한다.
+	this->pDirectionLightCamera = new FreeCamera();
+
+	//기본 값
+	this->pSceneBaseDirectionLight->Color = D3DXCOLOR(1, 1, 1, 1);
+	this->pSceneBaseDirectionLight->Intensity = 1.0f;
+
+	//그림자 거리
+	shadowDistance = 100.0f;
+
+
+	//카메라의 투영방식을 바꾼다...
+	this->pDirectionLightCamera->bOrtho = true;
+	this->pDirectionLightCamera->camNear = 0.1f;
+	this->pDirectionLightCamera->camFar = shadowDistance * 2.0f;
+	this->pDirectionLightCamera->aspect = 1;
+	this->pDirectionLightCamera->orthoSize = shadowDistance * 1.5f;	//투영크기는 그림자크기로...
+
+
+
+																	//방향성광원 카메라의 RenderToTexture 준비
+	this->pDirectionLightCamera->ReadyShadowTexture(4096);
 }
 
 
@@ -21,6 +54,9 @@ cScene::~cScene()
 	SAFE_RELEASE(evironmemtSphereMesh);
 
 	SAFE_DELETE(this->pMainCamera);
+
+	SAFE_DELETE(this->pSceneBaseDirectionLight);
+	SAFE_DELETE(this->pDirectionLightCamera);
 }
 
 HRESULT cScene::Init()
@@ -69,8 +105,26 @@ void cScene::Release()
 
 void cScene::Update(float timeDelta)
 {
-	pMainCamera->DefaultControl(timeDelta);
+	//pMainCamera->DefaultControl(timeDelta);
+	pMainCamera->CameraUpdate(timeDelta);
 	pMainCamera->UpdateCamToDevice(Device);
+	pMainCamera->UpdateFrustum();
+	this->ChangeCameraMod();
+
+	//메인카메라에 DirectionLight 를 방향을 유지한체 따라다니게....
+
+	//광원 위치
+	D3DXVECTOR3 camPos = pMainCamera->GetWorldPosition();		//메인카메라의 위치
+	D3DXVECTOR3 camFront = pMainCamera->GetForward();			//메인카메라의 정면
+	D3DXVECTOR3 lightDir = pSceneBaseDirectionLight->pTransform->GetForward();	//방향성 광원의 방향
+
+	D3DXVECTOR3 lightPos = camPos +
+		(camFront * (shadowDistance * 0.5f)) +
+		(-lightDir * shadowDistance);
+
+	this->pDirectionLightCamera->SetWorldPosition(lightPos.x, lightPos.y, lightPos.z);
+	this->pDirectionLightCamera->LookDirection(lightDir);
+
 
 	//씬의 업데이트가 일어난다.
 	this->Scene_Update(timeDelta);
@@ -91,7 +145,7 @@ void cScene::Render()
 #ifdef _DEBUG		//디버그 모드에서만 실행
 	//디바이스 랜더링 종료 명령
 	//월드 그리드
-	//GIZMO_MGR->WorldGrid(1, 10);
+	GIZMO_MGR->WorldGrid(1, 10);
 #endif
 
 	this->pMainCamera->RenderTextureEnd();
@@ -111,7 +165,7 @@ void cScene::Render()
 
 	UINT iPass;
 	this->postEffect->Begin(&iPass, 0);
-	for (UINT i = 0; i < iPass; i++){
+	for (UINT i = 0; i < iPass; i++) {
 		this->postEffect->BeginPass(i);
 
 		Device->SetFVF(SCENE_VERTEX::FVF);
@@ -159,7 +213,45 @@ void cScene::SetEnvironment(std::string cubeFilePath)
 	}
 }
 
-void cScene::ReadyShadowMap(std::vector<cBaseObject*>* renderObjects, cTerrain * pTerrain)
+//환경구 랜더
+void cScene::RenderEnvironment()
+{
+	//환경 맵 로딩된게 없다면 리턴해라.....
+	if (this->evironmentTexture == NULL)
+		return;
+
+	//환경 Effect 셋팅
+	this->evironmentEffect->SetTexture("MyCube_Tex", this->evironmentTexture);
+
+	//WVP 매트릭스
+	D3DXMATRIXA16 matWorld = this->pMainCamera->GetFinalMatrix();
+	D3DXMATRIXA16 matViewProj = this->pMainCamera->GetViewProjectionMatrix();
+	D3DXMATRIXA16 matWVP = matWorld * matViewProj;
+
+	this->evironmentEffect->SetMatrix("matWVP", &matWVP);
+	this->evironmentEffect->SetMatrix("matWorld", &matWorld);
+
+
+	//그려라...
+	UINT numPass;
+	this->evironmentEffect->Begin(&numPass, 0);		//셰이더로 그린다는 것을 알리고 pass 수를 얻는다.
+
+	for (UINT i = 0; i < numPass; i++)	//공정 수대로 돈다.
+	{
+		this->evironmentEffect->BeginPass(i);			//i번째 공정시작
+
+		this->evironmemtSphereMesh->DrawSubset(0);
+
+		this->evironmentEffect->EndPass();				//i번째 공정끝
+	}
+	this->evironmentEffect->End();						//셰이더로 그리기 끝
+
+
+}
+
+
+
+void cScene::ReadyShadowMap(std::vector<cBaseObject*>* renderObjects, cTerrain* pTerrain)
 {
 	//방향성광원에 붙은 카메라의 Frustum 업데이트
 	this->pDirectionLightCamera->UpdateMatrix();
@@ -236,6 +328,9 @@ void cScene::ReadyShadowMap(std::vector<cBaseObject*>* renderObjects, cTerrain *
 		&this->pDirectionLightCamera->GetViewProjectionMatrix());
 }
 
+
+
+//메인 카메라의 RenderToTexture 만 업데이트한다.
 void cScene::RenderToMainCamTexture()
 {
 	this->pMainCamera->RenderTextureBegin(0x00101010);
@@ -259,43 +354,27 @@ void cScene::RenderToMainCamTexture()
 	this->pMainCamera->RenderTextureEnd();
 }
 
+//메인카메라의 랜더 Texture 를 얻는다.
 LPDIRECT3DTEXTURE9 cScene::GetTexture()
 {
 	return this->pMainCamera->GetRenderTexture();
 }
 
-//환경구 랜더
-void cScene::RenderEnvironment()
+void cScene::ChangeCameraMod()
 {
-	//환경 맵 로딩된게 없다면 리턴해라.....
-	if (this->evironmentTexture == NULL)
-		return;
+	if (KEY_MGR->IsOnceDown(VK_TAB)) {
+		viCamera++;
 
-	//환경 Effect 셋팅
-	this->evironmentEffect->SetTexture("MyCube_Tex", this->evironmentTexture);
-
-	//WVP 매트릭스
-	D3DXMATRIXA16 matWorld = this->pMainCamera->GetFinalMatrix();
-	D3DXMATRIXA16 matViewProj = this->pMainCamera->GetViewProjectionMatrix();
-	D3DXMATRIXA16 matWVP = matWorld * matViewProj;
-
-	this->evironmentEffect->SetMatrix("matWVP", &matWVP);
-	this->evironmentEffect->SetMatrix("matWorld", &matWorld);
-
-
-	//그려라...
-	UINT numPass;
-	this->evironmentEffect->Begin(&numPass, 0);		//셰이더로 그린다는 것을 알리고 pass 수를 얻는다.
-
-	for (UINT i = 0; i < numPass; i++)	//공정 수대로 돈다.
-	{
-		this->evironmentEffect->BeginPass(i);			//i번째 공정시작
-
-		this->evironmemtSphereMesh->DrawSubset(0);
-
-		this->evironmentEffect->EndPass();				//i번째 공정끝
+		if (viCamera == vCamera.end()) {
+			viCamera = vCamera.begin();
+		}
+		pMainCamera = (*viCamera);
 	}
-	this->evironmentEffect->End();						//셰이더로 그리기 끝
+}
 
-
+void cScene::ChangeCameraMod(int IDx)
+{
+	if (*(vCamera.begin() + IDx) != NULL) {
+		pMainCamera = *(vCamera.begin() + IDx);
+	}
 }

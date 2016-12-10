@@ -56,6 +56,7 @@ public:
 		this->m_bPlay = false;
 	}
 	void SetPlaySpeed(float speed);
+	bool isPlay() { return m_bPlay; }
 
 
 	void AddBoneTransform(std::string boneName, cTransform* pTransform);

@@ -11,6 +11,7 @@ public:
 	cXMesh*				pMesh;
 	cBoundBox			BoundBox;
 	bool				IgnoreCreateShadow;			//쉐도우맵 만들때 무시되니
+	std::string objName;
 
 protected:
 	bool				bActive;	//활성화 여부
@@ -37,7 +38,8 @@ public:
 	bool IsActive() {
 		return this->bActive;
 	}
-
+	void setObjectName(std::string name) { this->objName = name; }
+	std::string GetObjectName() { return this->objName; }
 
 	//셋팅된 메쉬에 따라 바운드박스를 재계산 한다.
 	void ComputeBoundBox();

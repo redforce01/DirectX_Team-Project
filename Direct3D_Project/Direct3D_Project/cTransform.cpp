@@ -645,9 +645,9 @@ void cTransform::RotateLocal(D3DXVECTOR3 angle)
 void cTransform::LookDirection(const D3DXVECTOR3& dir, const D3DXVECTOR3& up)
 {
 
-
 	//정면 벡터
 	D3DXVECTOR3 newForward = dir;
+	D3DXVec3Normalize(&newForward, &newForward);
 
 	//오른쪽벡터 ( 매개변수로 들어온 Up 을 가지고 외적 )
 	D3DXVECTOR3 newRight;
@@ -666,11 +666,9 @@ void cTransform::LookDirection(const D3DXVECTOR3& dir, const D3DXVECTOR3& up)
 		D3DXMATRIXA16 matInvParentFinal;
 		D3DXMatrixInverse(&matInvParentFinal, NULL, &this->pParent->matFinal);
 
-
 		D3DXVec3TransformNormal(&this->forward, &newForward, &matInvParentFinal);
 		D3DXVec3TransformNormal(&this->right, &newRight, &matInvParentFinal);
 		D3DXVec3TransformNormal(&this->up, &newUp, &matInvParentFinal);
-
 	}
 
 	else
@@ -1001,7 +999,6 @@ void cTransform::SetWorldMatrix(const D3DXMATRIXA16& matWorld)
 void cTransform::RotateSlerp(const cTransform& from, const cTransform& to, float t)
 {
 	t = Clamp01(t);
-
 
 	D3DXQUATERNION fromQuat = from.GetWorldRotateQuaternion();
 	D3DXQUATERNION toQuat = to.GetWorldRotateQuaternion();
@@ -1337,7 +1334,7 @@ void cTransform::DefaultControl(float timeDelta)
 	static D3DXVECTOR3 nowVelocity(0, 0, 0);			//현제 방향과 속도를 가진 벡터
 
 	static float accelate = 30.0f;						//초당 이동 증가값
-	static float nowSpeed = 3.0f;						//현재 속도
+	static float nowSpeed = 6.0f;						//현재 속도
 	static float maxSpeed = 10.0f;						//최고 속도 
 
 
@@ -1354,7 +1351,6 @@ void cTransform::DefaultControl(float timeDelta)
 
 	//우클릭을 할때만 Default Control 을 한다
 	else if (KEY_MGR->IsStayDown(VK_RBUTTON)) {
-
 		//
 		// 이동 처리
 		//
@@ -1446,10 +1442,6 @@ void cTransform::DefaultControl(float timeDelta)
 		//타겟벡터 
 		D3DXVECTOR3 target = inputVector * maxSpeed;
 		this->MovePositionSelf(target * timeDelta);
-
-
-
-
 		//
 		// 회전 처리
 		// 
@@ -1484,7 +1476,7 @@ void cTransform::DefaultControl(float timeDelta)
 
 void cTransform::DefaultControl2(float timeDelta)
 {
-	float deltaMove = 3.0f * timeDelta;
+	float deltaMove = 6.0f * timeDelta;
 	float deltaAngle = 90.0f * ONE_RAD * timeDelta;
 
 	if (KEY_MGR->IsStayDown(VK_LSHIFT))
@@ -1514,6 +1506,85 @@ void cTransform::DefaultControl2(float timeDelta)
 	}
 }
 
+void cTransform::PlayerControll(float timeDelta)
+{
+	float deltaMove = 6.0f * timeDelta;
+	//	float deltaAngle = 90.0f * ONE_RAD * timeDelta;
+
+	if (KEY_MGR->IsStayDown('A'))
+		this->MovePositionSelf(deltaMove, 0.0f, 0.0f);
+	else if (KEY_MGR->IsStayDown('D'))
+		this->MovePositionSelf(-deltaMove, 0.0f, 0.0f);
+
+
+	if (KEY_MGR->IsStayDown('W'))
+		this->MovePositionSelf(0.0f, 0.0f, -deltaMove);
+	else if (KEY_MGR->IsStayDown('S'))
+		this->MovePositionSelf(0.0f, 0.0f, deltaMove);
+
+
+}
+
+void cTransform::DefaultControl3(float timeDelta)
+{
+
+	//디폴트 컨트롤을 위한 카메라 Angle 값
+	static float nowAngleH = 0.0f;			//수평앵글
+	static float nowAngleV = 0.0f;			//수직앵글
+	static float maxAngleV = 85.0f;			//수직 최대 앵글
+	static float minAngleV = -85.0f;			//수직 최저 앵글
+	static float sensitivityH = 0.05f;					//가로 민감도
+	static float sensitivityV = 0.05f;					//세로 민감도 ( 이값이 음수면 Invert Mouse )
+	static D3DXVECTOR3 nowVelocity(0, 0, 0);			//현제 방향과 속도를 가진 벡터
+
+	static float accelate = 80.0f;						//초당 이동 증가값
+	static float nowSpeed = 15.0f;						//현재 속도
+	static float maxSpeed = 15.0f;						//최고 속도
+
+	D3DXVECTOR3 inputVector(0, 0, 0);
+	//제로 벡터가 아닐때
+	if (VECTORZERO(inputVector) == false)
+	{
+		//정규화
+		D3DXVec3Normalize(&inputVector, &inputVector);
+	}
+
+
+	D3DXVECTOR3 target = inputVector * maxSpeed;
+	this->MovePositionSelf(target * timeDelta);
+	//
+	// 회전 처리
+	// 
+	//화면의 중심위치
+	int screenCenterX = WINSIZE_X / 2;
+	int screenCenterY = WINSIZE_Y / 2;
+
+	//현재 마우스 위치
+	POINT mousePos = GetMousePos();
+
+	//이동량 ( 중앙에서 멀어진 량 )
+	float deltaX = mousePos.x - screenCenterX;
+	float deltaY = mousePos.y - screenCenterY;
+
+	//앵글 추가
+	nowAngleH += deltaX * sensitivityH;
+	nowAngleV += deltaY * sensitivityV;
+
+	//앵글값을 min max 범위 안으로
+	nowAngleV = Clamp(nowAngleV, minAngleV, maxAngleV);
+
+	//다시 마우스 위치를 센터로...
+	SetMousePos(screenCenterX, screenCenterY);
+
+	this->SetRotateWorld(nowAngleV * ONE_RAD, nowAngleH * ONE_RAD, 0.0f);
+	this->RotateLocal(0, 180 * ONE_RAD, 0);
+	if (pParent != NULL)
+	{
+		pParent->SetRotateWorld(0, nowAngleH * ONE_RAD, 0);
+
+	}
+
+}
 
 
 //Transform 에 대한 기즈모를 그린다.

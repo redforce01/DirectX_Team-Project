@@ -53,10 +53,8 @@ extern HWND			g_hWnd;		//윈도우 핸들 ( 자신의 프로그램에서 돌고있는 윈도우 번호 
 extern HINSTANCE	g_hInst;	//프로그램 인스턴스 핸들 ( OS 가 부여한 프로그램 번호 )
 
 
+//////////////////////////////////
 
-								//
-								//
-								//
 #include <string>
 #include <vector>
 #include <map>
@@ -91,3 +89,23 @@ using namespace std;
 
 #include "txtData.h"
 #include "cSoundData.h"
+
+#define UNKNOWNLENGTH 100000
+#define FROMVIA -1
+#define UNKNOWNVIA -2
+
+enum PLAYER_STATE
+{
+	WALK,
+	RUN,
+	SEARCH_IDLE,
+	IDLE,
+	CHASE_IDLE
+};
+
+enum CameraState
+{
+	PLAYER,
+	DEBUGGING,
+	ENEMY
+};

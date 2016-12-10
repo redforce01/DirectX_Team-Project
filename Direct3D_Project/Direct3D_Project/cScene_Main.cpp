@@ -59,8 +59,6 @@ HRESULT cScene_Main::Scene_Init()
 
 
 	m_bFlag = FALSE;
-	pMap = new cMap;
-	pMap->Init();
 
 	return S_OK;
 }
@@ -100,11 +98,4 @@ void cScene_Main::Scene_Render1()
 
 	cXMesh_Skinned::SetCamera(this->pMainCamera);
 	pAnimation->Render(pPatientTrans);
-
-
-	pMap->Render1(this->pMainCamera);
-}
-
-void cScene_Main::Scene_RenderSprite()
-{
 }

@@ -3,6 +3,7 @@
 #include "cImage.h"
 
 #include "cScene_Main.h"
+#include "cScene_Game.h"
 
 cMainGame::cMainGame( void )
 {
@@ -30,7 +31,9 @@ HRESULT cMainGame::Init( void )
 	SOUNDDATA->Init();
 
 	SCENE_MGR->AddScene("main", new cScene_Main);
-	SCENE_MGR->ChangeScene("main");
+	SCENE_MGR->AddScene("game", new cScene_Game);
+
+	SCENE_MGR->ChangeScene("game");
 
 	//DXFONT_MGR->addStyle(Device, "차차차", "펜흘림", 30.f);
 

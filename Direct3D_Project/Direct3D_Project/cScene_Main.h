@@ -1,6 +1,5 @@
 #pragma once
 #include "cScene.h"
-#include "cMap.h"
 
 class cXMesh_Skinned;
 class cSkinnedAnimation;
@@ -22,8 +21,6 @@ private:
 	cLight_Direction*		pLightDir;
 	bool					m_bFlag;
 
-	cMap* pMap;
-
 public:
 	
 
@@ -36,7 +33,5 @@ public:
 	virtual void Scene_Update(float timeDelta);
 
 	virtual void Scene_Render1();
-
-	virtual void Scene_RenderSprite();
 };
 
