@@ -39,7 +39,10 @@ public:
 	void LoadSoundList();
 	void addSoundList();
 
-	//void playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
+	void playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
+
+	string findSoundCategory(SoundUtil::SOUND_DATA_TYPE soundType);
+	string findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation);
 };
 
 #define SOUNDDATA cSoundData::GetInstance()

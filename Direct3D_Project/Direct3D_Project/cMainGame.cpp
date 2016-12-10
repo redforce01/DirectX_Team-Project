@@ -121,7 +121,7 @@ void cMainGame::Draw()
 #ifdef _DEBUG	//디버그 모드에서만 실행
 		//디바이스 랜더링 종료 명령
 		//월드 그리드
-		GIZMO_MGR->WorldGrid(1, 100);
+		GIZMO_MGR->WorldGrid(1, 10);
 
 		//타임정보 출력
 		TIME_MGR->DrawTimeInfo();

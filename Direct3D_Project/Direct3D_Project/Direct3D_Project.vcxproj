@@ -170,6 +170,8 @@
     <ClInclude Include="cLight_Point.h" />
     <ClInclude Include="cLogMgr.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cMap.h" />
+    <ClInclude Include="cObject_EventObj.h" />
     <ClInclude Include="cParticle.h" />
     <ClInclude Include="cParticleEmitter.h" />
     <ClInclude Include="cParticleQuad.h" />
@@ -218,6 +220,8 @@
     <ClCompile Include="cLight_Point.cpp" />
     <ClCompile Include="cLogMgr.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cMap.cpp" />
+    <ClCompile Include="cObject_EventObj.cpp" />
     <ClCompile Include="cParticle.cpp" />
     <ClCompile Include="cParticleEmitter.cpp" />
     <ClCompile Include="cParticleQuad.cpp" />

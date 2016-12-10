@@ -31,7 +31,13 @@
     <Filter Include="DataBase">
       <UniqueIdentifier>{a94786f4-0eed-4c6c-bc3b-81254775374f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\cSoundData">
+    <Filter Include="Scenes\cObject_Event">
+      <UniqueIdentifier>{5237c7f9-37ec-4969-891f-cd641f556f32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\cMap">
+      <UniqueIdentifier>{bacbc012-374c-4c17-8c3a-3b4e98d67469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\cSoundData">
       <UniqueIdentifier>{9cedcd13-baa5-45e2-8269-dac79355c154}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -169,13 +175,19 @@
       <Filter>DataBase</Filter>
     </ClInclude>
     <ClInclude Include="cSoundData.h">
-      <Filter>소스 파일\cSoundData</Filter>
+      <Filter>Scenes\cSoundData</Filter>
     </ClInclude>
     <ClInclude Include="SoundUtil.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cSoundManager.h">
-      <Filter>소스 파일\cSoundData</Filter>
+      <Filter>Scenes\cSoundData</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject_EventObj.h">
+      <Filter>Scenes\cObject_Event</Filter>
+    </ClInclude>
+    <ClInclude Include="cMap.h">
+      <Filter>Scenes\cMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -303,13 +315,19 @@
       <Filter>DataBase</Filter>
     </ClCompile>
     <ClCompile Include="cSoundData.cpp">
-      <Filter>소스 파일\cSoundData</Filter>
+      <Filter>Scenes\cSoundData</Filter>
     </ClCompile>
     <ClCompile Include="SoundUtil.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cSoundManager.cpp">
-      <Filter>소스 파일\cSoundData</Filter>
+      <Filter>Scenes\cSoundData</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject_EventObj.cpp">
+      <Filter>Scenes\cObject_Event</Filter>
+    </ClCompile>
+    <ClCompile Include="cMap.cpp">
+      <Filter>Scenes\cMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

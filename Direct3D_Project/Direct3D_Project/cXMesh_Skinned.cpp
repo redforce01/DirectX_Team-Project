@@ -11,7 +11,7 @@ cXMesh_Skinned::cXMesh_Skinned()
 {
 	//Skinned Effect ·Îµù
 	if (sSkinnedMeshEffect == NULL)
-		sSkinnedMeshEffect = RESOURCE_FX->GetResource("../../Resources/Shaders/SkinnedMesh.fx");
+		sSkinnedMeshEffect = RESOURCE_FX->GetResource("../Resources/Shaders/SkinnedMesh.fx");
 }
 
 
