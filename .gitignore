@@ -10,6 +10,7 @@
 *.lastbuildstate
 *.ipch
 *.mp3
+Resources/
 
 # Prerequisites
 *.d

@@ -54,7 +54,7 @@ HRESULT cScene_Game::Scene_Init()
 	D3DXMATRIXA16 matTrans;
 	D3DXMatrixScaling(&matScale, 0.02f, 0.02f, 0.02f);
 	this->house = new cBaseObject();
-	this->house->SetMesh(RESOURCE_STATICXMESH->GetResource("../../Resources/Outlast_Map/1_Outlast_Map.X", matScale));
+	this->house->SetMesh(RESOURCE_STATICXMESH->GetResource("../Resources/Outlast_Map/1_Outlast_Map.X", matScale));
 	this->house->SetActive(true);
 	//holl/holl.x
 	//room_1/room_1.x
@@ -102,15 +102,15 @@ HRESULT cScene_Game::Scene_Init()
 	this->lights.push_back(pLight3);
 
 
-	Pig = new PigEnemy("../../Resources/Meshes/Pig/20161129_Pig.X", { 15,0,15 }, this);
+	Pig = new PigEnemy("../Resources/Meshes/Pig/20161129_Pig.X", { 15,0,15 }, this);
 	Pig->setObj(house);
 
-	Miles = new Player("../../Resources/OLGame/Meshes/Miles/miles.X", { 0,0,0 });
+	Miles = new Player("../Resources/OLGame/Meshes/Miles/miles.X", { 0,0,0 });
 	Miles->CameraAttachToUnit(vCamera[PLAYER]);
 
 	/* 크로스헤어 */
-	this->lockCrosshairTex = RESOURCE_TEXTURE->LoadResource("../../Resources/OLGame/UI/Crosshair/lock.png");
-	this->unlockCrosshairTex = RESOURCE_TEXTURE->LoadResource("../../Resources/OLGame/UI/Crosshair/unlock.png");
+	this->lockCrosshairTex = RESOURCE_TEXTURE->LoadResource("../Resources/OLGame/UI/Crosshair/lock.png");
+	this->unlockCrosshairTex = RESOURCE_TEXTURE->LoadResource("../Resources/OLGame/UI/Crosshair/unlock.png");
 
 	//* 아이템 추가
 	this->keyItem = new cGameItem();
@@ -119,7 +119,7 @@ HRESULT cScene_Game::Scene_Init()
 	//* 아이템도 이제 곧...
 	this->keyItem->Init(
 		"key",
-		"../../Resources/OLGame/Meshes/Item/Key/Key.X",
+		"../Resources/OLGame/Meshes/Item/Key/Key.X",
 		D3DXVECTOR3(0.03f, 0.03f, 0.03f), //크기
 		D3DXVECTOR3(0.0f, 0.0f, 0.0f), //회전
 		D3DXVECTOR3(1.f, 1.8f, 0.2f) //위치
@@ -127,7 +127,7 @@ HRESULT cScene_Game::Scene_Init()
 
 	this->fileItem->Init(
 		"file",
-		"../../Resources/OLGame/Meshes/Item/File/File.X",
+		"../Resources/OLGame/Meshes/Item/File/File.X",
 		D3DXVECTOR3(0.03f, 0.03f, 0.03f),
 		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 		D3DXVECTOR3(2.f, 0.f, 2.f)
