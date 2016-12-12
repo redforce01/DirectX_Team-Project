@@ -28,8 +28,7 @@ void cSoundData::Release()
 
 void cSoundData::LoadSoundList()
 {
-	vector<string> vTemp = TXTDATA->txtLoad("Database/testSoundList.txt");
-	//vector<string> vTemp = TXTDATA->txtLoad("Database/shortSoundList.txt");
+	vector<string> vTemp = TXTDATA->txtLoad("Database/shortSoundList.txt");
 	//vector<string> vTemp = TXTDATA->txtLoad("Database/SoundList.txt");
 
 	string category;
@@ -245,6 +244,7 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 	case SoundUtil::SOUND_PLAY_TYPE_MOOD_HALL:
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_MOOD_ROOM:
+		soundKey = "RoomMood";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_BEND:
 		break;
@@ -279,6 +279,21 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 	}
 
 	return soundKey;
+}
+
+string cSoundData::getSoundKey(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", soundNum);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	return applyKey;
 }
 
 void cSoundStruct::SoundMgrAdd()

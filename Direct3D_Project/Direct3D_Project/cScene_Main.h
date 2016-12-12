@@ -1,28 +1,14 @@
 #pragma once
 #include "cScene.h"
 
-class cXMesh_Skinned;
-class cSkinnedAnimation;
-class cBoundBox;
-class cLight;
-class cLight_Direction;
-
-class cBoundBox;
+#include "cObject_EventObj.h"
+#include "cObject_Sound.h"
 
 class cScene_Main : public cScene
 {
 private:
-	cSkinnedAnimation* pAnimation;
-
-	cTransform* pPatientTrans;
-	cBoundBox* pPatientBox;
-
-	std::vector<cLight*>	lights;
-	cLight_Direction*		pLightDir;
-	bool					m_bFlag;
-
-public:
-	
+	vector<cObject_EventObj*>	vEventObj;
+	vector<cObject_Sound*>		vEventSound;
 
 public:
 	cScene_Main();

@@ -216,9 +216,6 @@
     <ClInclude Include="cSceneChangeEffectUpDown.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="cSoundObject.h">
-      <Filter>TeamCode\cObject_Sound</Filter>
-    </ClInclude>
     <ClInclude Include="cNode.h">
       <Filter>TeamCode\Dijkstra</Filter>
     </ClInclude>
@@ -254,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="cScene_Game.h">
       <Filter>Scenes\cScene_Game</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject_Sound.h">
+      <Filter>TeamCode\cObject_Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -401,9 +401,6 @@
     <ClCompile Include="cSceneChangeEffectUpDown.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="cSoundObject.cpp">
-      <Filter>TeamCode\cObject_Sound</Filter>
-    </ClCompile>
     <ClCompile Include="cNode.cpp">
       <Filter>TeamCode\Dijkstra</Filter>
     </ClCompile>
@@ -445,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="cScene_Game.cpp">
       <Filter>Scenes\cScene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject_Sound.cpp">
+      <Filter>TeamCode\cObject_Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

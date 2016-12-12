@@ -33,7 +33,7 @@ HRESULT cMainGame::Init( void )
 	SCENE_MGR->AddScene("main", new cScene_Main);
 	SCENE_MGR->AddScene("game", new cScene_Game);
 
-	SCENE_MGR->ChangeScene("game");
+	SCENE_MGR->ChangeScene("main");
 
 	//DXFONT_MGR->addStyle(Device, "차차차", "펜흘림", 30.f);
 
