@@ -138,6 +138,9 @@ void Unit::Render()
 	m_CollisionBox->RenderGizmo(pSkinnedTrans);
 	//GIZMO_MGR->Circle(pSkinnedTrans->GetWorldPosition(), 1);
 	GIZMO_MGR->Circle(m_headPos, 1);
+
+
+	if(m_isRayBlocking)
 	GIZMO_MGR->Line(ray.origin, ray.direction);
 
 	RESOURCE_SKINNEDXMESH->GetResource(m_FilePath)->ShowAnimationName(0, 26);

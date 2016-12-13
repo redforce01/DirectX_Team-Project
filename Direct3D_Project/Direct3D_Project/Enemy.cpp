@@ -94,11 +94,10 @@ void PigEnemy::Update(float timeDelta)
 	m_CollisionBox->SetBound(&D3DXVECTOR3(0,0,0), &D3DXVECTOR3(0.5f, 2.5f, 0.5f));
 //	m_DetectSphere->SetBound(&(pSkinnedTrans->GetLocalPosition()), &D3DXVECTOR3(5, 4, 5)); 	//감지구 업데이트
 
-	ray.direction = m_vEnemy[0]->getTrans()->GetWorldPosition() - pSkinnedTrans->GetWorldPosition();
+	ray.direction = m_vEnemy[0]->getTrans()->GetWorldPosition();
 	ray.origin = pSkinnedTrans->GetWorldPosition();
-
-	ray.direction.y += 2;
-	ray.origin.y += 2;
+	ray.direction.y += 3;
+	ray.origin.y += 3;
 
 	m_isFind = this->CollisionEvent(timeDelta); // 적이 플레이어 감지했니?
 	m_headPos = pHeadTrans->GetLocalPosition(); // 적의 대갈빡 위치 고정.
@@ -133,7 +132,7 @@ bool PigEnemy::CollisionEvent(float timeDelta)
 
 	if (m_isRayBlocking)
 	{
-		LOG_MGR->AddLog("사물에 ㅁ자음");
+	//	LOG_MGR->AddLog("o");
 		isDetected = false;
 
 	}

@@ -246,6 +246,7 @@ void cScene_Game::Scene_Update(float timeDelta)
 
 	mapAcive2->Collision_Inspection(Pig);
 	mapAcive2->BoxActive(Pig);
+	mapAcive2->BoxRayActive(Pig);
 
 }
 
@@ -254,7 +255,7 @@ void cScene_Game::Scene_Render1()
 
 	if (bHit == true)
 	{
-		LOG_MGR->AddLog("hit!");
+	//	LOG_MGR->AddLog("hit!");
 	}
 
 

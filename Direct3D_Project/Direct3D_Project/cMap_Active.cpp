@@ -78,18 +78,20 @@ void cMap_Active::BoxRayCollision(Unit * unit, std::vector<cBaseObject*> boundbo
 	int Idx = 0;
 	for (int i = 0; i < boundbox.size(); i++)
 	{
-		bool tf = PHYSICS_MGR->IsRayHitBound(unit->getRay(), &boundbox[i]->BoundBox, boundbox[i]->pTransform, NULL, NULL);
-		if (tf) // 메쉬에 부딫혔으면 끝내고
+		isBlocking = PHYSICS_MGR->IsRayHitBound(unit->getRay(), &boundbox[i]->BoundBox, boundbox[i]->pTransform, NULL, NULL);
+		if (isBlocking) // 메쉬에 부딫혔으면 끝내고
 		{
-			isBlocking = tf;
-			break;
+			unit->setRayCollision(true);
+			return;
 		}
 	}
 
-	if(isBlocking)
-	unit->setRayCollision(true);
-	else 
+	if (!isBlocking)
+	{
 		unit->setRayCollision(false);
+	}
+
+
 
 
 }

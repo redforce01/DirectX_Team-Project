@@ -67,7 +67,7 @@ Player::Player(std::string filePath, D3DXVECTOR3 pos)
 	m_DetectSphere->SetBound(&pSkinnedTrans->GetLocalPosition(), &D3DXVECTOR3(2, 2, 2));
 
 	m_CollisionBox = new cBoundBox;
-	m_CollisionBox->SetBound(&pSkinnedTrans->GetWorldPosition(), &D3DXVECTOR3(0.4f, 3.0f, 0.4f));
+	m_CollisionBox->SetBound(&pSkinnedTrans->GetWorldPosition(), &D3DXVECTOR3(0.5f, 3.5f, 0.5f));
 }
 
 void Player::Update(float timeDelta)
