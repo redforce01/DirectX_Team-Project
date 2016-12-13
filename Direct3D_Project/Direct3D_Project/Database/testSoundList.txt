@@ -1,0 +1,27 @@
+*MenuSound
+ -MenuBGM
+  =WwiseDefaultBank_Menu.001
+  =WwiseDefaultBank_Menu.002
+  =WwiseDefaultBank_Menu.005
+
+ -MenuEffect
+  =WwiseDefaultBank_Menu.004
+  =WwiseDefaultBank_Menu.006
+  =WwiseDefaultBank_Menu.007
+  =WwiseDefaultBank_Menu.008
+  =WwiseDefaultBank_Menu.009
+  =WwiseDefaultBank_Menu.010
+  =WwiseDefaultBank_Menu.011
+  =WwiseDefaultBank_Menu.012
+  =WwiseDefaultBank_Menu.013
+  =WwiseDefaultBank_Menu.014
+  =WwiseDefaultBank_Menu.015
+  =WwiseDefaultBank_Menu.016
+  =WwiseDefaultBank_Menu.017
+  =WwiseDefaultBank_Menu.018
+  =WwiseDefaultBank_Menu.019
+  =WwiseDefaultBank_Menu.020
+  =WwiseDefaultBank_Menu.021
+  =WwiseDefaultBank_Menu.022
+  =WwiseDefaultBank_Menu.023
+  =WwiseDefaultBank_Menu.024
