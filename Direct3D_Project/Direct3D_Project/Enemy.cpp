@@ -38,6 +38,9 @@ PigEnemy::PigEnemy(std::string filePath, D3DXVECTOR3 pos, cScene* Scene)
 
 	m_DetectedUnit = NULL;
 
+	m_LeftHandBox = new cBaseObject;
+	m_LeftHand->BoundBox
+
 	m_CollisionSphere = new cBoundSphere;
 	//m_CollisionSphere->SetBound(&pSkinnedTrans->GetLocalPosition(), &D3DXVECTOR3(25,2,25));
 
@@ -53,7 +56,7 @@ PigEnemy::PigEnemy(std::string filePath, D3DXVECTOR3 pos, cScene* Scene)
 
 	//대가리 Transform 동적할당
 	this->pHeadTrans = new cTransform();
-	this->pSkinnedAni->AddBoneTransform("Eye_R", pHeadTrans);
+	this->pSkinnedAni->AddBoneTransform("NPCLarge-Head", pHeadTrans);
 
 	this->pHeadTrans2 = new cTransform();
 	this->pSkinnedAni->AddBoneTransform("NPCLarge-Head", pHeadTrans2);
@@ -92,15 +95,15 @@ void PigEnemy::Update(float timeDelta)
 	this->pSkinnedAni->Update(timeDelta); // Animation 업데이트
 	m_CollisionSphere->SetBound(&pSkinnedTrans->GetLocalPosition(), &D3DXVECTOR3(0.5f, 2, 0.5f)); 	// 충돌 구 업데이트
 	m_CollisionBox->SetBound(&D3DXVECTOR3(0,0,0), &D3DXVECTOR3(0.5f, 2.5f, 0.5f));
-//	m_DetectSphere->SetBound(&(pSkinnedTrans->GetLocalPosition()), &D3DXVECTOR3(5, 4, 5)); 	//감지구 업데이트
+	m_DetectSphere->SetBound(&(pSkinnedTrans->GetLocalPosition()), &D3DXVECTOR3(0.3, 4, 0.3)); 	//감지구 업데이트
 
 	ray.direction = m_vEnemy[0]->getTrans()->GetWorldPosition();
 	ray.origin = pSkinnedTrans->GetWorldPosition();
-	ray.direction.y += 3;
-	ray.origin.y += 3;
 
 	m_isFind = this->CollisionEvent(timeDelta); // 적이 플레이어 감지했니?
-	m_headPos = pHeadTrans->GetLocalPosition(); // 적의 대갈빡 위치 고정.
+	pHeadTrans->RotateLocal(0, 180 * ONE_RAD, 0);
+	m_headPos = pHeadTrans->GetWorldPosition(); // 적의 대갈빡 위치 고정.
+
 
 	if (m_isFind)
 	{
@@ -108,7 +111,7 @@ void PigEnemy::Update(float timeDelta)
 		AlongPlayerMove(m_DetectedUnit->getTrans());
 	}
 	else if (!m_isFind) // 적을  못 찾은 경우 아무 노드 하나 찍고 그곳으로 이동.
-		AlongPlayerMove(&m_curScene->getVNode()[MyUtil::RandomIntRange(0, 5)]->getTrans());
+		AlongPlayerMove(&m_curScene->getVNode()[MyUtil::RandomIntRange(0, 10)]->getTrans());
 
 	m_Action->Update(timeDelta);
 	m_Action->setCurActionSpeed((*m_MState.find(m_Animation_Name)).second->getMoveSpeed());
@@ -125,20 +128,18 @@ void PigEnemy::Release()
 bool PigEnemy::CollisionEvent(float timeDelta)
 {
 	// 감지구에 충돌된지 
-	bool isDetected = SpDetectionCheck(this, m_vEnemy[0]);
+	bool isDetected;
 	// 충돌구에 충돌된지
 	bool isCollisioned = SpCollisionCheck(this, m_vEnemy[0]);
 
 
-	if (m_isRayBlocking)
+	if (!m_isRayBlocking || SpDetectionCheck(this, m_vEnemy[0]))
 	{
-	//	LOG_MGR->AddLog("o");
-		isDetected = false;
-
+		isDetected = true;
 	}
 	else
 	{
-		isDetected = true;
+		isDetected = false;
 	}
 
 
@@ -203,8 +204,8 @@ void PigEnemy::InitAnimation()
 
 	animationClip animationList[10] = {
 		{ 0.0f,  0.1f, "IDLE" },
-		{ 0.08f, 0.2f, "WALK" },
-		{ 0.13f, 0.2f, "RUN" },
+		{ 0.05f, 0.2f, "WALK" },
+		{ 0.11f, 0.2f, "RUN" },
 		{ 0.0f, 0.2f,"IDLE_CHASE" },
 		{ 0.0f, 0.2f,"IDLE_SEARCH1" },
 		{ 0.0f, 0.2f,"IDLE_SEARCH2" },

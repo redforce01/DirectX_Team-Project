@@ -217,6 +217,10 @@ public:
 
 	D3DXVECTOR3 GetScale() const { return this->scale; }
 
+
+	cTransform* GetParent() { return pParent;  }
+
+
 	//디폴트 컨트롤 을해준다.
 	void DefaultControl(float timeDelta);
 	void DefaultControl2(float timeDelta);

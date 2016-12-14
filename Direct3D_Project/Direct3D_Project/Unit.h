@@ -46,7 +46,8 @@ protected:
 	////*¿Þ¼Õ Trans
 	cTransform* m_pRightHandTrans;
 
-
+	cBaseObject* m_LeftHandBox;
+	cTransform* m_LeftHandTrans;
 	//¸öÃ¼ÀÇ 
 	cBoundBox* m_CollisionBox;
 	//À¯´ÖÀÇ Ãæµ¹ ±¸
@@ -148,6 +149,7 @@ public:
 
 	LPRay getRay() { return &ray; }
 	
+	bool getRAy() { return m_isRayBlocking;  }
 
 	//D3DXVECTOR3 getHeadPos() { return m_headPos; }
 

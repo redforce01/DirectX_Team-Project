@@ -213,6 +213,7 @@
     <ClInclude Include="cXMesh_Static.h" />
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="Direct3D_Project.h" />
+    <ClInclude Include="LeftArm.h" />
     <ClInclude Include="MyUtil.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SoundUtil.h" />
@@ -281,6 +282,7 @@
     <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="Direct3D_Project.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="LeftArm.cpp" />
     <ClCompile Include="MyUtil.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoundUtil.cpp" />

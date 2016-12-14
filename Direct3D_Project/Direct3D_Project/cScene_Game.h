@@ -42,6 +42,7 @@ private:
 	D3DXVECTOR3 hitNormal;
 
 	Ray			camRay;
+	Ray			EnemycamRay;
 	bool		bHit;
 	int i = 0; //로그 테스트용(삭제가능)
 

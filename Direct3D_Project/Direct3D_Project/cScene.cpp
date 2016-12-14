@@ -13,9 +13,12 @@ cScene::cScene()
 
 	cCamera* DebuggingCamera = new FreeCamera;
 	cCamera* MilesCamera = new PlayerCamera;
+	cCamera* EnemyCamera = new PlayerCamera;
+
 
 	vCamera.push_back(MilesCamera);
 	vCamera.push_back(DebuggingCamera);
+	vCamera.push_back(EnemyCamera);
 
 	viCamera = vCamera.begin();
 	pMainCamera = vCamera[PLAYER];
@@ -145,7 +148,7 @@ void cScene::Render()
 #ifdef _DEBUG		//디버그 모드에서만 실행
 	//디바이스 랜더링 종료 명령
 	//월드 그리드
-	GIZMO_MGR->WorldGrid(1, 10);
+	//GIZMO_MGR->WorldGrid(1, 10);
 #endif
 
 	this->pMainCamera->RenderTextureEnd();
@@ -347,7 +350,7 @@ void cScene::RenderToMainCamTexture()
 #ifdef _DEBUG		//디버그 모드에서만 실행
 	//디바이스 랜더링 종료 명령
 	//월드 그리드
-	GIZMO_MGR->WorldGrid(1, 10);
+//	GIZMO_MGR->WorldGrid(1, 10);
 #endif
 
 

@@ -74,26 +74,29 @@ void cMap_Active::BoxActive(Unit * player)
 
 void cMap_Active::BoxRayCollision(Unit * unit, std::vector<cBaseObject*> boundbox)
 {
-	bool isBlocking = false;
-	int Idx = 0;
-	for (int i = 0; i < boundbox.size(); i++)
+	bool isBlocking;
+
+	if (!boundbox.empty())
 	{
-		isBlocking = PHYSICS_MGR->IsRayHitBound(unit->getRay(), &boundbox[i]->BoundBox, boundbox[i]->pTransform, NULL, NULL);
-		if (isBlocking) // 메쉬에 부딫혔으면 끝내고
+		for (int i = 0; i < boundbox.size(); i++)
 		{
-			unit->setRayCollision(true);
-			return;
+			isBlocking = PHYSICS_MGR->IsRayHitBound(unit->getRay(), &boundbox[i]->BoundBox, boundbox[i]->pTransform, NULL, NULL);
+			if (isBlocking) // 메쉬에 부딫혔으면 끝내고
+			{
+				unit->setRayCollision(true);
+				return;
+			}
+		}
+
+		if (!isBlocking)
+		{
+			unit->setRayCollision(false);
 		}
 	}
-
-	if (!isBlocking)
+	else
 	{
 		unit->setRayCollision(false);
 	}
-
-
-
-
 }
 
 void cMap_Active::BoxRayActive(Unit * player)

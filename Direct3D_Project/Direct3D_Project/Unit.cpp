@@ -133,11 +133,11 @@ void Unit::Render()
 	cXMesh_Skinned::sSkinnedMeshEffect->SetInt("LightNum", this->lights.size());
 
 	this->pSkinnedAni->Render(pSkinnedTrans);
-	m_CollisionSphere->RenderGizmo(pSkinnedTrans);
-	m_DetectSphere->RenderGizmo(pSkinnedTrans);
+	//m_CollisionSphere->RenderGizmo(pSkinnedTrans);
+	//m_DetectSphere->RenderGizmo(pSkinnedTrans);
 	m_CollisionBox->RenderGizmo(pSkinnedTrans);
 	//GIZMO_MGR->Circle(pSkinnedTrans->GetWorldPosition(), 1);
-	GIZMO_MGR->Circle(m_headPos, 1);
+//	GIZMO_MGR->Circle(m_headPos, 1);
 
 
 	if(m_isRayBlocking)

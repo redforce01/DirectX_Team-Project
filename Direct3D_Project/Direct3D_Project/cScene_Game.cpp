@@ -26,15 +26,97 @@ void cScene_Game::NodeInit()
 
 	cNode* node = new cNode();
 
+	node = new cNode();
+	node->Init(D3DXVECTOR3(3, 0.0f, 0.f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
 
-	for (int i = 0; i < 8; i++)
-	{
-		node = new cNode();
-		node->Init(D3DXVECTOR3(i * 8, 0.0f, i * 8.f));
-		node->setID(m_vNode.size());
+	node = new cNode();
+	node->Init(D3DXVECTOR3(3, 0.0f, 3.f));
+	node->setID(m_vNode.size());
 
-		m_vNode.push_back(node);
-	}
+	m_vNode.push_back(node);
+
+
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(3.3, 0.0f, 6.f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+
+
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(6.0f, 0.0f, 6.f));
+	node->setID(m_vNode.size());
+
+	m_vNode.push_back(node);
+
+
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(11, 0.0f, 8.5f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(13, 0.0f, 8.92f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(17.44, 0.0f, 7.f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(20.36f, 0.0f, 7.f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(23.32f, 0.0f, 7.f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(25.70f, 0.0f, 7.f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(30.32f, 0.0f, 7.f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(33.78f, 0.0f, 4.32));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(37.32f, 0.0f, 4.32f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(40.00f, 0.0f, 4.68f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(42.32f, 0.0f, 5.62f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
+
+	node = new cNode();
+	node->Init(D3DXVECTOR3(45.32f, 0.0f, 8.72f));
+	node->setID(m_vNode.size());
+	m_vNode.push_back(node);
 
 	m_vNode[0]->pushEdgeNode(m_vNode[1]);
 
@@ -99,10 +181,11 @@ HRESULT cScene_Game::Scene_Init()
 	this->lights.push_back(pLight3);
 
 
-	Pig = new PigEnemy("../Resources/Meshes/Pig/20161129_Pig.X", { 15,0,15 }, this);
+	Pig = new PigEnemy("../Resources/Meshes/Pig/20161129_Pig.X", { 8,0,8 }, this);
 	Pig->setObj(house);
+	Pig->CameraAttachToUnit(vCamera[ENEMY]);
 
-	Miles = new Player("../Resources/OLGame/Meshes/Miles/miles.X", { 0,0,0 });
+	Miles = new Player("../Resources/OLGame/Meshes/Miles/miles.X", { 45,0,8 });
 	Miles->CameraAttachToUnit(vCamera[PLAYER]);
 
 	/* 크로스헤어 */
@@ -125,28 +208,28 @@ HRESULT cScene_Game::Scene_Init()
 	this->fileItem->Init(
 		"file",
 		"../Resources/OLGame/Meshes/Item/File/File.X",
-		D3DXVECTOR3(0.03f, 0.03f, 0.03f),
-		D3DXVECTOR3(0.0f, 0.0f, 0.0f),
-		D3DXVECTOR3(2.f, 0.f, 2.f)
-		);
+D3DXVECTOR3(0.03f, 0.03f, 0.03f),
+D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+D3DXVECTOR3(2.f, 0.f, 2.f)
+);
 
-	this->vecGameItem.push_back(this->keyItem);
-	this->vecGameItem.push_back(this->fileItem);
+this->vecGameItem.push_back(this->keyItem);
+this->vecGameItem.push_back(this->fileItem);
 
-	Pig->pushEnemyUnitVector(Miles);
-	Miles->pushEnemyUnitVector(Pig);
-
-
-	mapAcive1->SetLink_BoxLoad(bBox_Load);
-	mapAcive1->SetLink_Player(Miles);
-
-	mapAcive2->SetLink_BoxLoad(bBox_Load);
-	mapAcive2->SetLink_Player(Pig);
+Pig->pushEnemyUnitVector(Miles);
+Miles->pushEnemyUnitVector(Pig);
 
 
-	bBox_Load->SetLink_MapActive(mapAcive1);
-	bBox_Load->SetLink_MapActive(mapAcive2);
-	return S_OK;
+mapAcive1->SetLink_BoxLoad(bBox_Load);
+mapAcive1->SetLink_Player(Miles);
+
+mapAcive2->SetLink_BoxLoad(bBox_Load);
+mapAcive2->SetLink_Player(Pig);
+
+
+bBox_Load->SetLink_MapActive(mapAcive1);
+bBox_Load->SetLink_MapActive(mapAcive2);
+return S_OK;
 }
 
 void cScene_Game::Scene_RenderSprite()
@@ -218,10 +301,23 @@ void cScene_Game::Scene_Update(float timeDelta)
 			break;
 	}
 
+	//D3DXVECTOR2 EnemyscreenPos(WINSIZE_X / 2, WINSIZE_Y/2);
 
+	//this->vCamera[ENEMY]->ComputeRay(
+	//	&this->EnemycamRay,
+	//	&EnemyscreenPos);
 
+	//if (PHYSICS_MGR->IsRayHitBound(&this->EnemycamRay, Miles->getCollisionBox(), Miles->getTrans(), NULL, NULL))
+	//{
+	//	Pig->setRayCollision(false);
+	//}
+	//else
+	//	Pig->setRayCollision(true);
+
+	//this->vCamera[ENEMY]->SetWorldPosition(Pig->getHeadPos());
 	//플레이어 카메라는 계속 업데이트 해줘야 한다.
 	this->vCamera[PLAYER]->SetWorldPosition(Miles->getHeadCamPos());
+
 	lights[0]->pTransform = vCamera[PLAYER];
 
 	//this->Pig->Update(timeDelta);
@@ -252,6 +348,24 @@ void cScene_Game::Scene_Update(float timeDelta)
 
 void cScene_Game::Scene_Render1()
 {
+	char szTemp[128];
+
+	sprintf_s(szTemp, "%.2f", Miles->getTrans()->GetLocalPosition().x);
+	DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 200, 100, 0xffffff00, 0xff000000);
+
+	sprintf_s(szTemp, " %.2f", Miles->getTrans()->GetLocalPosition().z);
+	DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 130, 100, 0xffffff00, 0xff000000);
+
+	if (Pig->getRAy())
+	{
+		sprintf_s(szTemp, "O,");
+		DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 155, 150, 0xffffff00, 0xff000000);
+	}
+	else
+	{
+		sprintf_s(szTemp, "X,");
+		DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 155, 150, 0xffffff00, 0xff000000);
+	}
 
 	if (bHit == true)
 	{

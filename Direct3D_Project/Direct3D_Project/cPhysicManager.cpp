@@ -174,14 +174,15 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.y <= hit.y && hit.y <= max.y)
 		{
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL)
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			if (pHitNormal != NULL)
-				*pHitNormal = -pBoundTrans->GetForward();
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL)
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//if (pHitNormal != NULL)
+			//	*pHitNormal = -pBoundTrans->GetForward();
+			return true;
 		}
 
-		return true;
+	//	return true;
 	}
 
 	//앞면
@@ -194,16 +195,17 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.y <= hit.y && hit.y <= max.y){
 
-			//hit 지점 월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
-			if (pHitNormal != NULL){
-				*pHitNormal = pBoundTrans->GetForward();
-			}
+			//////hit 지점 월드로 땡겨서 리턴
+			////if (pHitPos != NULL){
+			////	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			////}
+			////if (pHitNormal != NULL){
+			////	*pHitNormal = pBoundTrans->GetForward();
+			////}
 
 			return true;
 		}
+	//	return true;
 	}
 
 	//하면
@@ -216,17 +218,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = -pBoundTrans->GetUp();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = -pBoundTrans->GetUp();
+			//}
 
 			return true;
 		}
+		//return true;
 	}
 
 	//상면
@@ -239,17 +242,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = pBoundTrans->GetUp();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = pBoundTrans->GetUp();
+			//}
 
 			return true;
 		}
+	//	return true;
 	}
 
 	//좌면
@@ -262,17 +266,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.y <= hit.y && hit.y <= max.y &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			//////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = -pBoundTrans->GetRight();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = -pBoundTrans->GetRight();
+			//}
 
 			return true;
 		}
+		//return true;
 	}
 
 	//우면
@@ -285,17 +290,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.y <= hit.y && hit.y <= max.y &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = pBoundTrans->GetRight();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = pBoundTrans->GetRight();
+			//}
 
 			return true;
 		}
+		//return true;
 	}
 
 	//여기까지 왔으면 충돌 실패
@@ -1153,9 +1159,9 @@ void cPhysicManager::CreatePlane(LPD3DXPLANE	pOutPlane, const D3DXVECTOR3* p0, c
 	D3DXVECTOR3 normal;
 	D3DXVECTOR3 edge1 = *p1 - *p0;
 	D3DXVECTOR3 edge2 = *p2 - *p0;
+
 	D3DXVec3Cross(&normal, &edge1, &edge2);
 	D3DXVec3Normalize(&normal, &normal);
-
 	//평면의 노말 방향으로 원점까지의 최단 거리
 	float dist = -D3DXVec3Dot(&normal, p0);
 

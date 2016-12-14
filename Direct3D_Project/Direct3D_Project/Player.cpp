@@ -67,11 +67,12 @@ Player::Player(std::string filePath, D3DXVECTOR3 pos)
 	m_DetectSphere->SetBound(&pSkinnedTrans->GetLocalPosition(), &D3DXVECTOR3(2, 2, 2));
 
 	m_CollisionBox = new cBoundBox;
-	m_CollisionBox->SetBound(&pSkinnedTrans->GetWorldPosition(), &D3DXVECTOR3(0.5f, 3.5f, 0.5f));
+//	m_CollisionBox->SetBound(&pSkinnedTrans->GetWorldPosition(), &D3DXVECTOR3(0.7f,4.f, 0.7f));
 }
 
 void Player::Update(float timeDelta)
 {
+	m_CollisionBox->SetBound(&D3DXVECTOR3(0,0,0), &D3DXVECTOR3(0.7f, 4.f, 0.7f));
 	pSkinnedAni->Update(timeDelta);
 	//this->pSkinned->AddBoneTransform("Hero-Camera", pHeadTrans);
 	//* 카메라, 핸디캠, 머리 붙일 위치 얻어옴
