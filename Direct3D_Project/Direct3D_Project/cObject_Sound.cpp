@@ -5,8 +5,7 @@
 #include "cBoundBox.h"
 
 cObject_Sound::cObject_Sound()
-	: m_SoundName(NULL)
-	, m_SoundVolume(0)
+	: m_SoundVolume(0)
 	, m_SoundPlay(FALSE)
 	, m_IsStatic(FALSE)
 	, m_PlayerPos(D3DXVECTOR3(0, 0, 0))
@@ -26,6 +25,7 @@ void cObject_Sound::Init(string soundName, D3DXVECTOR3 position)
 	m_IsStatic	= FALSE;
 	m_PlayerPos	= D3DXVECTOR3(0, 0, 0);
 
+	m_pTrans = new cTransform;
 	m_pTrans->SetLocalPosition(position);
 }
 
@@ -37,6 +37,7 @@ void cObject_Sound::Init(string soundName, float soundVolume, bool isPlay, bool 
 	m_IsStatic	= isStatic;
 	m_PlayerPos	= D3DXVECTOR3(0, 0, 0);
 
+	m_pTrans = new cTransform;
 	m_pTrans->SetLocalPosition(position);
 }
 
@@ -48,6 +49,7 @@ void cObject_Sound::Init(string soundName, float soundVolume, bool isPlay, bool 
 	m_IsStatic = isStatic;
 	m_PlayerPos = D3DXVECTOR3(0, 0, 0);
 
+	m_pTrans = new cTransform;
 	m_pTrans->SetLocalPosition(position);
 	m_EventBox = eventBox;
 
@@ -55,6 +57,7 @@ void cObject_Sound::Init(string soundName, float soundVolume, bool isPlay, bool 
 
 void cObject_Sound::Release()
 {
+	SAFE_DELETE(m_pTrans);
 }
 
 void cObject_Sound::Update(float timeDelta)

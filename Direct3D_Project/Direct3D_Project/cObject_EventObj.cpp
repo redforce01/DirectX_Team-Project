@@ -92,6 +92,7 @@ void cObject_EventObj::Render(const cCamera* pCamera)
 
 void cObject_EventObj::setLocalPosition(cTransform * positionTrans)
 {
+	pEventTrans->SetLocalPosition(positionTrans->GetLocalPosition());
 }
 
 void cObject_EventObj::setLocalPosition(D3DXVECTOR3 positionVec)

@@ -89,6 +89,7 @@ using namespace std;
 
 #include "txtData.h"
 #include "cSoundData.h"
+#include "cEventObjectManager.h"
 
 #define UNKNOWNLENGTH 100000
 #define FROMVIA -1

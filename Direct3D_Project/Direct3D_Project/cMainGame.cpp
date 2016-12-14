@@ -2,6 +2,7 @@
 #include "cMainGame.h"
 #include "cImage.h"
 
+#include "cScene_Loading.h"
 #include "cScene_Main.h"
 #include "cScene_Game.h"
 
@@ -29,34 +30,20 @@ HRESULT cMainGame::Init( void )
 
 	SOUNDMANAGER->init();
 	SOUNDDATA->Init();
+	EVENT_MGR->Init();
 
+	SCENE_MGR->AddLoadingScene("loading", new cScene_Loading);
 	SCENE_MGR->AddScene("main", new cScene_Main);
 	SCENE_MGR->AddScene("game", new cScene_Game);
 
-	SCENE_MGR->ChangeScene("main");
+	SCENE_MGR->ChangeSceneWithLoading("main", "loading", 1, 1);
 
-	//DXFONT_MGR->addStyle(Device, "차차차", "펜흘림", 30.f);
-
-	//씬생성
-	//m_pNowScene = new cScene_Main();
-
-	//씬초기화
-	//if (FAILED(m_pNowScene->Init()))		//리턴값이 E_FAIL;
-	//	return E_FAIL;
-
-
-	//return E_FAIL;
 	return S_OK;
 }
 
 //해제
 void cMainGame::Release()
 {
-
-	//씬해재
-	//m_pNowScene->Release();
-	//SAFE_DELETE( m_pNowScene );
-
 	//매니져 해제
 	TIME_MGR->Release();
 	cTimeMgr::ReleaseInstance();
@@ -80,10 +67,13 @@ void cMainGame::Release()
 	RESOURCE_STATICXMESH->ClearResource();
 	cResourceMgr_XStaticMesh::ReleaseInstance();
 
+	EVENT_MGR->Release();
+	cEventObjectManager::ReleaseInstance();
 	SOUNDMANAGER->release();
 	cSoundManager::ReleaseInstance();
 	SOUNDDATA->Release();
 	cSoundData::ReleaseInstance();
+
 
 	//디바이스 해제
 	ReleaseDevice();
@@ -100,6 +90,7 @@ void cMainGame::Update()
 
 	//씬업데이트
 	SCENE_MGR->Update(timeDelta);
+	EVENT_MGR->Update(timeDelta);
 }
 
 //드로우

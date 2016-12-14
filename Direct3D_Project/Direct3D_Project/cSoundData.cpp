@@ -241,11 +241,15 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_THUNDER:
 		break;
+
+
 	case SoundUtil::SOUND_PLAY_TYPE_MOOD_HALL:
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_MOOD_ROOM:
 		soundKey = "RoomMood";
 		break;
+
+
 	case SoundUtil::SOUND_PLAY_TYPE_BEND:
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_MACHINE_01:
@@ -274,6 +278,7 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_ROPE:
 		break;
+
 	default:
 		break;
 	}

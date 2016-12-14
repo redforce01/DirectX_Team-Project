@@ -34,12 +34,6 @@
     <Filter Include="TeamCode">
       <UniqueIdentifier>{4f78ba6e-9b2d-4851-80ff-a3182444cc9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TeamCode\cObject_Event">
-      <UniqueIdentifier>{5237c7f9-37ec-4969-891f-cd641f556f32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TeamCode\cObject_Sound">
-      <UniqueIdentifier>{aa405af9-17d7-47ca-9325-95ccedb649c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TeamCode\Dijkstra">
       <UniqueIdentifier>{ae85a2ae-13f4-47a4-9bf4-5db4b5697cd8}</UniqueIdentifier>
     </Filter>
@@ -60,6 +54,15 @@
     </Filter>
     <Filter Include="Scenes\cScene_Game">
       <UniqueIdentifier>{bdd799f8-d90f-4da1-be34-a4fbcf6cc645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TeamCode\cEventObject">
+      <UniqueIdentifier>{fc51ccbb-4443-4cda-9879-2ed1cda6b359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TeamCode\cEventObject\cObject_Sound">
+      <UniqueIdentifier>{aa405af9-17d7-47ca-9325-95ccedb649c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TeamCode\cEventObject\cObject_Event">
+      <UniqueIdentifier>{5237c7f9-37ec-4969-891f-cd641f556f32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -205,7 +208,7 @@
       <Filter>SoundData</Filter>
     </ClInclude>
     <ClInclude Include="cObject_EventObj.h">
-      <Filter>TeamCode\cObject_Event</Filter>
+      <Filter>TeamCode\cEventObject\cObject_Event</Filter>
     </ClInclude>
     <ClInclude Include="cScene_Mgr.h">
       <Filter>Manager</Filter>
@@ -253,7 +256,10 @@
       <Filter>Scenes\cScene_Game</Filter>
     </ClInclude>
     <ClInclude Include="cObject_Sound.h">
-      <Filter>TeamCode\cObject_Sound</Filter>
+      <Filter>TeamCode\cEventObject\cObject_Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="cEventObjectManager.h">
+      <Filter>TeamCode\cEventObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -390,7 +396,7 @@
       <Filter>SoundData</Filter>
     </ClCompile>
     <ClCompile Include="cObject_EventObj.cpp">
-      <Filter>TeamCode\cObject_Event</Filter>
+      <Filter>TeamCode\cEventObject\cObject_Event</Filter>
     </ClCompile>
     <ClCompile Include="cScene_Mgr.cpp">
       <Filter>Manager</Filter>
@@ -444,7 +450,10 @@
       <Filter>Scenes\cScene_Game</Filter>
     </ClCompile>
     <ClCompile Include="cObject_Sound.cpp">
-      <Filter>TeamCode\cObject_Sound</Filter>
+      <Filter>TeamCode\cEventObject\cObject_Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="cEventObjectManager.cpp">
+      <Filter>TeamCode\cEventObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

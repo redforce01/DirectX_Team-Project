@@ -164,6 +164,7 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cDoorPosition.h" />
     <ClInclude Include="cDXFontManager.h" />
+    <ClInclude Include="cEventObjectManager.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGizmoManager.h" />
     <ClInclude Include="cImage.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cDoorPosition.cpp" />
     <ClCompile Include="cDXFontManager.cpp" />
+    <ClCompile Include="cEventObjectManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGizmoManager.cpp" />
     <ClCompile Include="cImage.cpp" />
