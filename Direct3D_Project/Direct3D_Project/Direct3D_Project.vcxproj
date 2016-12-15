@@ -195,6 +195,7 @@
     <ClInclude Include="cSceneChangeEffect.h" />
     <ClInclude Include="cSceneChangeEffectUpDown.h" />
     <ClInclude Include="cScene_Game.h" />
+    <ClInclude Include="cScene_Loading.h" />
     <ClInclude Include="cScene_Main.h" />
     <ClInclude Include="cScene_Mgr.h" />
     <ClInclude Include="cSetBoundObject.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="cSceneChangeEffect.cpp" />
     <ClCompile Include="cSceneChangeEffectUpDown.cpp" />
     <ClCompile Include="cScene_Game.cpp" />
+    <ClCompile Include="cScene_Loading.cpp" />
     <ClCompile Include="cScene_Main.cpp" />
     <ClCompile Include="cScene_Mgr.cpp" />
     <ClCompile Include="cSetBoundObject.cpp" />

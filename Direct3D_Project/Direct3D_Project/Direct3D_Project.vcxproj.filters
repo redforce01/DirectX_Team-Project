@@ -64,6 +64,9 @@
     <Filter Include="TeamCode\cEventObject\cObject_Event">
       <UniqueIdentifier>{5237c7f9-37ec-4969-891f-cd641f556f32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\cScene_Loading">
+      <UniqueIdentifier>{816c5dac-a0eb-4a12-babd-d6fdf1fcc17e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -261,6 +264,9 @@
     <ClInclude Include="cEventObjectManager.h">
       <Filter>TeamCode\cEventObject</Filter>
     </ClInclude>
+    <ClInclude Include="cScene_Loading.h">
+      <Filter>Scenes\cScene_Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -454,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="cEventObjectManager.cpp">
       <Filter>TeamCode\cEventObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene_Loading.cpp">
+      <Filter>Scenes\cScene_Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@ cScene_Main::~cScene_Main()
 
 HRESULT cScene_Main::Scene_Init()
 {
-
+	
 
 	return S_OK;
 }

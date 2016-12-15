@@ -121,3 +121,8 @@
   =WwiseDefaultBank_Menu.022
   =WwiseDefaultBank_Menu.023
   =WwiseDefaultBank_Menu.024
+
+*PLAYERsSound
+ -WalkingOnNormal
+  =WwiseDefaultBank_Player_Sound.059
+  =WwiseDefaultBank_Player_Sound.060

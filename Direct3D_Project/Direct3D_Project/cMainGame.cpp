@@ -36,7 +36,8 @@ HRESULT cMainGame::Init( void )
 	SCENE_MGR->AddScene("main", new cScene_Main);
 	SCENE_MGR->AddScene("game", new cScene_Game);
 
-	SCENE_MGR->ChangeSceneWithLoading("main", "loading", 1, 1);
+	SCENE_MGR->ChangeScene("game");
+	//SCENE_MGR->ChangeSceneWithLoading("game", "loading", 1, 1);
 
 	return S_OK;
 }

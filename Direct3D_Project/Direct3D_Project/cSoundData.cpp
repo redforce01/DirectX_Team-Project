@@ -146,50 +146,75 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 
 		//PLAYER SOUND
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_NORMAL:
+		soundKey = "WalkingOnNormal";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_WOOD:
+		soundKey = "WalkingOnWood";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_IRON:
+		soundKey = "WalkingOnIron";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_WALKING_SOIL:
+		soundKey = "WalkingOnSoil";
 		break;
+
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_ATTACKED:
+		soundKey = "Attacked";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_ATTACKED_RELAX:
+		soundKey = "AttackedRelax";
 		break;
+
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_ROPE:
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_BREATH_ROUGH:
+		soundKey = "BreathRough";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_DAED:
+		soundKey = "Dead";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_FEAR:
+		soundKey = "Fear";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_FEARHIGH:
+		soundKey = "FearHigh";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_NERVOUS:
+		soundKey = "Nervous";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_PAIN:
+		soundKey = "Pain";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_RELAX:
+		soundKey = "Relax";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_SCRAG:
+		soundKey = "Scrag";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_SURPRISE:
+		soundKey = "Surprise";
 		break;
+
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_USE_KEY:
+		soundKey = "OpenDoorUseKey";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_OPEN_CABINET:
+		soundKey = "TryOpenCabinet";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_TURN_VALVE:
+		soundKey = "TryTurnValve";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TRY_CLOSE_VALVE:
+		soundKey = "CloseValve";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_OPEN_TAPE:
+		soundKey = "OpenTape";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_SEARCH_DESK:
+		soundKey = "SearchSound";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_PLAYER_TYPEKEYBOARD:
+		soundKey = "TypeKeyboard";
 		break;
 
 		//CAM SOUND 

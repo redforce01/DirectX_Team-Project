@@ -12,18 +12,22 @@ void WalkCommand::execute(Unit& gameActor, float timeDelta)
 	if (KEY_MGR->IsStayDown('W'))
 	{
 		gameActor.StatePlayChange("WALK_FORWARD", 0.5f);
+		SOUNDDATA->playSound(SOUND_TYPE_PLAYER_EFFECT, SOUND_PLAY_TYPE_PLAYER_WALKING_NORMAL, 0);
 	}
 	else if (KEY_MGR->IsStayDown('A'))
 	{
 		gameActor.StatePlayChange("WALK_LEFT", 0.5f);
+		SOUNDDATA->playSound(SOUND_TYPE_PLAYER_EFFECT, SOUND_PLAY_TYPE_PLAYER_WALKING_NORMAL, 0);
 	}
 	else if (KEY_MGR->IsStayDown('D'))
 	{
 		gameActor.StatePlayChange("WALK_RIGHT", 0.5f);
+		SOUNDDATA->playSound(SOUND_TYPE_PLAYER_EFFECT, SOUND_PLAY_TYPE_PLAYER_WALKING_NORMAL, 0);
 	}
 	else if (KEY_MGR->IsStayDown('S'))
 	{
 		gameActor.StatePlayChange("WALK_BACKWARD", 0.5f);
+		SOUNDDATA->playSound(SOUND_TYPE_PLAYER_EFFECT, SOUND_PLAY_TYPE_PLAYER_WALKING_NORMAL, 0);
 	}
 
 	gameActor.getAction()->Move(timeDelta);
