@@ -65,7 +65,7 @@
       <UniqueIdentifier>{5237c7f9-37ec-4969-891f-cd641f556f32}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scenes\cScene_Loading">
-      <UniqueIdentifier>{816c5dac-a0eb-4a12-babd-d6fdf1fcc17e}</UniqueIdentifier>
+      <UniqueIdentifier>{1db1bad7-2de3-4b52-a157-9f84f48625a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -368,9 +368,6 @@
     <ClCompile Include="cXMesh_Static.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="cScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="cScene_Main.cpp">
       <Filter>Scenes\cScene_Main</Filter>
     </ClCompile>
@@ -460,6 +457,9 @@
     </ClCompile>
     <ClCompile Include="cEventObjectManager.cpp">
       <Filter>TeamCode\cEventObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="cScene_Loading.cpp">
       <Filter>Scenes\cScene_Loading</Filter>

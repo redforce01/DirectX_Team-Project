@@ -60,8 +60,10 @@ void cObject_Sound::Release()
 	SAFE_DELETE(m_pTrans);
 }
 
-void cObject_Sound::Update(float timeDelta)
+void cObject_Sound::Update(float timeDelta, D3DXVECTOR3 playerPos)
 {
+	m_PlayerPos = playerPos;
+
 	if (! m_IsStatic)
 	{
 		float value = FunctionDistance() * SOUND_DISTANCE_CORRECTION;

@@ -32,6 +32,9 @@ HRESULT cEventObjectManager::Init()
 
 	//vEventSound.push_back(newSoundObj);
 
+
+	//"../Resources/NPC/NPC_Death.X"
+
 	return S_OK;
 }
 
@@ -54,16 +57,18 @@ void cEventObjectManager::Release()
 	vEventSound.clear();
 }
 
-void cEventObjectManager::Update(float timeDelta)
+void cEventObjectManager::Update(float timeDelta, D3DXVECTOR3 playerPos)
 {
-	for (int i = 0; i < vEventObj.size(); i++)
+	int size = vEventObj.size();
+	for (int i = 0; i < size; i++)
 	{
-		vEventObj[i]->Update(timeDelta);
+		vEventObj[i]->Update(timeDelta, playerPos);
 	}
 
-	for (int i = 0; i < vEventSound.size(); i++)
+	size = vEventSound.size();
+	for (int i = 0; i < size; i++)
 	{
-		vEventSound[i]->Update(timeDelta);
+		vEventSound[i]->Update(timeDelta, playerPos);
 	}
 }
 
@@ -94,4 +99,25 @@ void cEventObjectManager::AddSoundObject(string soundName, float soundVolume, bo
 	cObject_Sound* newSoundObj = new cObject_Sound;
 	newSoundObj->Init(soundName, soundVolume, isPlay, isStatic, position, eventBox);
 	vEventSound.push_back(newSoundObj);
+}
+
+void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position)
+{
+	cObject_EventObj* newEventObj = new cObject_EventObj;
+	newEventObj->Init(objectName, position);
+	vEventObj.push_back(newEventObj);
+}
+
+void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position, cBoundBox eventBox)
+{
+	cObject_EventObj* newEventObj = new cObject_EventObj;
+	newEventObj->Init(objectName, position, eventBox);
+	vEventObj.push_back(newEventObj);
+}
+
+void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position, bool isStatic, cBoundBox eventBox)
+{
+	cObject_EventObj* newEventObj = new cObject_EventObj;
+	newEventObj->Init(objectName, position, isStatic, eventBox);
+	vEventObj.push_back(newEventObj);
 }

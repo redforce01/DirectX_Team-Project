@@ -2,9 +2,9 @@
 #include "cMainGame.h"
 #include "cImage.h"
 
-#include "cScene_Loading.h"
 #include "cScene_Main.h"
 #include "cScene_Game.h"
+#include "cScene_Loading.h"
 
 cMainGame::cMainGame( void )
 {
@@ -32,12 +32,12 @@ HRESULT cMainGame::Init( void )
 	SOUNDDATA->Init();
 	EVENT_MGR->Init();
 
-	SCENE_MGR->AddLoadingScene("loading", new cScene_Loading);
 	SCENE_MGR->AddScene("main", new cScene_Main);
 	SCENE_MGR->AddScene("game", new cScene_Game);
+	//SCENE_MGR->AddLoadingScene("loading", new cScene_Loading);
+	SCENE_MGR->AddScene("loading", new cScene_Loading);
 
-	SCENE_MGR->ChangeScene("game");
-	//SCENE_MGR->ChangeSceneWithLoading("game", "loading", 1, 1);
+	SCENE_MGR->ChangeScene("main");
 
 	return S_OK;
 }

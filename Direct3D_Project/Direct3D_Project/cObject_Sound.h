@@ -1,6 +1,6 @@
 #pragma once
 
-#define SOUND_DISTANCE_CORRECTION 1000
+#define SOUND_DISTANCE_CORRECTION 100
 
 class cTransform;
 class cBoundBox;
@@ -24,7 +24,7 @@ public:
 	void Init(string soundName, float soundVolume, bool isPlay, bool isStatic, D3DXVECTOR3 position);
 	void Init(string soundName, float soundVolume, bool isPlay, bool isStatic, D3DXVECTOR3 position, cBoundBox eventBox);
 	void Release();
-	void Update(float timeDelta);
+	void Update(float timeDelta, D3DXVECTOR3 playerPos);
 
 	float FunctionDistance();
 

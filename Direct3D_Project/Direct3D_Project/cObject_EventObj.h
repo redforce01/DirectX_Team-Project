@@ -10,18 +10,23 @@ private:
 	cSkinnedAnimation* pAnimation;
 
 	cTransform* pEventTrans;
-	cBoundBox* pPatientBox;
+	cBoundBox* pEventBox;
+	D3DXVECTOR3 m_PlayerPos;
+	bool	m_IsStatic;
 
 	std::vector<cLight*>	lights;
 	cLight_Direction*		pLightDir;
+	
 
 public:
 	cObject_EventObj();
 	~cObject_EventObj();
 
-	HRESULT Init();
+	HRESULT Init(string fileName, D3DXVECTOR3 position);
+	HRESULT Init(string fileName, D3DXVECTOR3 position, cBoundBox eventBox);
+	HRESULT Init(string fileName, D3DXVECTOR3 position, bool isStatic, cBoundBox eventBox);
 	void Release();
-	void Update(float timeDelta);
+	void Update(float timeDelta, D3DXVECTOR3 playerPos);
 	void Render(const cCamera* pCamera);
 
 	void setLocalPosition(cTransform* positionTrans);

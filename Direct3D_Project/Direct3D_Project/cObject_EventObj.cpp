@@ -9,6 +9,10 @@
 #include "cLight_Point.h"
 
 cObject_EventObj::cObject_EventObj()
+	: m_IsStatic(FALSE)
+	, pEventTrans(NULL)
+	, pEventBox(NULL)
+	, m_PlayerPos(0, 0, 0)
 {
 }
 
@@ -17,58 +21,64 @@ cObject_EventObj::~cObject_EventObj()
 {
 }
 
-HRESULT cObject_EventObj::Init()
+HRESULT cObject_EventObj::Init(string fileName, D3DXVECTOR3 position)
+{	
+	D3DXMATRIXA16 matCorrection;
+	D3DXMatrixScaling(&matCorrection, 0.1f, 0.1f, 0.1f);
+	cXMesh_Skinned* pSkinnedMesh = RESOURCE_SKINNEDXMESH->GetResource(fileName, &matCorrection);
+	pAnimation = new cSkinnedAnimation();
+	pAnimation->Init(pSkinnedMesh);
+	pEventTrans = new cTransform();
+	pEventTrans->SetLocalPosition(position);
+
+	return S_OK;
+}
+
+HRESULT cObject_EventObj::Init(string fileName, D3DXVECTOR3 position, cBoundBox eventBox)
 {
 	D3DXMATRIXA16 matCorrection;
 	D3DXMatrixScaling(&matCorrection, 0.1f, 0.1f, 0.1f);
-	cXMesh_Skinned* pSkinnedMesh = RESOURCE_SKINNEDXMESH->GetResource("../Resources/NPC/NPC_Death.X", &matCorrection);
-
+	cXMesh_Skinned* pSkinnedMesh = RESOURCE_SKINNEDXMESH->GetResource(fileName, &matCorrection);
 	pAnimation = new cSkinnedAnimation();
 	pAnimation->Init(pSkinnedMesh);
-
 	pEventTrans = new cTransform();
-	pEventTrans->SetLocalPosition(0, 0, 10);
-	pPatientBox = new cBoundBox();
+	pEventTrans->SetLocalPosition(position);
+	pEventBox = new cBoundBox();
+	pEventBox->SetBound(&eventBox.localCenter, &eventBox.halfSize);
 
+	return S_OK;
+}
 
-	//¶óÀÌÆ® Çª½¬
-	cLight_Direction* pLight1 = new cLight_Direction();
-	pLight1->Color = D3DXCOLOR(20, 20, 20, 1);
-	pLight1->Intensity = 0.1f;
+HRESULT cObject_EventObj::Init(string fileName, D3DXVECTOR3 position, bool isStatic, cBoundBox eventBox)
+{
+	D3DXMATRIXA16 matCorrection;
+	D3DXMatrixScaling(&matCorrection, 0.1f, 0.1f, 0.1f);
+	cXMesh_Skinned* pSkinnedMesh = RESOURCE_SKINNEDXMESH->GetResource(fileName, &matCorrection);
+	pAnimation = new cSkinnedAnimation();
+	pAnimation->Init(pSkinnedMesh);
+	pEventTrans = new cTransform();
+	pEventTrans->SetLocalPosition(position);
+	pEventBox = new cBoundBox();
+	pEventBox->SetBound(&eventBox.localCenter, &eventBox.halfSize);
+	m_IsStatic = isStatic;
 
-	cLight_Point* pLight2 = new cLight_Point();
-	pLight2->Color = D3DXCOLOR(1, 0, 0, 0);
-	pLight2->minRange = 5.0f;
-	pLight2->maxRange = 10.0f;
-	pLight2->distancePow = 10.0f;
-
-	cLight_Point* pLight3 = new cLight_Point();
-	pLight3->Color = D3DXCOLOR(1, 1, 1, 0);
-	pLight3->minRange = 5.0f;
-	pLight3->maxRange = 10.0f;
-	pLight3->distancePow = 10.0f;
-	pLight3->pTransform->SetWorldPosition(3, 3, 0);
-	pLight3->Intensity = 0.5f;
-
-	this->lights.push_back(pLight1);
-	this->lights.push_back(pLight2);
-	this->lights.push_back(pLight3);
-	
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void cObject_EventObj::Release()
 {
 	SAFE_DELETE(pEventTrans);
-	SAFE_DELETE(pPatientBox);
+	SAFE_DELETE(pEventBox);
 
 	pAnimation->Release();
 }
 
-void cObject_EventObj::Update(float timeDelta)
+void cObject_EventObj::Update(float timeDelta, D3DXVECTOR3 playerPos)
 {
-	pAnimation->Update(timeDelta);
-	
+	m_PlayerPos = playerPos;
+
+
+	pAnimation->Update(timeDelta);	
 	pAnimation->Play("POSE0", 0.3);
 	//pAnimation->Play("POSE1", 0.3);
 
