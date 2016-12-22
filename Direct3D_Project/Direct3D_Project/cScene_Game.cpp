@@ -38,8 +38,6 @@ void cScene_Game::NodeInit()
 
 	m_vNode[0]->pushEdgeNode(m_vNode[1]);
 
-
-
 	for (int i = 1; i < m_vNode.size() - 1; i++)
 	{
 		m_vNode[i]->pushEdgeNode(m_vNode[i - 1]);
@@ -50,6 +48,8 @@ void cScene_Game::NodeInit()
 
 HRESULT cScene_Game::Scene_Init()
 {
+	SOUNDDATA->playSound(SOUND_TYPE_BGM, SOUND_PLAY_GAME_BGM, 0);
+
 	D3DXMATRIXA16 matScale;
 	D3DXMATRIXA16 matTrans;
 	D3DXMatrixScaling(&matScale, 0.02f, 0.02f, 0.02f);
@@ -171,9 +171,9 @@ void cScene_Game::Scene_Release()
 	SAFE_DELETE(mapAcive);
 
 
-	SAFE_DELETE(this->house);
-	for (int i = 0; i < this->lights.size(); i++)
-		SAFE_DELETE(this->lights[i]);
+	//SAFE_DELETE(this->house);
+	//for (int i = 0; i < this->lights.size(); i++)
+	//	SAFE_DELETE(this->lights[i]);
 
 	for (int i = 0; i < this->vecGameItem.size(); i++)
 		SAFE_DELETE(this->vecGameItem[i]);
@@ -181,7 +181,8 @@ void cScene_Game::Scene_Release()
 }
 
 void cScene_Game::Scene_Update(float timeDelta)
-{
+{	
+	//SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0);
 
 	//* 마우스 사라지게
 	ShowCursor(false);
@@ -218,8 +219,8 @@ void cScene_Game::Scene_Update(float timeDelta)
 
 
 	//플레이어 카메라는 계속 업데이트 해줘야 한다.
-	this->vCamera[PLAYER]->SetWorldPosition(Miles->getHeadCamPos());
-	lights[0]->pTransform = vCamera[PLAYER];
+	//this->vCamera[PLAYER]->SetWorldPosition(Miles->getHeadCamPos());
+	//lights[0]->pTransform = vCamera[PLAYER];
 
 	//this->Pig->Update(timeDelta);
 	//this->Pig->LerpMoveControll(timeDelta, NodeList->GetCurNode(), NodeList->NextNode());
@@ -234,6 +235,10 @@ void cScene_Game::Scene_Update(float timeDelta)
 	//	NodeList->setCurNodeNext();
 	//	Pig->GetState()->setActive(true);
 	//}	
+
+	
+
+
 }
 
 void cScene_Game::Scene_Render1()
@@ -280,5 +285,4 @@ void cScene_Game::Scene_Render1()
 		vecGameItem[i]->Render();
 	}
 	//	this->air->Render();
-
 }

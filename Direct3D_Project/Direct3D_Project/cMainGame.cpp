@@ -4,7 +4,7 @@
 
 #include "cScene_Main.h"
 #include "cScene_Game.h"
-#include "cScene_Loading.h"
+#include "cScene_Test.h"
 
 cMainGame::cMainGame( void )
 {
@@ -34,10 +34,10 @@ HRESULT cMainGame::Init( void )
 
 	SCENE_MGR->AddScene("main", new cScene_Main);
 	SCENE_MGR->AddScene("game", new cScene_Game);
+	SCENE_MGR->AddScene("test", new cScene_Test);
 	//SCENE_MGR->AddLoadingScene("loading", new cScene_Loading);
-	SCENE_MGR->AddScene("loading", new cScene_Loading);
 
-	SCENE_MGR->ChangeScene("main");
+	SCENE_MGR->ChangeScene("game");
 
 	return S_OK;
 }
@@ -91,7 +91,6 @@ void cMainGame::Update()
 
 	//씬업데이트
 	SCENE_MGR->Update(timeDelta);
-	EVENT_MGR->Update(timeDelta);
 }
 
 //드로우
@@ -130,13 +129,14 @@ void cMainGame::Draw()
 		//디바이스 랜더링 종료 명령
 		Device->EndScene();
 
+		//디바이스 로스트를 검사한다
+		HandleLostGraphicsDevice();
+
 		//랜더링된 버퍼내용을 화면에 전송
 		Device->Present(0, 0, 0, 0);
 	}
 
 }
-
-
 
 //////////////////////////////////////////////////////////////////////////
 

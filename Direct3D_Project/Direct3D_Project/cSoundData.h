@@ -40,11 +40,15 @@ public:
 	void addSoundList();
 
 	void playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
+	void playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum, float volume);
+
+	void stopSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
 
 	string findSoundCategory(SoundUtil::SOUND_DATA_TYPE soundType);
 	string findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation);
 
 	string getSoundKey(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum);
+
 };
 
 #define SOUNDDATA cSoundData::GetInstance()

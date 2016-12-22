@@ -28,8 +28,8 @@ void cSoundData::Release()
 
 void cSoundData::LoadSoundList()
 {
-	vector<string> vTemp = TXTDATA->txtLoad("Database/shortSoundList.txt");
-	//vector<string> vTemp = TXTDATA->txtLoad("Database/SoundList.txt");
+	//vector<string> vTemp = TXTDATA->txtLoad("Database/shortSoundList.txt");
+	vector<string> vTemp = TXTDATA->txtLoad("Database/SoundList.txt");
 
 	string category;
 	string part;
@@ -92,6 +92,24 @@ void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUN
 	if (!SOUNDMANAGER->isPlaySound(applyKey))
 	{
 		SOUNDMANAGER->play(applyKey, 0.5);
+	}
+}
+
+void cSoundData::stopSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", soundNum);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (SOUNDMANAGER->isPlaySound(applyKey))
+	{
+		SOUNDMANAGER->stop(applyKey);
 	}
 }
 
@@ -219,89 +237,129 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 
 		//CAM SOUND 
 	case SoundUtil::SOUND_PLAY_TYPE_CAM_EFFECT:
+		soundKey = "CAMEffect";
 		break;
 
 		//NPC SOUND
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_SCISSORS:
+		soundKey = "Scissors";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_KNIFE:
+		soundKey = "CutBody";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_ATTACK:
+		soundKey = "Attack";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_HEAVY:
+		soundKey = "WalkingHeavy";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_NORMAL:
+		soundKey = "WalkingNormal";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_STAIR:
+
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_IRON:
+		soundKey = "WalkingOnIron";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_WALKING_WATER:
+		soundKey = "WalkingOnWater";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_BREECHING:
+		soundKey = "Breeching";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_TRY_BREECHING:
+		soundKey = "TryBreeching";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_CHAIN:
+		soundKey = "Chain";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_CUTBODY:
+		soundKey = "CutBody";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_TRYOPEN_DOOR:
+		soundKey = "TryOpenDoor";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_OPEN_DOOR:
+		soundKey = "OpenDoor";
 		break;
 
 		//ROOM SOUND
 	case SoundUtil::SOUND_PLAY_TYPE_ROOM_RUN_FAR:
+		soundKey = "RoomRunFar";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_ROOM_RUN_CLOSE:
+		soundKey = "RoomRun";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_ROOM_SHOWER:
+		soundKey = "ShowerRoom";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_HALLWAYRUN_FAR:
+		soundKey = "HallWayRun";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_HALLWAYRUN_CLOSE:
+		soundKey = "HallWay";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_LOOKEVENT:
+		soundKey = "LookEvent";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_THUNDER:
+		soundKey = "Thunder";
 		break;
 
 
-	case SoundUtil::SOUND_PLAY_TYPE_MOOD_HALL:
+	case SoundUtil::SOUND_PLAY_TYPE_MOOD_HALL:	//FemaleWard
+		soundKey = "Room";
 		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MOOD_ROOM:
+	case SoundUtil::SOUND_PLAY_TYPE_MOOD_ROOM:	//Basement
 		soundKey = "RoomMood";
 		break;
 
 
 	case SoundUtil::SOUND_PLAY_TYPE_BEND:
+		soundKey = "Bend";
 		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MACHINE_01:
+	case SoundUtil::SOUND_PLAY_TYPE_MACHINE_01:	//Basement
+		soundKey = "Machine";
 		break;
-	case SoundUtil::SOUND_PLAY_TYPE_MACHINE_02:
+	case SoundUtil::SOUND_PLAY_TYPE_MACHINE_02:	//FemaleWard
+		soundKey = "Machine";
 		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ELECTRIC:
+	case SoundUtil::SOUND_PLAY_TYPE_ELECTRIC:	//Basement
+		soundKey = "Electric";
 		break;
-	case SoundUtil::SOUND_PLAY_TYPE_ELECTRIC_NOICE:
+	case SoundUtil::SOUND_PLAY_TYPE_ELECTRIC_NOICE:	//Basement
+		soundKey = "ElectricNoice";
 		break;
-	case SoundUtil::SOUND_PLAY_TYPE_SWITCH:
+	case SoundUtil::SOUND_PLAY_TYPE_SWITCH:	//Basement
+		soundKey = "Switch";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_WATERFALL:
+		
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_CAN:
+		soundKey = "Can";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_DOORCLOSE:
+		soundKey = "Door";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_FALLOBJECT:
+		soundKey = "FallEffect";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_HALLWAYRUN:
+		soundKey = "HallWayRun";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_HALLWAY:
+		soundKey = "HallWay";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_IRONEFFECT:
+		soundKey = "IronEffect";
 		break;
 	case SoundUtil::SOUND_PLAY_TYPE_ROPE:
+		soundKey = "Rope";
+		break;
+	case SoundUtil::SOUND_PLAY_TYPE_ELEVATOR:
+		soundKey = "Elevator";
 		break;
 
 	default:

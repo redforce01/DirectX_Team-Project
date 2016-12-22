@@ -22,7 +22,7 @@ public:
 	HRESULT Init();
 	void Release();
 	void Update(float timeDelta, D3DXVECTOR3 playerPos);
-	void Render(const cCamera* pCamera);
+	void Render(const cCamera* pCamera, vector<cLight*> lights);
 
 	//SOUND OBJECT 추가 : 파일 이름, 위치 값
 	void AddSoundObject(string soundName, D3DXVECTOR3 position);

@@ -70,7 +70,7 @@ private:
 	//씬에서 호출될 함수들을 추상함수로...
 	virtual HRESULT Scene_Init() = 0;
 	virtual void Scene_Release() = 0;
-	virtual void Scene_Update(float timDelta) = 0;
+	virtual void Scene_Update(float timeDelta) = 0;
 
 	virtual void Scene_Render0() {}
 	virtual void Scene_Render1() = 0;

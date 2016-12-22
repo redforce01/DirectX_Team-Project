@@ -5,9 +5,10 @@ class Unit;
 // Command는 플레이어가 명령을 입력하면 실행하는 클래스임. 그러니깐 플레이어 전용 커맨드 입력 클래스 모음집임.
 
 class Command
-{
-
+{	
 public:
+	int walkTime;
+
 	virtual ~Command() {};
 	virtual void execute(Unit& gameActor, float timeDelta) = 0;
 };

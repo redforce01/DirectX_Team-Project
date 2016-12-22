@@ -13,27 +13,21 @@ cEventObjectManager::~cEventObjectManager()
 
 HRESULT cEventObjectManager::Init()
 {
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	float x = RandomFloatRange(0, 100);
-	//	float z = RandomFloatRange(0, 100);
+	/*
+	/	EVENT OBJECT »ðÀÔ ½Ã »ùÇÃ
+	/	cObject_EventObj* newEvent = new cObject_EventObj;
+	/	newEvent->Init();
+	/	newEvent->setLocalPosition(D3DXVECTOR3(x, 0, z));
+	/	vEventObj.push_back(newEvent);
+	*/	
 
-	//	cObject_EventObj* newEvent = new cObject_EventObj;
-	//	newEvent->Init();
-	//	newEvent->setLocalPosition(D3DXVECTOR3(x, 0, z));
-
-	//	vEventObj.push_back(newEvent);
-	//}
-
-
-	//cObject_Sound* newSoundObj = new cObject_Sound;
-	//string soundName = SOUNDDATA->getSoundKey(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_MOOD_ROOM, 0);
-	//newSoundObj->Init(soundName, 0.5, FALSE, TRUE, D3DXVECTOR3(0, 0, 0));
-
-	//vEventSound.push_back(newSoundObj);
-
-
-	//"../Resources/NPC/NPC_Death.X"
+	/*
+	/	EVENT SOUND »ðÀÔ ½Ã »ùÇÃ
+	/	cObject_Sound* newSoundObj = new cObject_Sound;
+	/	string soundName = SOUNDDATA->getSoundKey(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_MOOD_ROOM, 0);
+	/	newSoundObj->Init(soundName, 0.5, FALSE, TRUE, D3DXVECTOR3(0, 0, 0));
+	/	vEventSound.push_back(newSoundObj);
+	*/
 
 	return S_OK;
 }
@@ -44,7 +38,7 @@ void cEventObjectManager::Release()
 	{
 		(*viEventObj)->Release();
 		SAFE_DELETE((*viEventObj));
-		viEventObj = vEventObj.erase(viEventObj);
+		//viEventObj = vEventObj.erase(viEventObj);
 	}
 	vEventObj.clear();
 
@@ -52,7 +46,7 @@ void cEventObjectManager::Release()
 	{
 		(*viEventSound)->Release();
 		SAFE_DELETE((*viEventSound));
-		viEventSound = vEventSound.erase(viEventSound);
+		//viEventSound = vEventSound.erase(viEventSound);
 	}
 	vEventSound.clear();
 }
@@ -72,11 +66,11 @@ void cEventObjectManager::Update(float timeDelta, D3DXVECTOR3 playerPos)
 	}
 }
 
-void cEventObjectManager::Render(const cCamera * pCamera)
+void cEventObjectManager::Render(const cCamera * pCamera, vector<cLight*> lights)
 {
 	for (int i = 0; i < vEventObj.size(); i++)
 	{
-		vEventObj[i]->Render(pCamera);
+		vEventObj[i]->Render(pCamera, lights);
 	}
 }
 

@@ -25,8 +25,8 @@ void cObject_Sound::Init(string soundName, D3DXVECTOR3 position)
 	m_IsStatic	= FALSE;
 	m_PlayerPos	= D3DXVECTOR3(0, 0, 0);
 
-	m_pTrans = new cTransform;
-	m_pTrans->SetLocalPosition(position);
+	m_pEventTrans = new cTransform;
+	m_pEventTrans->SetLocalPosition(position);
 }
 
 void cObject_Sound::Init(string soundName, float soundVolume, bool isPlay, bool isStatic, D3DXVECTOR3 position)
@@ -37,8 +37,8 @@ void cObject_Sound::Init(string soundName, float soundVolume, bool isPlay, bool 
 	m_IsStatic	= isStatic;
 	m_PlayerPos	= D3DXVECTOR3(0, 0, 0);
 
-	m_pTrans = new cTransform;
-	m_pTrans->SetLocalPosition(position);
+	m_pEventTrans = new cTransform;
+	m_pEventTrans->SetLocalPosition(position);
 }
 
 void cObject_Sound::Init(string soundName, float soundVolume, bool isPlay, bool isStatic, D3DXVECTOR3 position, cBoundBox eventBox)
@@ -49,8 +49,8 @@ void cObject_Sound::Init(string soundName, float soundVolume, bool isPlay, bool 
 	m_IsStatic = isStatic;
 	m_PlayerPos = D3DXVECTOR3(0, 0, 0);
 
-	m_pTrans = new cTransform;
-	m_pTrans->SetLocalPosition(position);
+	m_pEventTrans = new cTransform;
+	m_pEventTrans->SetLocalPosition(position);
 	m_EventBox = eventBox;
 
 }
@@ -97,7 +97,7 @@ void cObject_Sound::Update(float timeDelta, D3DXVECTOR3 playerPos)
 float cObject_Sound::FunctionDistance()
 {
 	D3DXVECTOR3 pos;
-	pos = m_pTrans->GetLocalPosition() - m_PlayerPos;
+	pos = m_pEventTrans->GetLocalPosition() - m_PlayerPos;
 
 	return D3DXVec3Length(&pos);
 }
@@ -115,7 +115,7 @@ void cObject_Sound::SoundPlay(bool isPlay, float volume)
 
 void cObject_Sound::SetPosition(D3DXVECTOR3 position)
 {
-	m_pTrans->SetLocalPosition(position);
+	m_pEventTrans->SetLocalPosition(position);
 }
 
 void cObject_Sound::SetPlayerPos(D3DXVECTOR3 playerPos)

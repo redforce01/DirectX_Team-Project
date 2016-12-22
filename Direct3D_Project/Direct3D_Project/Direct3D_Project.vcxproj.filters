@@ -64,8 +64,8 @@
     <Filter Include="TeamCode\cEventObject\cObject_Event">
       <UniqueIdentifier>{5237c7f9-37ec-4969-891f-cd641f556f32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes\cScene_Loading">
-      <UniqueIdentifier>{1db1bad7-2de3-4b52-a157-9f84f48625a3}</UniqueIdentifier>
+    <Filter Include="Scenes\cScene_Test">
+      <UniqueIdentifier>{40b9f6ff-87ec-4158-899e-da7df4421419}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -249,9 +249,6 @@
     <ClInclude Include="cActionSeq.h">
       <Filter>TeamCode\Action &amp; Command</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>TeamCode\Action &amp; Command</Filter>
-    </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>TeamCode\Unit</Filter>
     </ClInclude>
@@ -264,8 +261,11 @@
     <ClInclude Include="cEventObjectManager.h">
       <Filter>TeamCode\cEventObject</Filter>
     </ClInclude>
-    <ClInclude Include="cScene_Loading.h">
-      <Filter>Scenes\cScene_Loading</Filter>
+    <ClInclude Include="cScene_Test.h">
+      <Filter>Scenes\cScene_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>TeamCode\cEventObject\cObject_Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,8 +461,8 @@
     <ClCompile Include="cScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="cScene_Loading.cpp">
-      <Filter>Scenes\cScene_Loading</Filter>
+    <ClCompile Include="cScene_Test.cpp">
+      <Filter>Scenes\cScene_Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

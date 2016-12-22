@@ -7,6 +7,7 @@
  ##Machine
  ##RoomMood
  ##Switch
+ ##Elevator
 
 #BGMMusic
  ##BackgroundMusic
@@ -156,6 +157,11 @@
  -Switch
   =WwiseDefaultBank_Amb_Basement.027
 
+ -Elevator
+  =WwiseDefaultBank_Amb_Labo.010
+  =WwiseDefaultBank_Amb_Labo.011
+  =WwiseDefaultBank_Amb_Labo.025
+  =WwiseDefaultBank_Amb_Labo.034
 
 *BGMMusic
  -BackgroundMusic
