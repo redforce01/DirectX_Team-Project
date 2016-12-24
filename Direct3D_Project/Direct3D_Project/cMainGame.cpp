@@ -1,10 +1,11 @@
 #include "StdAfx.h"
 #include "cMainGame.h"
 #include "cImage.h"
-
-#include "cScene_Main.h"
+#include "cTitle.h"
 #include "cScene_Game.h"
-#include "cScene_Test.h"
+
+float g_Czoom = 0.0f;
+int zDelta = 0.0f;
 
 cMainGame::cMainGame( void )
 {
@@ -27,24 +28,38 @@ HRESULT cMainGame::Init( void )
 	GIZMO_MGR->Init(Device);
 	SPRITE_MGR->Init(Device);
 	SCENE_MGR->Init();
+	EVENT_MGR->Init();
 
 	SOUNDMANAGER->init();
 	SOUNDDATA->Init();
-	EVENT_MGR->Init();
 
-	SCENE_MGR->AddScene("main", new cScene_Main);
+	SCENE_MGR->AddScene("title", new cTitle);
 	SCENE_MGR->AddScene("game", new cScene_Game);
-	SCENE_MGR->AddScene("test", new cScene_Test);
-	//SCENE_MGR->AddLoadingScene("loading", new cScene_Loading);
 
 	SCENE_MGR->ChangeScene("game");
 
+	//DXFONT_MGR->addStyle(Device, "차차차", "펜흘림", 30.f);
+
+	//씬생성
+	//m_pNowScene = new cScene_Main();
+
+	//씬초기화
+	//if (FAILED(m_pNowScene->Init()))		//리턴값이 E_FAIL;
+	//	return E_FAIL;
+
+
+	//return E_FAIL;
 	return S_OK;
 }
 
 //해제
 void cMainGame::Release()
 {
+
+	//씬해재
+	//m_pNowScene->Release();
+	//SAFE_DELETE( m_pNowScene );
+
 	//매니져 해제
 	TIME_MGR->Release();
 	cTimeMgr::ReleaseInstance();
@@ -59,6 +74,8 @@ void cMainGame::Release()
 
 	cPhysicManager::ReleaseInstance();
 
+	EVENT_MGR->Release();
+	cEventObjectManager::ReleaseInstance();
 	RESOURCE_TEXTURE->ClearResource();
 	cResourceMgr_Texture::ReleaseInstance();
 	RESOURCE_TEXTURE->ClearResource();
@@ -68,13 +85,10 @@ void cMainGame::Release()
 	RESOURCE_STATICXMESH->ClearResource();
 	cResourceMgr_XStaticMesh::ReleaseInstance();
 
-	EVENT_MGR->Release();
-	cEventObjectManager::ReleaseInstance();
 	SOUNDMANAGER->release();
 	cSoundManager::ReleaseInstance();
 	SOUNDDATA->Release();
 	cSoundData::ReleaseInstance();
-
 
 	//디바이스 해제
 	ReleaseDevice();
@@ -88,6 +102,8 @@ void cMainGame::Update()
 
 	//한프레임 갱신 시간
 	double timeDelta = TIME_MGR->GetFrameDeltaSec();
+	
+	SOUNDMANAGER->update();
 
 	//씬업데이트
 	SCENE_MGR->Update(timeDelta);
@@ -129,14 +145,13 @@ void cMainGame::Draw()
 		//디바이스 랜더링 종료 명령
 		Device->EndScene();
 
-		//디바이스 로스트를 검사한다
-		HandleLostGraphicsDevice();
-
 		//랜더링된 버퍼내용을 화면에 전송
 		Device->Present(0, 0, 0, 0);
 	}
 
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -150,6 +165,27 @@ LRESULT cMainGame::MainProc( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPa
 		{
 		case VK_ESCAPE:
 			DestroyWindow( hWnd );
+			break;
+		}
+		break;
+	case WM_MOUSEWHEEL:
+		zDelta = (short)HIWORD(wParam);
+
+		switch (zDelta)
+		{
+		case 120:
+			g_Czoom -= 0.2f;
+			if (g_Czoom <= -0.8f)
+			{
+				g_Czoom = -0.8f;
+			}
+			break;
+		case -120:
+			g_Czoom += 0.2f;
+			if (g_Czoom >= 0.0f)
+			{
+				g_Czoom = 0.0f;
+			}
 			break;
 		}
 		break;

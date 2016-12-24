@@ -11,5 +11,5 @@ cLight::cLight()
 
 cLight::~cLight()
 {
-	SAFE_DELETE(this->pTransform);
+	//SAFE_DELETE(this->pTransform);
 }

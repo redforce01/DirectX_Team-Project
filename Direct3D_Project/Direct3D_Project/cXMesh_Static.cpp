@@ -14,7 +14,7 @@ LPDIRECT3DTEXTURE9		cXMesh_Static::sDefaultEmissionTex = NULL;
 cXMesh_Static::cXMesh_Static()
 {
 	if (sStaticMeshEffect == NULL){
-		sStaticMeshEffect = RESOURCE_FX->GetResource("../Resources/Shaders/StaticMesh2.fx");
+		sStaticMeshEffect = RESOURCE_FX->GetResource("../Resources/Shaders/StaticMesh2_Fix.fx");
 	}
 
 	if (sDefaultDiffuseTex == NULL)

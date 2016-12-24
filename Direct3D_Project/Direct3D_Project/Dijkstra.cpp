@@ -43,6 +43,26 @@ void Dijkstra::Init(cScene * scene)
 	
 }
 
+void Dijkstra::initDijk()
+{
+	//다이젝스트라 매트릭스 초기화
+
+	m_dijMat.clear();
+	m_dijMat.resize(m_vNode.size());
+	for (int i = 0; i < m_vNode.size(); i++)
+	{
+		m_dijMat[i].cost = UNKNOWNLENGTH;
+		m_dijMat[i].close = false;
+		m_dijMat[i].viaNum = UNKNOWNVIA;
+
+		if (i == m_vFrom->getID())
+		{
+			m_dijMat[i].cost = 0.0f;
+			m_dijMat[i].viaNum = FROMVIA;
+		}
+	}
+}
+
 void Dijkstra::FindToFrom(D3DXVECTOR3 from, D3DXVECTOR3 to)
 {
 	float fromLength = UNKNOWNLENGTH;
@@ -90,7 +110,86 @@ float Dijkstra::CalcCost(vector<stDijcstraMat>& dijMat, int curNum)
 
 vector <cTransform*> Dijkstra::FindWay()
 {
-	//다이젝스트라 매트릭스 초기화
+
+	//다이젝스트라 매트릭스안의 모든 노드가 닫힐때까지
+	m_vecWay.clear();
+
+	while (true)
+	{
+		cNode* checkNode = NULL;
+		float tempcost = UNKNOWNLENGTH;
+
+		int closeNum = 0;
+		//먼저 열려있으면서 가장 코스트가 작은 노드를 찾는다
+		for (int i = 0; i < m_dijMat.size(); i++)
+		{
+			//닫혀있으면 닫힌노드 갯수를 증가시킨뒤 컨티뉴
+			if (m_dijMat[i].close)
+			{
+				closeNum++;
+				continue;
+			}
+
+			if (!m_dijMat[i].close &&
+				m_dijMat[i].cost < tempcost)
+			{
+				tempcost = m_dijMat[i].cost;
+				checkNode = m_vNode[i];
+			}
+		}
+
+		//만일 모든 노드가 닫히면 브레이크
+		if (closeNum >= m_dijMat.size())
+			break;
+
+		//선택된 노드는 닫아준다
+		m_dijMat[checkNode->getID()].close = true;
+
+		//찾은 노드와 연결된 엣지코스트를 그 노드까지의 총 코스트와 비교하여 적으면 갱신
+		for (int i = 0; i < m_dijMat.size(); i++)
+		{
+			//닫혀있는 노드는 넘김
+			if (m_dijMat[i].close)
+				continue;
+
+			float t = m_MatAdjacency[checkNode->getID()][i];
+			if (t < m_dijMat[i].cost)
+			{
+				m_dijMat[i].cost = t + CalcCost(m_dijMat, checkNode->getID());
+				m_dijMat[i].viaNum = checkNode->getID();
+
+				if (i == m_vFrom->getID())
+					m_dijMat[i].viaNum = FROMVIA;
+			}
+		}
+	}
+	//다이젝스트라 매트릭스를 전부 채우고 나면
+	//도착점에서 부터 시작점까지 구한 경로를 저장한다
+
+	vector<int> vecN;
+	vecN.push_back(m_vTo->getID());
+	int via = m_dijMat[m_vTo->getID()].viaNum;
+	while (via >= 0)
+	{
+		vecN.push_back(via);
+		via = m_dijMat[via].viaNum;
+	}
+
+	//끝에서부터 저장했기 때문에 직관성있게 다시 반대로 돌려준다
+	D3DXVECTOR3 v;
+	for (int i = vecN.size() - 1; i >= 0; i--)
+	{
+		int Idx = vecN[i];
+	   cTransform* tran = new cTransform();
+	   tran->SetWorldPosition(m_vNode[Idx]->getTrans().GetWorldPosition());
+		m_vecWay.push_back(tran);
+	}
+
+	return m_vecWay;
+}
+
+vector<cTransform*> Dijkstra::FindWay2()
+{
 	vector<stDijcstraMat> dijMat;
 	dijMat.resize(m_vNode.size());
 	for (int i = 0; i < m_vNode.size(); i++)
@@ -107,6 +206,7 @@ vector <cTransform*> Dijkstra::FindWay()
 	}
 
 	//다이젝스트라 매트릭스안의 모든 노드가 닫힐때까지
+	//m_vecWay.clear();
 	while (true)
 	{
 		cNode* checkNode = NULL;
@@ -173,8 +273,8 @@ vector <cTransform*> Dijkstra::FindWay()
 	for (int i = vecN.size() - 1; i >= 0; i--)
 	{
 		int Idx = vecN[i];
-	   cTransform* tran = new cTransform();
-	   tran->SetWorldPosition(m_vNode[Idx]->getTrans().GetWorldPosition());
+		cTransform* tran = new cTransform();
+		tran->SetWorldPosition(m_vNode[Idx]->getTrans().GetWorldPosition());
 		m_vecWay.push_back(tran);
 	}
 

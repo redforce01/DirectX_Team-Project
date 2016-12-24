@@ -28,7 +28,6 @@ void cSoundData::Release()
 
 void cSoundData::LoadSoundList()
 {
-	//vector<string> vTemp = TXTDATA->txtLoad("Database/shortSoundList.txt");
 	vector<string> vTemp = TXTDATA->txtLoad("Database/SoundList.txt");
 
 	string category;
@@ -77,6 +76,24 @@ void cSoundData::addSoundList()
 	}
 }
 
+void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", 0);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (!SOUNDMANAGER->isPlaySound(applyKey))
+	{
+		SOUNDMANAGER->play(applyKey, 0.5);
+	}
+}
+
 void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum)
 {
 	string category = findSoundCategory(soundType);
@@ -92,6 +109,42 @@ void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUN
 	if (!SOUNDMANAGER->isPlaySound(applyKey))
 	{
 		SOUNDMANAGER->play(applyKey, 0.5);
+	}
+}
+
+void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum, float volume)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", soundNum);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (!SOUNDMANAGER->isPlaySound(applyKey))
+	{
+		SOUNDMANAGER->play(applyKey, volume);
+	}
+}
+
+void cSoundData::stopSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", 0);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (SOUNDMANAGER->isPlaySound(applyKey))
+	{
+		SOUNDMANAGER->stop(applyKey);
 	}
 }
 
@@ -239,6 +292,12 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 	case SoundUtil::SOUND_PLAY_TYPE_CAM_EFFECT:
 		soundKey = "CAMEffect";
 		break;
+	case SOUND_PLAY_TYPE_CAM_OUT:
+		soundKey = "TakeOutCam";
+		break;
+	case SOUND_PLAY_TYPE_CAM_VISION:
+		soundKey = "CamTurnOnVision";
+		break;
 
 		//NPC SOUND
 	case SoundUtil::SOUND_PLAY_TYPE_NPC_SCISSORS:
@@ -361,7 +420,15 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 	case SoundUtil::SOUND_PLAY_TYPE_ELEVATOR:
 		soundKey = "Elevator";
 		break;
-
+	case SoundUtil::SOUND_PLAY_TYPE_ELEVATOR2:
+		soundKey = "Elevator2";
+		break;
+	case SoundUtil::SOUND_PLAY_TYPE_OPENDOOR:
+		soundKey = "OpenDoor";
+		break;
+	case SoundUtil::SOUND_PLAY_TYPE_LOCKDOOR:
+		soundKey = "LockDoor";
+		break;
 	default:
 		break;
 	}

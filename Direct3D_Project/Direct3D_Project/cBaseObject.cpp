@@ -76,6 +76,32 @@ void cBaseObject::ComputeBoundBox()
 	}
 }
 
+void cBaseObject::ComputeBoundBox(float radius)
+{
+	if (this->pMesh != NULL)
+	{
+		//셋팅된 메쉬가 cXMesh_Static 라면...
+		cXMesh_Static* pStaticMesh = dynamic_cast< cXMesh_Static* >(this->pMesh);
+		if (pStaticMesh != NULL)
+		{
+			this->BoundBox.localCenter = pStaticMesh->Bound_Center;
+			this->BoundBox.halfSize = pStaticMesh->Bound_HalfSize;
+			this->BoundBox.localMinPos = pStaticMesh->Bound_Min;
+			this->BoundBox.localMaxPos = pStaticMesh->Bound_Max;
+			this->BoundBox.radius = radius;
+		}
+
+		//셋팅된 메쉬가 cXMesh_Skinned 라면... ( 임시로 바운드 박스 )
+		else
+		{
+			this->BoundBox.SetBound(&D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(10.0f, 10.0f, 10.0f));
+		}
+	}
+
+
+
+}
+
 void cBaseObject::BaseObjectRender()
 {
 	if (this->pMesh != NULL)
@@ -89,7 +115,7 @@ void cBaseObject::BaseObjectRender()
 
 
 
-	//this->BoundBox.RenderGizmo(this->pTransform);
+	this->BoundBox.RenderGizmo(this->pTransform);
 }
 
 //랜더링 될 메쉬를 셋팅한다.

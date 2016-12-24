@@ -109,7 +109,7 @@ public:
 
 	void CameraUpdate(float timeDelta)
 	{
-		this->DefaultControl3(timeDelta);
+	//	this->DefaultControl4(timeDelta);
 	}
 };
 
@@ -130,6 +130,26 @@ public:
 	void CameraUpdate(float timeDelta)
 	{
 		this->DefaultControl(timeDelta);
+	}
+};
+
+class MainMenuCamera : public cCamera
+{
+public:
+	MainMenuCamera() : cCamera()
+	{
+		//기본화각 60 도
+		this->fov = 60.0f * ONE_RAD;
+
+		//기본 Near
+		this->camNear = 0.1f;
+
+		//기본 Far
+		this->camFar = 1000.0f;
+	}
+	void CameraUpdate(float timeDelta)
+	{
+		this->DefaultControl3(timeDelta);
 	}
 };
 

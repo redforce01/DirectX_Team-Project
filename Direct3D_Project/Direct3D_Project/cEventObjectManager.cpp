@@ -72,6 +72,20 @@ void cEventObjectManager::Render(const cCamera * pCamera, vector<cLight*> lights
 	{
 		vEventObj[i]->Render(pCamera, lights);
 	}
+
+#ifdef _DEBUG
+	//char szTemp[128];
+	//for (int i = 0; i < vEventSound.size(); i++)
+	//{		
+	//	sprintf_s(szTemp, "obj[%d] Dis : %.2f", i, vEventSound[i]->FunctionDistance());
+	//	DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 400, 200 + (i * 60), 0xffffff00, 0xff000000);
+
+	//	sprintf_s(szTemp, "obj[%d] Vol : %.2f", i, vEventSound[i]->GetSoundVolume());
+	//	DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 400, 230 + (i * 60), 0xffffff00, 0xff000000);
+	//}
+
+#endif // DEBUG
+
 }
 
 void cEventObjectManager::AddSoundObject(string soundName, D3DXVECTOR3 position)
@@ -81,37 +95,37 @@ void cEventObjectManager::AddSoundObject(string soundName, D3DXVECTOR3 position)
 	vEventSound.push_back(newSoundObj);
 }
 
-void cEventObjectManager::AddSoundObject(string soundName, float soundVolume, bool isPlay, bool isStatic, D3DXVECTOR3 position)
+void cEventObjectManager::AddSoundObject(string soundName, float soundVolume, bool isLoopPlay, bool isEvent, D3DXVECTOR3 position)
 {
 	cObject_Sound* newSoundObj = new cObject_Sound;
-	newSoundObj->Init(soundName, soundVolume, isPlay, isStatic, position);
+	newSoundObj->Init(soundName, soundVolume, isLoopPlay, isEvent, position);
 	vEventSound.push_back(newSoundObj);
 }
 
-void cEventObjectManager::AddSoundObject(string soundName, float soundVolume, bool isPlay, bool isStatic, D3DXVECTOR3 position, cBoundBox eventBox)
+void cEventObjectManager::AddSoundObject(string soundName, float soundVolume, bool isLoopPlay, bool isEvent, D3DXVECTOR3 position, cBoundBox eventBox)
 {
 	cObject_Sound* newSoundObj = new cObject_Sound;
-	newSoundObj->Init(soundName, soundVolume, isPlay, isStatic, position, eventBox);
+	newSoundObj->Init(soundName, soundVolume, isLoopPlay, isEvent, position, eventBox);
 	vEventSound.push_back(newSoundObj);
 }
 
-void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position)
+void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position, string poseName)
 {
 	cObject_EventObj* newEventObj = new cObject_EventObj;
-	newEventObj->Init(objectName, position);
+	newEventObj->Init(objectName, position, poseName);
 	vEventObj.push_back(newEventObj);
 }
 
-void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position, cBoundBox eventBox)
+void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position, string poseName, D3DXVECTOR3 eventPos)
 {
 	cObject_EventObj* newEventObj = new cObject_EventObj;
-	newEventObj->Init(objectName, position, eventBox);
+	newEventObj->Init(objectName, position, poseName, eventPos);
 	vEventObj.push_back(newEventObj);
 }
 
-void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position, bool isStatic, cBoundBox eventBox)
+void cEventObjectManager::AddEventObject(string objectName, D3DXVECTOR3 position, string poseName, bool isStatic, D3DXVECTOR3 eventPos)
 {
 	cObject_EventObj* newEventObj = new cObject_EventObj;
-	newEventObj->Init(objectName, position, isStatic, eventBox);
+	newEventObj->Init(objectName, position, poseName, isStatic, eventPos);
 	vEventObj.push_back(newEventObj);
 }

@@ -3,6 +3,7 @@
 #include "cSingletonBase.h"
 #include "cBoundBox.h"
 #include "cBaseObject.h"
+#include "Unit.h"
 
 class cPhysicManager : public cSingletonBase<cPhysicManager>
 {
@@ -36,6 +37,13 @@ public:
 		D3DXVECTOR3* pHitNormal	  //Hit 의 노말 ( NULL 이면 대입 안됨 )
 		);
 
+	bool IsRayHitStaticMeshObject(
+		LPRay pRay,				//레이
+		Unit* pUint,	//Base Object
+		D3DXVECTOR3* pHitPos,     //Hit 위치 ( NULL 이면 대입 안됨 )
+		D3DXVECTOR3* pHitNormal	  //Hit 의 노말 ( NULL 이면 대입 안됨 )
+		);
+
 	//레이가 구와 충돌했는지 확인
 	bool IsRayHitSphere(
 		LPRay Ray,
@@ -46,6 +54,8 @@ public:
 		);
 
 	bool IsOverlap(cBaseObject* pObjA, cBaseObject* pObjB);
+
+	//HitBox(LPRay Ray, cBoundBox boundBox, )
 
 	//2개의 바운드 대한 출동 정보를 얻는다.
 	bool IsOverlap(cTransform* pTransA, cBoundSphere* pBoundA, cTransform* pTransB, cBoundSphere* pBoundB);

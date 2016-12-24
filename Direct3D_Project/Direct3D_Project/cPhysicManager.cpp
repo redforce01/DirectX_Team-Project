@@ -174,14 +174,15 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.y <= hit.y && hit.y <= max.y)
 		{
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL)
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			if (pHitNormal != NULL)
-				*pHitNormal = -pBoundTrans->GetForward();
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL)
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//if (pHitNormal != NULL)
+			//	*pHitNormal = -pBoundTrans->GetForward();
+			return true;
 		}
 
-		return true;
+	//	return true;
 	}
 
 	//앞면
@@ -194,16 +195,17 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.y <= hit.y && hit.y <= max.y){
 
-			//hit 지점 월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
-			if (pHitNormal != NULL){
-				*pHitNormal = pBoundTrans->GetForward();
-			}
+			//////hit 지점 월드로 땡겨서 리턴
+			////if (pHitPos != NULL){
+			////	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			////}
+			////if (pHitNormal != NULL){
+			////	*pHitNormal = pBoundTrans->GetForward();
+			////}
 
 			return true;
 		}
+	//	return true;
 	}
 
 	//하면
@@ -216,17 +218,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = -pBoundTrans->GetUp();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = -pBoundTrans->GetUp();
+			//}
 
 			return true;
 		}
+		//return true;
 	}
 
 	//상면
@@ -239,17 +242,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.x <= hit.x && hit.x <= max.x &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = pBoundTrans->GetUp();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = pBoundTrans->GetUp();
+			//}
 
 			return true;
 		}
+	//	return true;
 	}
 
 	//좌면
@@ -262,17 +266,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.y <= hit.y && hit.y <= max.y &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			//////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = -pBoundTrans->GetRight();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = -pBoundTrans->GetRight();
+			//}
 
 			return true;
 		}
+		//return true;
 	}
 
 	//우면
@@ -285,17 +290,18 @@ bool cPhysicManager::IsRayHitBound(
 		if (min.y <= hit.y && hit.y <= max.y &&
 			min.z <= hit.z && hit.z <= max.z){
 
-			//hit 지점월드로 땡겨서 리턴
-			if (pHitPos != NULL){
-				D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
-			}
+			////hit 지점월드로 땡겨서 리턴
+			//if (pHitPos != NULL){
+			//	D3DXVec3TransformCoord(pHitPos, &hit, &matWorld);
+			//}
 
-			if (pHitNormal != NULL){
-				*pHitNormal = pBoundTrans->GetRight();
-			}
+			//if (pHitNormal != NULL){
+			//	*pHitNormal = pBoundTrans->GetRight();
+			//}
 
 			return true;
 		}
+		//return true;
 	}
 
 	//여기까지 왔으면 충돌 실패
@@ -366,6 +372,92 @@ bool cPhysicManager::IsRayHitStaticMeshObject(
 
 				//Hit 노말 구한다.
 				if (pHitNormal != NULL){
+
+					//충돌면 인덱스에 따른 정점 3개를 구한다.
+					DWORD i0 = (faceIndex * 3);
+					DWORD i1 = (faceIndex * 3 + 1);
+					DWORD i2 = (faceIndex * 3 + 2);
+
+					//정점인덱스를 얻는다.
+					D3DXVECTOR3 v0 = pStaticMesh->Vertices[pStaticMesh->Indices[i0]];
+					D3DXVECTOR3 v1 = pStaticMesh->Vertices[pStaticMesh->Indices[i1]];
+					D3DXVECTOR3 v2 = pStaticMesh->Vertices[pStaticMesh->Indices[i2]];
+
+					//정점 2개의 노말을 구한다.
+					D3DXVECTOR3 edge1 = v1 - v0;
+					D3DXVECTOR3 edge2 = v2 - v0;
+
+					D3DXVec3Cross(pHitNormal, &edge1, &edge2);
+					D3DXVec3Normalize(pHitNormal, pHitNormal);
+
+					D3DXVec3TransformNormal(pHitNormal, pHitNormal, &matWorld);
+
+				}
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool cPhysicManager::IsRayHitStaticMeshObject(LPRay pRay, Unit * pUint, D3DXVECTOR3 * pHitPos, D3DXVECTOR3 * pHitNormal)
+{
+	//레이를 로컬로 끌어땡긴다
+
+	//bound 의 역행렬
+	D3DXMATRIXA16 matWorld = pUint->getTrans()->GetFinalMatrix();
+	D3DXMATRIXA16 matInvMatrix;
+	D3DXMatrixInverse(&matInvMatrix, NULL, &matWorld);
+
+	//NewRayInfo
+	D3DXVECTOR3 origin;
+	D3DXVec3TransformCoord(&origin, &pRay->origin, &matInvMatrix);
+	D3DXVECTOR3 direction;
+	D3DXVec3TransformNormal(&direction, &pRay->direction, &matInvMatrix);
+
+	Ray newRay;
+	newRay.origin = origin;
+	newRay.direction = direction;
+
+	//메쉬 충돌 검출함수
+
+	cXMesh_Static* pStaticMesh = dynamic_cast<cXMesh_Static*>(pUint->getSkinned()->getSkined());
+
+	if (pStaticMesh != NULL)
+	{
+		//서브셋대로 돈다
+		for (int i = 0; i < pStaticMesh->dwMaterialsNum; i++)
+		{
+			BOOL bHit = false;
+			DWORD faceIndex = 0;
+			float dist = 0.0f;
+			DWORD hitCount = 0;
+
+			D3DXIntersectSubset(
+				pStaticMesh->pMesh,		//xMesh
+				i,						//서브셋넘
+				&origin,				//레이위치
+				&direction,				//레이 방향
+				&bHit,					//충돌 여부 얻기
+				&faceIndex,				//충돌면 인덱스 
+				NULL,
+				NULL,
+				&dist,					//충돌거리
+				NULL,					//다중충돌시 다중히트정보 얻을 버퍼, 
+				&hitCount);				//다중충돌시 히트 갯수 
+
+
+			if (bHit) {
+
+				//hit 지점월드로 땡겨서 리턴
+				if (pHitPos != NULL) {
+					D3DXVec3TransformCoord(pHitPos,
+						&(origin + direction * dist), &matWorld);
+				}
+
+				//Hit 노말 구한다.
+				if (pHitNormal != NULL) {
 
 					//충돌면 인덱스에 따른 정점 3개를 구한다.
 					DWORD i0 = (faceIndex * 3);
@@ -1153,9 +1245,9 @@ void cPhysicManager::CreatePlane(LPD3DXPLANE	pOutPlane, const D3DXVECTOR3* p0, c
 	D3DXVECTOR3 normal;
 	D3DXVECTOR3 edge1 = *p1 - *p0;
 	D3DXVECTOR3 edge2 = *p2 - *p0;
+
 	D3DXVec3Cross(&normal, &edge1, &edge2);
 	D3DXVec3Normalize(&normal, &normal);
-
 	//평면의 노말 방향으로 원점까지의 최단 거리
 	float dist = -D3DXVec3Dot(&normal, p0);
 

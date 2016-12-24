@@ -4,6 +4,8 @@
 
 class cMap_Bbox_Load;
 class playerTest;
+class Unit;
+class Player;
 
 struct TAGcollision
 {
@@ -27,10 +29,12 @@ private:
 	//bool isColl_Inspection;
 
 private:
+	vector<cBaseObject*> m_CurBoundbox;
 	//전방선언
 	cMap_Bbox_Load* box_Load;
-	playerTest* player;
-
+	//playerTest* player;
+	Unit* player;
+	Player* pp;
 public:
 	cMap_Active();
 	~cMap_Active();
@@ -41,14 +45,19 @@ public:
 	virtual void Scene_Render1();
 
 	//각방의 바운딩박스를 호출할지 말지할 함수
-	void Collision_Inspection();
+	void Collision_Inspection(Unit* player);
 
 	//플레이어 오브젝트충돌함수
-	void BoxCollision(cBaseObject* playerBoundBox,std::vector<cBaseObject*> boundBox);
+	void BoxCollision(Unit* player,std::vector<cBaseObject*> boundBox);
+	void BoxActive(Unit* player);
 
-	//전방선언 링크
+	vector<cBaseObject*> BoxRayActive();
+
+	//전방선언 링크d
 	void SetLink_BoxLoad(cMap_Bbox_Load* boxload) { box_Load = boxload; }
-	void SetLink_Player(playerTest* pt) { player = pt; }
+	void SetLink_Player(Unit* pt) { player = pt; }
+
+	vector<cBaseObject*> GetCutObjV() { return m_CurBoundbox;  }
 
 	TAGcollision* Get_Is_Active() { return &BoundBoxColl; }
 

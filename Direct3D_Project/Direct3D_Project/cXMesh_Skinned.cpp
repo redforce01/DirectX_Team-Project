@@ -663,3 +663,23 @@ void cXMesh_Skinned::SetTechniqueName(std::string name)
 {
 	sSkinnedMeshEffect->SetTechnique(name.c_str());
 }
+
+void cXMesh_Skinned::SetupBoneTrans(const cTransform* pTrans)
+{
+
+   D3DXMATRIXA16 matFinal;
+
+   //Transform 이 들어왔다면...
+   if (pTrans != NULL)
+   {
+	   D3DXMATRIXA16 matWorld = pTrans->GetFinalMatrix();
+	   matFinal = m_matCorrection * matWorld;
+   }
+   else
+   {
+      matFinal = m_matCorrection;
+   }
+
+   //행렬 업데이트 
+   UpdateMatrices((BONE*)m_pRootbone, &matFinal);
+}

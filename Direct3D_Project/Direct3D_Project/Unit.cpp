@@ -18,7 +18,7 @@
 void Unit::StatePlayChange(string StateName, float ChangeTime)
 {
 	m_MiState = m_MState.find(StateName);
-	 
+
 	if (m_MiState != m_MState.end()   // Map 검색 후 없고,  
 		&& m_Animation_Name != StateName)  // 현재 상태가 넣고자 하는 상태와 같다면 상태 안바꿔도 됨.
 	{
@@ -26,7 +26,7 @@ void Unit::StatePlayChange(string StateName, float ChangeTime)
 		this->pSkinnedAni->Play(StateName, ChangeTime);
 		m_pCurAction = (*m_MiState).second;
 	}
-	
+
 }
 
 void Unit::StateOneShotChange(string StateName, float ChangeTime)
@@ -54,7 +54,7 @@ void Unit::StateOneShotHoldChange(string StateName, float ChangeTime)
 		this->pSkinnedAni->PlayOneShotAfterHold(StateName, ChangeTime);
 		m_pCurAction = (*m_MiState).second;
 	}
-//	this->pSkinnedAni->PlayOneShotAfterHold(StateName, ChangeTime);
+	//	this->pSkinnedAni->PlayOneShotAfterHold(StateName, ChangeTime);
 }
 
 
@@ -66,13 +66,15 @@ void Unit::LerpMoveControll(float timeDelta, cNode * PreNode, cNode* NextNode)
 
 
 void Unit::AttachToCamera(cTransform * camera)
-{    
-	pSkinnedTrans->AttachTo(camera);
+{
+	camera->AddChild(pSkinnedTrans);
+
 }
 
 void Unit::CameraAttachToUnit(cTransform * camera)
 {
 	pSkinnedTrans->AddChild(camera);
+
 }
 
 
@@ -82,7 +84,7 @@ void Unit::pushEnemyUnitVector(Unit * unit)
 	m_vEnemy.push_back(unit);
 }
 
-bool Unit::SpDetectionCheck(Unit* Sub , Unit* Obj)
+bool Unit::SpDetectionCheck(Unit* Sub, Unit* Obj)
 {
 	D3DXVECTOR3 DistVec = (Sub->m_DetectSphere->localCenter - Obj->pSkinnedTrans->GetLocalPosition());
 	float DistLen = D3DXVec3Length(&DistVec);
@@ -92,9 +94,9 @@ bool Unit::SpDetectionCheck(Unit* Sub , Unit* Obj)
 		m_DetectedUnit = Obj;
 		return true;
 	}
-	else 
+	else
 	{
-	//	m_DetectedUnit = NULL;
+		//	m_DetectedUnit = NULL;
 		return false;
 	}
 }
@@ -111,34 +113,55 @@ bool Unit::SpCollisionCheck(Unit* Sub, Unit* Obj)
 	}
 	else
 	{
-	//	m_DetectedUnit = NULL;
+		//	m_DetectedUnit = NULL;
 		return false;
 	}
 }
 
 bool Unit::BoxCollisionCheck(Unit * Sub, Unit * Obj)
 {
+
 	return false;
+}
+
+void Unit::CamControll()
+{
+	if (m_bCamUp == false)
+	{
+		pSkinnedAni->PlayOneShot("STAND_CAM_RAISE", 0.1f);
+		m_bCamUp = true;
+	}
+	else
+	{
+		pSkinnedAni->PlayOneShot("STAND_CAM_LOWER2", 0.1f);
+		m_bCamUp = false;
+	}
 }
 
 
 void Unit::Render()
 {
-	D3DXMATRIXA16 matLights[10];
-	for (int i = 0; i < this->lights.size(); i++)
-		matLights[i] = this->lights[i]->GetLightMatrix();
 
-	//셰이더에 라이팅 셋팅
-	cXMesh_Skinned::sSkinnedMeshEffect->SetMatrixArray("matLights", matLights, 10);
-	cXMesh_Skinned::sSkinnedMeshEffect->SetInt("LightNum", this->lights.size());
+	//D3DXMATRIXA16 matLights[10];
+	//for (int i = 0; i < this->lights.size(); i++)
+	//	matLights[i] = this->lights[i]->GetLightMatrix();
+
+	////셰이더에 라이팅 셋팅
+	//cXMesh_Skinned::sSkinnedMeshEffect->SetMatrixArray("matLights", matLights, 10);
+	//cXMesh_Skinned::sSkinnedMeshEffect->SetInt("LightNum", this->lights.size());
+
 
 	this->pSkinnedAni->Render(pSkinnedTrans);
-	m_CollisionSphere->RenderGizmo(pSkinnedTrans);
-	m_DetectSphere->RenderGizmo(pSkinnedTrans);
+
+	//m_CollisionSphere->RenderGizmo(pSkinnedTrans);
+	//m_DetectSphere->RenderGizmo(pSkinnedTrans);
 	m_CollisionBox->RenderGizmo(pSkinnedTrans);
 	//GIZMO_MGR->Circle(pSkinnedTrans->GetWorldPosition(), 1);
-	GIZMO_MGR->Circle(m_headPos, 1);
-	GIZMO_MGR->Line(ray.origin, D3DXVECTOR3(0,4,0));
+//	GIZMO_MGR->Circle(m_headPos, 1);
 
-	RESOURCE_SKINNEDXMESH->GetResource(m_FilePath)->ShowAnimationName(0, 26);
+
+	//if(m_isRayBlocking)
+	//GIZMO_MGR->Line(ray.origin, ray.direction);
+
+//	RESOURCE_SKINNEDXMESH->GetResource(m_FilePath)->ShowAnimationName(0, 26);
 }

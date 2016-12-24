@@ -77,8 +77,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;F:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;F:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\REDFORCE\Desktop\SGA_DirectX_Team-Project\Direct3D_Project\Direct3D_Project\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -162,9 +162,19 @@
     <ClInclude Include="cBoundBox.h" />
     <ClInclude Include="cBoundSphere.h" />
     <ClInclude Include="cCamera.h" />
+    <ClInclude Include="cCameraUI.h" />
+    <ClInclude Include="cCloseEyeEvent.h" />
+    <ClInclude Include="cDoor.h" />
     <ClInclude Include="cDoorPosition.h" />
     <ClInclude Include="cDXFontManager.h" />
+    <ClInclude Include="cEffect.h" />
+    <ClInclude Include="cEventManager.h" />
+    <ClInclude Include="cElevator.h" />
+    <ClInclude Include="cElevator_Door.h" />
+    <ClInclude Include="cElevator_passageway.h" />
+    <ClInclude Include="cEventBox.h" />
     <ClInclude Include="cEventObjectManager.h" />
+    <ClInclude Include="cFileRead.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGizmoManager.h" />
     <ClInclude Include="cImage.h" />
@@ -178,14 +188,18 @@
     <ClInclude Include="cMap_Active.h" />
     <ClInclude Include="cMap_Bbox_Load.h" />
     <ClInclude Include="cMap_Bbox_Save.h" />
+    <ClInclude Include="cMovieEvent.h" />
     <ClInclude Include="cNode.h" />
+    <ClInclude Include="cObjectReaction.h" />
     <ClInclude Include="cObject_EventObj.h" />
+    <ClInclude Include="cObject_Sound.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="cParticle.h" />
     <ClInclude Include="cParticleEmitter.h" />
     <ClInclude Include="cParticleQuad.h" />
     <ClInclude Include="cPhysicManager.h" />
     <ClInclude Include="cQuadTree.h" />
+    <ClInclude Include="cReactionMap.h" />
     <ClInclude Include="cResourceMgr.h" />
     <ClInclude Include="cResourceMgr_ShaderFX.h" />
     <ClInclude Include="cResourceMgr_Texture.h" />
@@ -195,24 +209,23 @@
     <ClInclude Include="cSceneChangeEffect.h" />
     <ClInclude Include="cSceneChangeEffectUpDown.h" />
     <ClInclude Include="cScene_Game.h" />
-    <ClInclude Include="cScene_Main.h" />
     <ClInclude Include="cScene_Mgr.h" />
-    <ClInclude Include="cScene_Test.h" />
     <ClInclude Include="cSetBoundObject.h" />
     <ClInclude Include="cSingletonBase.h" />
     <ClInclude Include="cSkinnedAnimation.h" />
     <ClInclude Include="cSoundData.h" />
     <ClInclude Include="cSoundManager.h" />
-    <ClInclude Include="cObject_Sound.h" />
     <ClInclude Include="cSpriteManager.h" />
     <ClInclude Include="cTerrain.h" />
     <ClInclude Include="cTimeMgr.h" />
+    <ClInclude Include="cTitle.h" />
     <ClInclude Include="cTransform.h" />
     <ClInclude Include="cXMesh.h" />
     <ClInclude Include="cXMesh_Skinned.h" />
     <ClInclude Include="cXMesh_Static.h" />
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="Direct3D_Project.h" />
+    <ClInclude Include="LeftArm.h" />
     <ClInclude Include="MyUtil.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SoundUtil.h" />
@@ -229,9 +242,19 @@
     <ClCompile Include="cBoundBox.cpp" />
     <ClCompile Include="cBoundSphere.cpp" />
     <ClCompile Include="cCamera.cpp" />
+    <ClCompile Include="cCameraUI.cpp" />
+    <ClCompile Include="cCloseEyeEvent.cpp" />
+    <ClCompile Include="cDoor.cpp" />
     <ClCompile Include="cDoorPosition.cpp" />
     <ClCompile Include="cDXFontManager.cpp" />
+    <ClCompile Include="cEffect.cpp" />
+    <ClCompile Include="cEventManager.cpp" />
+    <ClCompile Include="cElevator.cpp" />
+    <ClCompile Include="cElevator_Door.cpp" />
+    <ClCompile Include="cElevator_passageway.cpp" />
+    <ClCompile Include="cEventBox.cpp" />
     <ClCompile Include="cEventObjectManager.cpp" />
+    <ClCompile Include="cFileRead.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGizmoManager.cpp" />
     <ClCompile Include="cImage.cpp" />
@@ -245,14 +268,18 @@
     <ClCompile Include="cMap_Active.cpp" />
     <ClCompile Include="cMap_Bbox_Load.cpp" />
     <ClCompile Include="cMap_Bbox_Save.cpp" />
+    <ClCompile Include="cMovieEvent.cpp" />
     <ClCompile Include="cNode.cpp" />
+    <ClCompile Include="cObjectReaction.cpp" />
     <ClCompile Include="cObject_EventObj.cpp" />
+    <ClCompile Include="cObject_Sound.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="cParticle.cpp" />
     <ClCompile Include="cParticleEmitter.cpp" />
     <ClCompile Include="cParticleQuad.cpp" />
     <ClCompile Include="cPhysicManager.cpp" />
     <ClCompile Include="cQuadTree.cpp" />
+    <ClCompile Include="cReactionMap.cpp" />
     <ClCompile Include="cResourceMgr.cpp" />
     <ClCompile Include="cResourceMgr_ShaderFX.cpp" />
     <ClCompile Include="cResourceMgr_Texture.cpp" />
@@ -262,18 +289,16 @@
     <ClCompile Include="cSceneChangeEffect.cpp" />
     <ClCompile Include="cSceneChangeEffectUpDown.cpp" />
     <ClCompile Include="cScene_Game.cpp" />
-    <ClCompile Include="cScene_Main.cpp" />
     <ClCompile Include="cScene_Mgr.cpp" />
-    <ClCompile Include="cScene_Test.cpp" />
     <ClCompile Include="cSetBoundObject.cpp" />
     <ClCompile Include="cSingletonBase.cpp" />
     <ClCompile Include="cSkinnedAnimation.cpp" />
     <ClCompile Include="cSoundData.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
-    <ClCompile Include="cObject_Sound.cpp" />
     <ClCompile Include="cSpriteManager.cpp" />
     <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="cTimeMgr.cpp" />
+    <ClCompile Include="cTitle.cpp" />
     <ClCompile Include="cTransform.cpp" />
     <ClCompile Include="cXMesh.cpp" />
     <ClCompile Include="cXMesh_Skinned.cpp" />
@@ -281,6 +306,7 @@
     <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="Direct3D_Project.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="LeftArm.cpp" />
     <ClCompile Include="MyUtil.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoundUtil.cpp" />
@@ -299,6 +325,17 @@
   <ItemGroup>
     <Image Include="Direct3D_Project.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Resources\CameraEffect\PostCameraEffect.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">2.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cSoundDataLoad.cpp~RF194d3f99.TMP" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

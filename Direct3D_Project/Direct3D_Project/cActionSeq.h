@@ -4,7 +4,7 @@
 class cTransform;
 class Unit;
 
-class cActionSeq 
+class cActionSeq
 {
 	int m_MaxActionIdx;
 	int m_CurActionIdx;
@@ -16,10 +16,10 @@ class cActionSeq
 
 
 public:
-	cActionSeq();
+	cActionSeq(Unit* unit) :m_CurUnit(unit) { }
 	~cActionSeq();
 
-	virtual void Init(Unit* unit);
+	virtual void Init();
 
 
 	virtual void Update(float timeDelta);
@@ -28,18 +28,20 @@ public:
 	virtual void SetActionMove(int Idx, cTransform* from, cTransform* to);
 	virtual void CheckFinish();
 	virtual void setMaxSize(int size) { m_MaxActionIdx = size; }
-	virtual void setCurActionSpeed(float speed) { m_CurAction->setMoveSpeed(speed); }
+	virtual void setCurActionSpeed(float speed) { 
+		if(m_CurAction != NULL)
+		m_CurAction->setMoveSpeed(speed); }
 
 
-	virtual int getActionSize() { return m_vAction.size();  }
+	virtual int getActionSize() { return m_vAction.size(); }
 	virtual Action* getCurAction() { return  m_vAction[m_CurActionIdx]; }
 
 	virtual int getMaxIdx() { return m_MaxActionIdx; }
-	virtual int getCurIdx() { return m_CurActionIdx;  }
+	virtual int getCurIdx() { return m_CurActionIdx; }
 
-	virtual void ClearVector() { m_vAction.clear();  }
+	virtual void ClearVector() { m_vAction.clear(); }
 
-//	virtual void PlayerMove();
+	//	virtual void PlayerMove();
 
 };
 

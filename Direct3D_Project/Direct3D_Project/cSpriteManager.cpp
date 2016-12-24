@@ -106,7 +106,7 @@ void cSpriteManager::DrawTexture(
 		pTex,
 		pSour,
 		&pivot,
-		&D3DXVECTOR3(0, 0, 0),	//그릴 위치가 0 이네....
+		&D3DXVECTOR3(0, 0, 0.000),	//그릴 위치가 0 이네....
 		color);
 }
 

@@ -34,9 +34,54 @@ HRESULT cMap_Bbox_Load::Scene_Init()
 
 void cMap_Bbox_Load::Scene_Release()
 {
-	for (int i = 0; i < this->boundObjects.size(); i++)
+	for (int i = 0; i < this->v_Room_0_boundBox.size(); i++)
 	{
-		SAFE_DELETE(this->boundObjects[i]);
+		SAFE_DELETE(this->v_Room_0_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Room_1_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Room_1_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Room_2_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Room_2_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Room_3_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Room_3_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Room_4_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Room_4_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Room_5_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Room_5_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Room_6_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Room_6_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Hallway_7_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Hallway_7_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Hallway_8_boundBox.size(); i++)
+	{
+		SAFE_DELETE(this->v_Hallway_8_boundBox[i]);
+	}
+
+	for (int i = 0; i < this->v_Collision_Inspection.size(); i++)
+	{
+		SAFE_DELETE(this->v_Collision_Inspection[i]);
 	}
 }
 
@@ -117,6 +162,7 @@ void cMap_Bbox_Load::InitLoadBound(string str, std::vector<cBaseObject*>* v_base
 		pc = strtok(NULL, "[],");
 		pos.z = atof(pc);
 
+	
 
 		//사원수
 		D3DXQUATERNION quat;
@@ -138,6 +184,9 @@ void cMap_Bbox_Load::InitLoadBound(string str, std::vector<cBaseObject*>* v_base
 		pc = strtok(NULL, "[],");
 		scale.z = atof(pc);
 
+
+
+
 		//바운드 로컬센터
 		D3DXVECTOR3 localCenter;
 		pc = strtok(NULL, "[],");
@@ -147,6 +196,8 @@ void cMap_Bbox_Load::InitLoadBound(string str, std::vector<cBaseObject*>* v_base
 		pc = strtok(NULL, "[],");
 		localCenter.z = atof(pc);
 
+	
+
 		//바운드 로컬하프
 		D3DXVECTOR3 localHalf;
 		pc = strtok(NULL, "[],");
@@ -155,6 +206,7 @@ void cMap_Bbox_Load::InitLoadBound(string str, std::vector<cBaseObject*>* v_base
 		localHalf.y = atof(pc);
 		pc = strtok(NULL, "[],");
 		localHalf.z = atof(pc);
+
 
 		//위의 정보로 오브젝트 생성
 		cBaseObject* pNewBound = new cBaseObject;

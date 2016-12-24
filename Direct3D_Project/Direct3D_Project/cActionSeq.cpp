@@ -2,34 +2,36 @@
 #include "cActionSeq.h"
 #include "cTransform.h"
 
-cActionSeq::cActionSeq()
-{
-}
+
 
 
 cActionSeq::~cActionSeq()
 {
 }
 
-void cActionSeq::Init(Unit* unit)
+void cActionSeq::Init()
 {
-	m_CurActionIdx = 0;
-	m_CurAction = m_vAction[0];
-	m_CurUnit = unit;
+	if (!m_vAction.empty())
+	{
+		m_CurActionIdx = 0;
+		m_CurAction = m_vAction[0];
+	}
 
 }
 
 void cActionSeq::Update(float timeDelta)
 {
-	if (!m_CurAction->GetisFinish())
+	if (m_CurAction != NULL)
 	{
-		m_CurAction->MoveTo(timeDelta);
-	}
-	
-	else if( m_CurActionIdx < m_MaxActionIdx - 1)
-		m_CurAction = m_vAction[++m_CurActionIdx];
-	else m_vAction.clear();
+		if (!m_CurAction->GetisFinish())
+		{
+			m_CurAction->MoveTo(timeDelta);
+		}
 
+		else if (m_CurActionIdx < m_MaxActionIdx - 1)
+			m_CurAction = m_vAction[++m_CurActionIdx];
+		else m_vAction.clear();
+	}
 	// isFinish ÀÖÀ¸¸é erase 
 }
 
@@ -50,7 +52,7 @@ void cActionSeq::SetActionMove(int Idx, cTransform* from, cTransform* to)
 void cActionSeq::CheckFinish()
 {
 	vector<Action*> ::iterator viAction = m_vAction.begin();
-	for ( ; viAction != m_vAction.end();  )
+	for (; viAction != m_vAction.end(); )
 	{
 		if ((*viAction)->GetisFinish())
 		{

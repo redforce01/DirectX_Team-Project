@@ -48,17 +48,18 @@ void cAccessory::ComputeBoundBox()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void cGameItem::Init(std::string name, std::string path, D3DXVECTOR3 scale, D3DXVECTOR3 rotation, D3DXVECTOR3 trans)
+void cGameItem::Init(int type, std::string path, D3DXVECTOR3 scale, D3DXVECTOR3 rotation, D3DXVECTOR3 trans)
 {
-	D3DXMATRIXA16 matScale;
-	D3DXMatrixScaling(&matScale, scale.x, scale.y, scale.z);
-	D3DXMATRIXA16 matRotate;
-	D3DXMatrixRotationYawPitchRoll(&matRotate, rotation.y, rotation.x, rotation.z);
-	D3DXMATRIXA16 matCorrection = matScale * matRotate;
-	
+	D3DXMATRIXA16 matCorrection;
+	D3DXMatrixScaling(&matCorrection, scale.x, scale.y, scale.z);
+
 	this->pMesh = RESOURCE_STATICXMESH->GetResource(path, &matCorrection);
 
+	this->pTransform->SetRotateWorld(rotation.x, rotation.y, rotation.z);
 	this->pTransform->SetWorldPosition(trans);
 
-	this->objName = name;
+	this->SetActive(true);
+
+	this->m_type = type;
+
 }

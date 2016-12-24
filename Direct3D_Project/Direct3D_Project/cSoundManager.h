@@ -25,7 +25,7 @@
 //#pragma comment ( lib, "lib/fmodexL64_vc.lib")
 
 //여유분의 채널 갯수 설정(버퍼)
-#define EXTRA_SOUND_CHANNEL 500			//여유분 채널
+#define EXTRA_SOUND_CHANNEL 100			//여유분 채널
 #define SOUNDBUFFER 1000				//사운드 파일 갯수
 
 //총 사운드 갯수

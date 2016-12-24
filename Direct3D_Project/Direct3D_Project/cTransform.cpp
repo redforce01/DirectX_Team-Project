@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "cTransform.h"
+#include "Unit.h"
 
 
 cTransform::cTransform(void)
@@ -318,6 +319,7 @@ void cTransform::MovePositionSelf(float dx, float dy, float dz)
 
 	//아래의 함수에서 TransformUpdate 가 일어남
 	this->SetWorldPosition(nowWorldPos + move);
+	
 }
 void cTransform::MovePositionSelf(D3DXVECTOR3 delta)
 {
@@ -1525,6 +1527,77 @@ void cTransform::PlayerControll(float timeDelta)
 
 }
 
+void cTransform::DefaultControl4( Unit* unit, float MovePoint,  float timeDelta)
+{
+
+	//디폴트 컨트롤을 위한 카메라 Angle 값
+	static float nowAngleH = 0.0f;			//수평앵글
+	static float nowAngleV = 0.0f;			//수직앵글
+	static float maxAngleV = 85.0f;			//수직 최대 앵글
+	static float minAngleV = -85.0f;			//수직 최저 앵글
+	static float sensitivityH = 0.05f;					//가로 민감도
+	static float sensitivityV = 0.05f;					//세로 민감도 ( 이값이 음수면 Invert Mouse )
+	static D3DXVECTOR3 nowVelocity(0, 0, 0);			//현제 방향과 속도를 가진 벡터
+
+	static float accelate = 80.0f;						//초당 이동 증가값
+	static float nowSpeed = 15.0f;						//현재 속도
+	static float maxSpeed = 15.0f;						//최고 속도
+
+	D3DXVECTOR3 inputVector(0, 0, 0);
+	//제로 벡터가 아닐때
+	if (VECTORZERO(inputVector) == false)
+	{
+		//정규화
+		D3DXVec3Normalize(&inputVector, &inputVector);
+	}
+
+
+	D3DXVECTOR3 target = inputVector * maxSpeed;
+	this->MovePositionSelf(target * timeDelta);
+	//
+	// 회전 처리
+	// 
+	//화면의 중심위치
+	int screenCenterX = WINSIZE_X / 2;
+	int screenCenterY = WINSIZE_Y / 2;
+
+	//현재 마우스 위치
+	POINT mousePos = GetMousePos();
+
+	//이동량 ( 중앙에서 멀어진 량 )
+	float deltaX = mousePos.x - screenCenterX;
+	float deltaY = mousePos.y - screenCenterY;
+
+	//앵글 추가
+	nowAngleH += deltaX * sensitivityH;
+	nowAngleV += deltaY * sensitivityV;
+
+	//앵글값을 min max 범위 안으로
+	nowAngleV = Clamp(nowAngleV, minAngleV, maxAngleV);
+
+	//다시 마우스 위치를 센터로...
+
+	SetMousePos(screenCenterX, screenCenterY);
+
+	float deltaMove = MovePoint * timeDelta;
+	//	float deltaAngle = 90.0f * ONE_RAD * timeDelta;
+
+	this->SetRotateWorld(nowAngleV * ONE_RAD, nowAngleH * ONE_RAD, 0.0f);
+	this->RotateLocal(0, 180 * ONE_RAD, 0);
+//	this->SetWorldPosition(pParent->GetWorldPosition().x, unit->getHeadCamPos().y, pParent->GetWorldPosition().z);
+
+	//	pParent->SetRotateWorld(0, nowAngleH * ONE_RAD, 0);
+
+
+	if (pParent != NULL)
+	{
+		pParent->SetRotateWorld(0, nowAngleH * ONE_RAD, 0);
+
+	}
+
+}
+
+
 void cTransform::DefaultControl3(float timeDelta)
 {
 
@@ -1574,7 +1647,8 @@ void cTransform::DefaultControl3(float timeDelta)
 	nowAngleV = Clamp(nowAngleV, minAngleV, maxAngleV);
 
 	//다시 마우스 위치를 센터로...
-	SetMousePos(screenCenterX, screenCenterY);
+
+	SetMousePos(mousePos.x, mousePos.y);
 
 	this->SetRotateWorld(nowAngleV * ONE_RAD, nowAngleH * ONE_RAD, 0.0f);
 	this->RotateLocal(0, 180 * ONE_RAD, 0);
@@ -1607,16 +1681,17 @@ void cTransform::RenderGimozo(bool applyScale) const
 //쉐이크 명령이 있으면 Update 를 해주어야 한다.
 void cTransform::ShakeUpdate(float timeDelta)
 {
+
 	//위치에 대한 흔들림 파워가 있다면..
 	if (this->ShakePosPower > 0.0f && this->ShakePosFlag != 0)
 	{
-		D3DXVECTOR3 localPos(0, 0, 0);
+		D3DXVECTOR3 localPos = GetLocalPosition();
 		if (this->ShakePosFlag & SHAKE_X)
-			localPos.x = RandomFloatRange(-this->ShakePosPower, this->ShakePosPower);
+			localPos.x = RandomFloatRange(localPos.x - this->ShakePosPower, localPos.x + this->ShakePosPower);
 		if (this->ShakePosFlag & SHAKE_Y)
-			localPos.y = RandomFloatRange(-this->ShakePosPower, this->ShakePosPower);
+			localPos.y = RandomFloatRange(localPos.y - this->ShakePosPower, localPos.y + this->ShakePosPower);
 		if (this->ShakePosFlag & SHAKE_Z)
-			localPos.z = RandomFloatRange(-this->ShakePosPower, this->ShakePosPower);
+			localPos.z = RandomFloatRange(localPos.z - this->ShakePosPower, localPos.z + this->ShakePosPower);
 
 		this->SetLocalPosition(localPos);
 

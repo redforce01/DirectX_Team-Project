@@ -90,6 +90,8 @@ void cDXFontManager::PrintText(std::string str, int x, int y, DWORD color)
 		color);
 }
 
+
+
 void cDXFontManager::PrintTextShadow(std::string str, int x, int y, DWORD color, DWORD shadow /*= 0xff000000*/)
 {
 	//쉐도우 먼저 그린다

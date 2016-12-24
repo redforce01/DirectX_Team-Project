@@ -51,7 +51,8 @@
 //
 extern HWND			g_hWnd;		//윈도우 핸들 ( 자신의 프로그램에서 돌고있는 윈도우 번호 )
 extern HINSTANCE	g_hInst;	//프로그램 인스턴스 핸들 ( OS 가 부여한 프로그램 번호 )
-
+extern float g_Czoom;
+extern int zDelta;
 
 //////////////////////////////////
 
@@ -106,7 +107,16 @@ enum PLAYER_STATE
 
 enum CameraState
 {
+	MAINMENU,
 	PLAYER,
 	DEBUGGING,
 	ENEMY
 };
+
+enum GAMEITEMTYPE
+{
+	KEYITEM,
+	NOTEITEM
+};
+
+extern bool isGameEvent;

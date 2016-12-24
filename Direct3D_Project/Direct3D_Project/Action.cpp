@@ -15,14 +15,14 @@ void Action::MoveTo(float timeUpdate)
 
 	D3DXVec3Normalize(&Dist, &Dist);
 
-	if (Lenth >= 0.22 ) {
+	if (Lenth >= 0.22) {
 
 		if (m_RotateLerfPt < 1.0)
-		m_Trans->RotateSlerp(*m_Trans, Trans, m_RotateLerfPt +=( m_RotateSpeed /2));
+			m_Trans->RotateSlerp(*m_Trans, Trans, m_RotateLerfPt += (m_RotateSpeed / 2));
 
-		m_Trans->MovePositionWorld(-Dist.x * m_Speed , 0, -Dist.z * m_Speed);
+		m_Trans->MovePositionWorld(-Dist.x * m_Speed, 0, -Dist.z * m_Speed);
 
-		if (m_RotateLerfPt >= 1.0) 
+		if (m_RotateLerfPt >= 1.0)
 			m_RotateLerfPt = 0;
 	}
 	else {
@@ -33,7 +33,7 @@ void Action::MoveTo(float timeUpdate)
 
 		m_isActive = false;  // 활성화 끝
 		m_isFinish = true;  // 이제 이 이걸 꺼주자.
-	//	m_CurUnit->setMoving(false);
+							//	m_CurUnit->setMoving(false);
 	}
 }
 
@@ -70,7 +70,7 @@ void EnemyAction::Move(float timeUpdate)
 	if (m_isActive)
 	{
 		m_MoveLerfPt += Speed;
-		m_Trans->SetLocalPosition(MyUtil::VecLerp(m_SourTrans->GetWorldPosition(), m_DestTrans->GetWorldPosition(), m_MoveLerfPt));
+		m_Trans->SetWorldPosition(MyUtil::VecLerp(m_SourTrans->GetWorldPosition(), m_DestTrans->GetWorldPosition(), m_MoveLerfPt));
 
 		if (m_RotateLerfPt <= 1.0) m_Trans->RotateSlerp(*m_SourTrans, Trans, m_RotateLerfPt += m_RotateSpeed);
 
@@ -86,21 +86,34 @@ void EnemyAction::Move(float timeUpdate)
 void PlayerAction::Move(float timeUpdate)
 {
 	//	float deltaAngle = 90.0f * ONE_RAD * timeDelta;
+	D3DXVECTOR3 delta = m_CurUnit->getHeadCamPos();
+	
 	if (KEY_MGR->IsStayDown('A'))
 	{
+	//	delta[0] += m_Speed * timeUpdate;
 		m_Trans->MovePositionSelf(m_Speed * timeUpdate, 0.0f, 0.0f);
+		
 	}
 	else if (KEY_MGR->IsStayDown('D'))
 	{
+	//	delta[0] += -m_Speed * timeUpdate;
 		m_Trans->MovePositionSelf(-m_Speed* timeUpdate, 0.0f, 0.0f);
+		
 	}
 
 	if (KEY_MGR->IsStayDown('W'))
 	{
+	//	delta[2] += -m_Speed * timeUpdate;
 		m_Trans->MovePositionSelf(0.0f, 0.0f, -m_Speed* timeUpdate);
+		
 	}
 	else if (KEY_MGR->IsStayDown('S'))
 	{
+	//	delta[2] += m_Speed * timeUpdate;
 		m_Trans->MovePositionSelf(0.0f, 0.0f, m_Speed* timeUpdate);
+		
 	}
+	m_CurUnit->getSkinned()->SetUpBoneTrans(m_Trans);
+	
+	//m_CurUnit->setHeadCamPos(delta);
 }

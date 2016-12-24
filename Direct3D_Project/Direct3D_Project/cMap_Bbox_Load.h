@@ -8,7 +8,6 @@ class cMap_Active;
 class cMap_Bbox_Load : public cScene
 {
 private:
-	std::vector<cBaseObject*>	boundObjects;
 
 	std::vector<cBaseObject*> v_Room_0_boundBox;
 	std::vector<cBaseObject*>::iterator vI_Room_0_boundBox;
@@ -78,6 +77,8 @@ public:
 
 	std::vector<cBaseObject*> Get_V_Collision_Inspection() { return v_Collision_Inspection; }
 	std::vector<cBaseObject*>::iterator Get_VI_Collision_Inspection() { return vI_Collision_Inspection; }
+
+
 
 	void SetLink_MapActive(cMap_Active* ma) { map_active = ma; }
 

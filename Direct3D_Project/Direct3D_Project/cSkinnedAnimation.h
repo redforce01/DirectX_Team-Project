@@ -26,6 +26,7 @@ private:
 	LPD3DXANIMATIONSET				m_pNowPlayAnimationSet;		//현제 플레이되고있는 AnimationSet
 	D3DXTRACK_DESC					m_Track_Desc_0;				//0번 Track_Desc ( 0 번 Track 의 정보 )
 
+	bool m_isFinish;
 	bool							m_bPlay;					//지금 플레이 중이니?
 	bool							m_bLoop;					//루프 플레이니?
 	LPD3DXANIMATIONSET				m_pPrevPlayAnimationSet;	//OneShot 플레이시 한번 Animation 플레이되고 다시 되돌아갈 Animaiton
@@ -45,7 +46,7 @@ public:
 	void		Update(float timeDelta);
 	void		Render(cTransform* pTransform);
 	void		RenderBoneName(cCamera* pCam, cTransform* pTransform);
-
+	 void     SetUpBoneTrans(cTransform* Trans);
 
 	void Play(std::string animName, float crossFadeTime = 0.0);
 	void Play(int animIndex, float crossFadeTime = 0.0);
@@ -64,6 +65,8 @@ public:
 	void RemoveBoneTransform(std::string boneName);
 	void RemoveApplyTransform(std::string boneName);
 
+	bool getisAniEnd() { return m_isFinish; }
+	cXMesh_Skinned* getSkined() { return m_pSkinnedMesh; }
 
 public:
 	cSkinnedAnimation();

@@ -14,6 +14,8 @@
 #define SHAKE_Y 2
 #define SHAKE_Z 4
 
+class Unit;
+
 __declspec(align(16))
 class cTransform
 {
@@ -217,10 +219,15 @@ public:
 
 	D3DXVECTOR3 GetScale() const { return this->scale; }
 
+
+	cTransform* GetParent() { return pParent;  }
+
+
 	//디폴트 컨트롤 을해준다.
 	void DefaultControl(float timeDelta);
 	void DefaultControl2(float timeDelta);
 	void DefaultControl3(float timeDelta);
+	void DefaultControl4(Unit* unit, float MovePoint, float timeDelta);
 	void PlayerControll(float timeDelta);
 
 	//Transform 에 대한 기즈모를 그린다.

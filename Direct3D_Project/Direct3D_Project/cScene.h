@@ -16,6 +16,10 @@ private:
 
 
 protected:
+	LPDIRECT3DTEXTURE9 pTexScreenDiff;
+	LPDIRECT3DTEXTURE9 pTexScreenNorm;
+	LPDIRECT3DTEXTURE9 pTexScreenNoise;
+
 	vector <cNode*> m_vNode;
 	vector <cCamera*>           vCamera;
 	vector <cCamera*>::iterator viCamera;
@@ -32,7 +36,7 @@ protected:
 
 	cLight_Direction*				pSceneBaseDirectionLight;	//씬에 배치된 기본라이팅
 	cCamera*						pDirectionLightCamera;		//방향성 광원에 따른 카메라...
-
+	Ray			camRay;
 	float							shadowDistance;				//그림자 거리
 
 public:
@@ -45,11 +49,12 @@ public:
 	void Render();
 	vector <cNode*> getVNode() { return m_vNode; }
 	void SetEnvironment(std::string cubeFilePath);
-
+	virtual void CloseEye(int num) {};
 	void ReadyShadowMap(std::vector<cBaseObject*>* renderObjects, cTerrain* pTerrain = NULL);
 
-
-
+	virtual void Event1Start() {};
+	virtual void Event1End() {};
+	virtual void setRay(Ray ray) { camRay = ray; }
 	//
 	//추가
 	//
@@ -70,7 +75,7 @@ private:
 	//씬에서 호출될 함수들을 추상함수로...
 	virtual HRESULT Scene_Init() = 0;
 	virtual void Scene_Release() = 0;
-	virtual void Scene_Update(float timeDelta) = 0;
+	virtual void Scene_Update(float timDelta) = 0;
 
 	virtual void Scene_Render0() {}
 	virtual void Scene_Render1() = 0;

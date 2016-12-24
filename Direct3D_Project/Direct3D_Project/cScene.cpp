@@ -3,6 +3,7 @@
 #include "cCamera.h"
 #include "cLight_Direction.h"
 #include "cTerrain.h"
+#include "cScene_Game.h"
 
 cScene::cScene()
 	: evironmentTexture(NULL), evironmemtSphereMesh(NULL)
@@ -11,14 +12,18 @@ cScene::cScene()
 	this->evironmentEffect =
 		RESOURCE_FX->GetResource("../Resources/Shaders/EvironmentCUBE.fx");
 
+	cCamera* mainmenuCamera = new MainMenuCamera;
 	cCamera* DebuggingCamera = new FreeCamera;
 	cCamera* MilesCamera = new PlayerCamera;
+	cCamera* EnemyCamera = new PlayerCamera;
 
+	vCamera.push_back(mainmenuCamera);
 	vCamera.push_back(MilesCamera);
 	vCamera.push_back(DebuggingCamera);
+	vCamera.push_back(EnemyCamera);
 
 	viCamera = vCamera.begin();
-	pMainCamera = vCamera[PLAYER];
+	pMainCamera = vCamera[MAINMENU];
 
 	//기본 광원 생성
 	this->pSceneBaseDirectionLight = new cLight_Direction();
@@ -92,7 +97,11 @@ HRESULT cScene::Init()
 	this->scenePlaneIndex[4] = 1;
 	this->scenePlaneIndex[5] = 2;
 
-	this->postEffect = RESOURCE_FX->GetResource("../Resources/Shaders/PostEffect.fx");
+	this->postEffect = RESOURCE_FX->GetResource("../Resources/CameraEffect/PostCameraEffect.fx");
+
+	this->pTexScreenDiff = RESOURCE_TEXTURE->GetResource("../Resources/CameraEffect/BrokenCamera_D.tga");
+	this->pTexScreenNorm = RESOURCE_TEXTURE->GetResource("../Resources/CameraEffect/BrokenCamera_N.tga");
+	this->pTexScreenNoise = RESOURCE_TEXTURE->GetResource("../Resources/CameraEffect/NanoNoise.tga");
 
 	return S_OK;
 }
@@ -106,7 +115,7 @@ void cScene::Release()
 void cScene::Update(float timeDelta)
 {
 	//pMainCamera->DefaultControl(timeDelta);
-	pMainCamera->CameraUpdate(timeDelta);
+	//pMainCamera->CameraUpdate(timeDelta);
 	pMainCamera->UpdateCamToDevice(Device);
 	pMainCamera->UpdateFrustum();
 	this->ChangeCameraMod();
@@ -145,22 +154,31 @@ void cScene::Render()
 #ifdef _DEBUG		//디버그 모드에서만 실행
 	//디바이스 랜더링 종료 명령
 	//월드 그리드
-	GIZMO_MGR->WorldGrid(1, 10);
+	//GIZMO_MGR->WorldGrid(1, 10);
 #endif
 
 	this->pMainCamera->RenderTextureEnd();
 
 	//Scene 랜더
-	this->postEffect->SetTechnique("Base");
+	this->postEffect->SetTechnique("PostCameraEffect");
 
-	this->postEffect->SetTexture("screenTex", this->pMainCamera->GetRenderTexture());
+	this->postEffect->SetTexture("BeforeBrokenEffect_Tex", this->pMainCamera->GetRenderTexture());
+	this->postEffect->SetTexture("BrokenCamera_D_Tex", this->pTexScreenDiff);
+	this->postEffect->SetTexture("BrokenCamera_N_Tex", this->pTexScreenNorm);
+	this->postEffect->SetTexture("NanoNoise_Tex", this->pTexScreenNoise);
 
-	float pixelU = 1.0f / WINSIZE_X;
-	float pixelV = 1.0f / WINSIZE_Y;
-	this->postEffect->SetFloat("pixelSizeU", pixelU);
-	this->postEffect->SetFloat("pixelSizeV", pixelV);
-	this->postEffect->SetFloat("pixelHalfSizeU", pixelU * 0.5f);
-	this->postEffect->SetFloat("pixelHalfSizeV", pixelV * 0.5f);
+	this->postEffect->SetBool("g_IsCameraBroken", cScene_Game::GetBroken());
+	this->postEffect->SetBool("g_IsNightVision", cScene_Game::GetNightVision());
+
+	this->postEffect->SetFloat("fTime", TIME_MGR->GetTotalDeltaSec());
+	this->postEffect->SetMatrix("matCameraWorld", &this->pMainCamera->GetFinalMatrix());
+
+	D3DXMATRIXA16 matInvP;
+	D3DXMatrixInverse(&matInvP, NULL, &this->pMainCamera->GetProjectionMatrix());
+
+	this->postEffect->SetMatrix("matInvP", &matInvP);
+	this->postEffect->SetMatrix("matVP", &this->pMainCamera->GetViewProjectionMatrix());
+	this->postEffect->SetVector("vCameraPos", &D3DXVECTOR4(this->pMainCamera->GetWorldPosition(), 1.f));
 
 
 	UINT iPass;
@@ -183,7 +201,6 @@ void cScene::Render()
 		this->postEffect->EndPass();
 	}
 	this->postEffect->End();
-
 
 	//스플라이트 랜더
 	SPRITE_MGR->BeginSpriteRender();
@@ -347,7 +364,7 @@ void cScene::RenderToMainCamTexture()
 #ifdef _DEBUG		//디버그 모드에서만 실행
 	//디바이스 랜더링 종료 명령
 	//월드 그리드
-	GIZMO_MGR->WorldGrid(1, 10);
+//	GIZMO_MGR->WorldGrid(1, 10);
 #endif
 
 
@@ -362,14 +379,14 @@ LPDIRECT3DTEXTURE9 cScene::GetTexture()
 
 void cScene::ChangeCameraMod()
 {
-	if (KEY_MGR->IsOnceDown(VK_TAB)) {
-		viCamera++;
+	//if (KEY_MGR->IsOnceDown(VK_TAB)) {
+	//	viCamera++;
 
-		if (viCamera == vCamera.end()) {
-			viCamera = vCamera.begin();
-		}
-		pMainCamera = (*viCamera);
-	}
+	//	if (viCamera == vCamera.end()) {
+	//		viCamera = vCamera.begin();
+	//	}
+	//	pMainCamera = (*viCamera);
+	//}
 }
 
 void cScene::ChangeCameraMod(int IDx)

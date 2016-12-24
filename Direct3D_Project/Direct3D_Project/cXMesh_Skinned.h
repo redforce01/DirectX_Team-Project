@@ -55,6 +55,8 @@ public:
 	cXMesh_Skinned();
 	~cXMesh_Skinned();
 
+	virtual void SetupBoneTrans(const cTransform* pTrans);
+
 	virtual HRESULT Init(std::string filePath, const D3DXMATRIXA16* matCorrection = NULL);
 	virtual void Release();
 

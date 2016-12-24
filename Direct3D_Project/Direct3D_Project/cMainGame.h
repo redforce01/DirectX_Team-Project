@@ -8,6 +8,7 @@ class cMainGame
 private:
 	cScene*					m_pNowScene;
 
+
 public:
 	cMainGame(void);
 	~cMainGame(void);
@@ -23,6 +24,7 @@ public:
 
 	//µå·Î¿ì
 	void Draw();
+
 
 public:
 

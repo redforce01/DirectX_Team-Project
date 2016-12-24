@@ -7,6 +7,7 @@ class cSkinnedAnimation;
 class cBaseObject
 {
 public:
+	Ray m_ray;
 	cTransform*			pTransform;
 	cXMesh*				pMesh;
 	cBoundBox			BoundBox;
@@ -24,7 +25,7 @@ public:
 	void Update(float timeDelta);
 
 	void Render() {
-		if (this->bActive)
+		//if (this->bActive)
 			this->BaseObjectRender();
 	}
 
@@ -43,8 +44,19 @@ public:
 
 	//셋팅된 메쉬에 따라 바운드박스를 재계산 한다.
 	void ComputeBoundBox();
+	void ComputeBoundBox(float radius);
+	virtual void settingPoint() { };
+	virtual void ComputeRay(Ray ray) {}; 
+	virtual void setLock(bool TF) { };
+
+	virtual void InnerOpen() {};
+	virtual void OutterOpen() {};
+
+	virtual void CloseDoor() {};
+	virtual bool getOpen() { return false; }
 
 protected:
+	virtual void setOpen(bool TF) {  }
 
 	//override 해서 쓰시오....
 	virtual void BaseObjectEnable() {}							//BaseObject 가 활성화 될때 실행

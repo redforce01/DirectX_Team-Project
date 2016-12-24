@@ -57,5 +57,10 @@ void cNode::Render()
 {
 	GIZMO_MGR->Circle(this->m_PosVec, 1.0f);
 
+	for (int i = 0; i <m_vEdgeNode.size(); i++)
+	{
+		GIZMO_MGR->Line(this->m_PosVec, m_vEdgeNode[i]->m_PosVec);
+	}
+
 }
 

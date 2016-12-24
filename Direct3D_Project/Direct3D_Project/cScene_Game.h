@@ -5,6 +5,17 @@
 #include "cMap_Bbox_Load.h"
 #include "cDoorPosition.h"
 #include "cMap_Active.h"
+#include "cElevator.h"
+#include "cElevator_Door.h"
+#include "cElevator_passageway.h"
+#include "cEventBox.h"
+#include "cEventManager.h"
+
+#include "cEffect.h"
+#include "cCameraUI.h"
+#include "cFileRead.h"
+#include "cMovieEvent.h"
+#include "cCloseEyeEvent.h"
 
 
 class cLight;
@@ -15,9 +26,33 @@ class cNode;
 class cBaseObject;
 class cGameItem;
 
-class cScene_Game : public cScene
+
+#define MilESPOSX 5.07f
+#define MilESPOSY -20.5f
+#define MilESPOSZ 15.14f
+
+enum EVENTNUM
 {
+	FIRST_MEET
+
+};
+
+
+
+
+class cScene_Game : public cScene
+{	
 private:
+	vector<cLight*> vLight;
+	cEffect* effect;
+	cCameraUI* cameraUI;
+	cFileRead* fileRead;
+	cMovieEvent* movieEvent;
+	cCloseEyeEvent* eyeEvent;
+
+	static bool m_bNightVision;         //카메라 나이트비전 실행할거냐.
+	static bool m_bIsBroken;            //카메라 이펙트 깨진거 넣을거냐.
+	bool isEvent1End;
 	Unit* Pig;
 	Unit* Miles;
 	std::vector<cLight*> lights;
@@ -25,22 +60,28 @@ private:
 	cSkinnedAnimation*		pSkinned1;
 	cTransform*				pSkinnedTrans;
 
-
+	cEventManager* m_EventManager;
 	cMap_Bbox_Save* bBox_Save;
 	cMap_Bbox_Load* bBox_Load;
 //	playerTest* test;
 	cDoorPosition* door;
-	cMap_Active* mapAcive;
+	cMap_Active* m_Player_mapAcive;
+	cMap_Active* m_Enemy_mapAcive;
 
 	cBaseObject* house;
 	cBaseObject* air;
 	D3DXMATRIXA16 matWorld;
 
+	cElevator_Door* Ele_Door;
+	cElevator* elevatorl;
+	cElevator_passageway* e_passageway;
+
 	//*Ray
 	D3DXVECTOR3 hitPos;
 	D3DXVECTOR3 hitNormal;
 
-	Ray			camRay;
+	
+	Ray			EnemycamRay;
 	bool		bHit;
 	int i = 0; //로그 테스트용(삭제가능)
 
@@ -54,22 +95,58 @@ private:
 
 	//*GameItem
 	cGameItem* keyItem;
-	cGameItem* fileItem;
-
+	cGameItem* noteItem;
 	vector<cGameItem*> vecGameItem;
+	int         m_itemIndex;
 
+	vector <cEventBox*> m_vEventBox;
+	vector <cEventBox*>::iterator m_viEventBox;
+
+
+	// 누나꺼 //
+
+	cTransform*            ItemPocket;
+	bool               bHitRay;
+	bool               bItemClick;
+	float               ItemSpeed;
+
+	vector<cBaseObject*>   m_vecItemBoundBox;
+	bool               bHitBoundBox;
+
+	float camFov;
 
 
 public:
+
+
 	cScene_Game();
 	~cScene_Game();
 
 	virtual void NodeInit();
+	virtual void DijkNodeFileIO(const char* filename);
 	virtual HRESULT Scene_Init();
 	virtual void Scene_Release();
 	virtual void Scene_Update(float timeDelta);
 	virtual void Scene_Render1();
+	virtual void GainItem();
+	virtual void ItemMoveToMiles(float timeDelta);
 
+	virtual void Event1Start();
+	virtual void Event1End();
+	virtual void EventEndToNormal();
 	virtual void Scene_RenderSprite();
+	virtual void ControllNightVision();
+	virtual void ControllCamMode();
+
+	void InitEventObject();
+	void InitSoundObject();
+
+
+	static bool SetBroken(bool isBroken) { m_bIsBroken = isBroken; }
+	static bool SetNightVision(bool isNightVision) { m_bNightVision = isNightVision; }
+	static bool GetBroken() { return m_bIsBroken; }
+	static bool GetNightVision() { return m_bNightVision; }
+
+	virtual void CloseEye(int num);
 };
 

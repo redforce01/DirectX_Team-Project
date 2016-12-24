@@ -50,6 +50,8 @@ HRESULT	cSkinnedAnimation::Init(cXMesh_Skinned* pSkinnedMesh)
 
 	//일단 첫번째 Animation 으로 시작
 	this->Play(0);
+
+	m_isFinish = true;
 }
 
 void cSkinnedAnimation::Release()
@@ -80,11 +82,13 @@ void cSkinnedAnimation::Update(float timeDelta)
 				m_bLoop = true;
 				this->SetAnimation(m_pPrevPlayAnimationSet);
 				this->m_pPrevPlayAnimationSet = NULL;
+				m_isFinish = true;
 			}
 
 			//돌아갈 Animation 이 없다면.
 			else
 			{
+				m_isFinish = true;
 				this->Stop();
 			}
 		}
@@ -138,8 +142,10 @@ void cSkinnedAnimation::Render(cTransform* pTransform)
 	m_pAnimController->AdvanceTime(m_fAnimDelta, NULL);
 	m_fAnimDelta = 0.0f;		//애니메이션을 진행시켰기 때문에 delta 량은 0 으로....
 
+
 								//각 본에 행렬 대입
 	MAP_BONETRANSFORM::iterator iterBone;
+
 	for (iterBone = m_mapBoneTransform.begin(); iterBone != m_mapBoneTransform.end(); ++iterBone)
 		iterBone->first->pBoneTransform = iterBone->second;
 
@@ -164,6 +170,23 @@ void cSkinnedAnimation::RenderBoneName(cCamera* pCam, cTransform* pTransform)
 		iterBone->first->pApplyTransform = iterBone->second;
 
 	m_pSkinnedMesh->RenderBoneName(pCam, pTransform);
+}
+
+void cSkinnedAnimation::SetUpBoneTrans(cTransform* aniTrans)
+{
+	//현재 자신의 Animation 정보로 셋팅
+	m_pAnimController->AdvanceTime(m_fAnimDelta, NULL);
+	m_fAnimDelta = 0.0f;      //애니메이션을 진행시켰기 때문에 delta 량은 0 으로....
+
+							  //각 본에 행렬 대입
+	MAP_BONETRANSFORM::iterator iterBone;
+	for (iterBone = m_mapBoneTransform.begin(); iterBone != m_mapBoneTransform.end(); ++iterBone)
+		iterBone->first->pBoneTransform = iterBone->second;
+
+	for (iterBone = m_mapApplyBoneTransform.begin(); iterBone != m_mapApplyBoneTransform.end(); ++iterBone)
+		iterBone->first->pApplyTransform = iterBone->second;
+
+	m_pSkinnedMesh->SetupBoneTrans(aniTrans);
 }
 
 //Animation 이름으로 플레이
@@ -220,6 +243,7 @@ void cSkinnedAnimation::PlayOneShot(std::string animName, float inCrossFadeTime,
 {
 	m_bPlay = true;
 	m_bLoop = false;
+	m_isFinish = false;
 
 	MAP_ANIMSET::iterator find = this->m_mapAnimSet.find(animName);
 	if (find != this->m_mapAnimSet.end())
@@ -244,6 +268,7 @@ void cSkinnedAnimation::PlayOneShotAfterHold(std::string animName, float crossFa
 {
 	m_bPlay = true;
 	m_bLoop = false;
+	m_isFinish = false;
 
 	MAP_ANIMSET::iterator find = this->m_mapAnimSet.find(animName);
 	if (find != this->m_mapAnimSet.end())

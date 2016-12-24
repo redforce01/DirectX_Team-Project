@@ -12,7 +12,7 @@ HINSTANCE	g_hInst;	//프로그램 인스턴스 핸들 ( OS 가 부여한 프로그램 번호 )
 
 						//메인 게임 객체
 cMainGame	g_MainGame;
-
+bool isGameEvent = false;
 
 // 콜백 프로시져 함수 프로토 타입 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
