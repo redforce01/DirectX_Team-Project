@@ -1,0 +1,294 @@
+//////////////업데이트
+
+
+
+	//편지
+	if (read[0] == false)
+	{
+		if (KEY_MGR->IsOnceDown('R'))
+		{
+			read[0] = true;
+		}
+	}
+	else if (read[0] == true)
+	{
+	
+		if (letterx >= 800)
+		{
+			letterx -= 100;
+		}
+		if (letterx >= 600)
+		{
+			letterx -= 40;
+		}
+		if (letterx >= 450)
+		{
+			letterx -= 30;
+		}
+		if (letterx <= 450)
+		{
+			if (letteralpha >= 180)
+			{
+				letteralpha -= 5;
+			}
+		}
+		if (KEY_MGR->IsOnceDown('R'))
+		{
+			letterx = 1300;
+			letteralpha = 255;
+			read[0] = false;
+		}
+	}
+	if (read[1] == false)
+	{
+		if (KEY_MGR->IsOnceDown('T'))
+		{
+			read[1] = true;
+		}
+	}
+	else if (read[1] == true)
+	{
+
+		if (letterx >= 800)
+		{
+			letterx -= 100;
+		}
+		if (letterx >= 600)
+		{
+			letterx -= 40;
+		}
+		if (letterx >= 450)
+		{
+			letterx -= 30;
+		}
+		if (letterx <= 450)
+		{
+			if (letteralpha >= 180)
+			{
+				letteralpha -= 5;
+			}
+		}
+		if (KEY_MGR->IsOnceDown('T'))
+		{
+			letterx = 1300;
+			letteralpha = 255;
+			read[1] = false;
+		}
+	}
+	if (read[2] == false)
+	{
+		if (KEY_MGR->IsOnceDown('Y'))
+		{
+			read[2] = true;
+		}
+	}
+	else if (read[2] == true)
+	{
+
+		if (letterx >= 800)
+		{
+			letterx -= 100;
+		}
+		if (letterx >= 600)
+		{
+			letterx -= 40;
+		}
+		if (letterx >= 450)
+		{
+			letterx -= 30;
+		}
+		if (letterx <= 450)
+		{
+			if (letteralpha >= 180)
+			{
+				letteralpha -= 5;
+			}
+		}
+		if (KEY_MGR->IsOnceDown('Y'))
+		{
+			letterx = 1300;
+			letteralpha = 255;
+			read[2] = false;
+		}
+	}
+
+	if (read[3] == false)
+	{
+		if (KEY_MGR->IsOnceDown('U'))
+		{
+			read[3] = true;
+		}
+	}
+	else if (read[3] == true)
+	{
+
+		if (letterx >= 800)
+		{
+			letterx -= 100;
+		}
+		if (letterx >= 600)
+		{
+			letterx -= 40;
+		}
+		if (letterx >= 450)
+		{
+			letterx -= 30;
+		}
+		if (letterx <= 450)
+		{
+			if (letteralpha >= 180)
+			{
+				letteralpha -= 5;
+			}
+		}
+		if (KEY_MGR->IsOnceDown('U'))
+		{
+			letterx = 1300;
+			letteralpha = 255;
+			read[3] = false;
+		}
+	}
+	//////////////////
+	if (KEY_MGR->IsOnceDown('Q'))
+	{
+		zoomout = true;
+		zoomin = false;
+	}
+	if (KEY_MGR->IsOnceDown('E'))
+	{
+		zoomout = false;
+		zoomin = true;
+	}
+	if (zoomout)
+	{
+		if (zoombarx <= 640)
+		{
+			if (this->zoombarx > 528)
+			{
+				this->zoombarx -= 2;
+			}
+			
+			if (zoombarx == 528)
+			{
+				zoombarx = 530;
+				zoomout = false;
+			}
+		}
+		if (zoombarx <= 748)
+		{
+			if (this->zoombarx > 642)
+			{
+				this->zoombarx -= 2;
+			}
+			
+			if (zoombarx == 642)
+			{
+				this->zoombarx = 640;
+				zoomout = false;
+			}
+		}
+		
+	}
+	if (zoomin)
+	{
+		if (zoombarx >= 640)
+		{
+			if (this->zoombarx < 748)
+			{
+				this->zoombarx += 2;
+			}
+		
+			if (zoombarx == 746)
+			{
+				zoombarx = 748;
+				zoomin = false;
+			}
+		}
+		if (zoombarx >= 530)
+		{
+			if (this->zoombarx < 640)
+			{
+				this->zoombarx += 2;
+			}
+			
+			if (zoombarx == 638)
+			{
+				zoombarx = 640;
+				zoomin = false;
+			}
+			
+		}
+	}
+	//////////////////
+
+	//////rec깜빡임
+	if (this->on == true)
+	{
+		reccount += 1;
+
+		if (reccount == 40)
+		{
+			reccount = 0;
+		}
+	}
+	else
+	{
+		reccount = 0;
+	}
+
+
+
+
+
+//////////////////랜더
+
+if (this->on == true)
+	{
+		//카메라
+		RECT rc = { 0,0,63,17 };
+		SPRITE_MGR->DrawTexture(this->STBY, &rc, 20, 40, 1.2f, 1.2f, NULL, 0xffffffff, &D3DXVECTOR3(0, 0, 0));
+
+		RECT rc2 = { 0,0,64,127 };
+		SPRITE_MGR->DrawTexture(this->HD, &rc2, 20, 600, 1.3f, 1.2f, NULL, 0xffffffff, &D3DXVECTOR3(0, 0, 0));
+
+		RECT rc3 = { 0,0,262,15 };
+		SPRITE_MGR->DrawTexture(this->W_T, &rc3, 480, 40, 1.2f, 1.2f, NULL, D3DCOLOR_ARGB(150, 255, 255, 255), &D3DXVECTOR3(0, 0, 0));
+
+
+		RECT rc4 = { 0,0,127,32 };
+		SPRITE_MGR->DrawTexture(this->battery, &rc4, 1100, 34, 1.2f, 1.2f, NULL, 0xffffffff, &D3DXVECTOR3(0, 0, 0));
+
+		RECT rc5 = { 0,0,128,64 };
+		SPRITE_MGR->DrawTexture(this->cube, &rc5, 550, 350, 1.2f, 1.2f, NULL, 0xffffffff, &D3DXVECTOR3(0, 0, 0));
+		if (this->reccount <= 20)
+		{
+			RECT rc6 = { 0,0,300,300 };
+			SPRITE_MGR->DrawTexture(this->rec, &rc6, 1130, 680, 1.0f, 1.0f, NULL, D3DCOLOR_ARGB(200, 255, 255, 255), &D3DXVECTOR3(0, 0, 0));
+		}
+		RECT rc7 = { 0,0,5,13 };
+		SPRITE_MGR->DrawTexture(this->zoombar, &rc7, zoombarx, 41, 1.0f, 1.2f, NULL, 0xffffffff, &D3DXVECTOR3(0, 0, 0));
+	}
+	if (read[0] == true)
+	{
+		//편지
+		loadInfo("text/help.txt");//loadInfo("텍스트파일이름.txt");텍스트는 무조건 한줄로.
+
+	}
+	if (read[1] == true)
+	{
+		//편지
+		loadInfo("text/psycho.txt");//loadInfo("텍스트파일이름.txt");텍스트는 무조건 한줄로.
+
+	}
+	if (read[2] == true)
+	{
+		//편지
+		loadInfo("text/thesis.txt");//loadInfo("텍스트파일이름.txt");텍스트는 무조건 한줄로.
+
+	}
+	if (read[3] == true)
+	{
+		//편지
+		loadInfo("text/hint.txt");//loadInfo("텍스트파일이름.txt");텍스트는 무조건 한줄로.
+
+	}
