@@ -54,6 +54,12 @@ extern HINSTANCE	g_hInst;	//프로그램 인스턴스 핸들 ( OS 가 부여한 프로그램 번호 
 extern float g_Czoom;
 extern int zDelta;
 
+extern bool bCamUp;
+extern int zoombarx;
+extern bool zoomin;
+extern bool zoomout;
+extern bool isGameEvent;
+
 //////////////////////////////////
 
 #include <string>
@@ -118,5 +124,3 @@ enum GAMEITEMTYPE
 	KEYITEM,
 	NOTEITEM
 };
-
-extern bool isGameEvent;

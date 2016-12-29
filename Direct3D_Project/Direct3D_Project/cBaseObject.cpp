@@ -112,10 +112,7 @@ void cBaseObject::BaseObjectRender()
 		else
 			this->pMesh->Render(this->pTransform);
 	}
-
-
-
-	this->BoundBox.RenderGizmo(this->pTransform);
+	//this->BoundBox.RenderGizmo(this->pTransform);
 }
 
 //랜더링 될 메쉬를 셋팅한다.
@@ -145,4 +142,13 @@ void  cBaseObject::SetMesh(cXMesh*	pMesh)
 		this->pSkinned->Init(pSkin);
 	}
 
+}
+
+void cBaseObject::ItemRender()
+{
+	if (this->pMesh != NULL)
+	{
+		this->pMesh->ItemRender(this->pTransform);
+	}
+	//this->BoundBox.RenderGizmo(this->pTransform);
 }

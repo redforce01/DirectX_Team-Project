@@ -1,7 +1,7 @@
 #pragma once
-#include "cScene.h"
 
-class cEffect : public cScene
+
+class cEffect 
 {
 private:
 	LPDIRECT3DTEXTURE9 blood_hit;

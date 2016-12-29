@@ -74,7 +74,7 @@ void Unit::AttachToCamera(cTransform * camera)
 void Unit::CameraAttachToUnit(cTransform * camera)
 {
 	pSkinnedTrans->AddChild(camera);
-
+	pMainCamera = (cCamera*)camera;
 }
 
 
@@ -86,10 +86,10 @@ void Unit::pushEnemyUnitVector(Unit * unit)
 
 bool Unit::SpDetectionCheck(Unit* Sub, Unit* Obj)
 {
-	D3DXVECTOR3 DistVec = (Sub->m_DetectSphere->localCenter - Obj->pSkinnedTrans->GetLocalPosition());
+	D3DXVECTOR3 DistVec = (Sub->pSkinnedTrans->GetWorldPosition() - Obj->pSkinnedTrans->GetLocalPosition());
 	float DistLen = D3DXVec3Length(&DistVec);
 
-	if (DistLen <= Sub->m_DetectSphere->radius)
+	if (DistLen <= 8.0f)
 	{
 		m_DetectedUnit = Obj;
 		return true;
@@ -103,10 +103,10 @@ bool Unit::SpDetectionCheck(Unit* Sub, Unit* Obj)
 
 bool Unit::SpCollisionCheck(Unit* Sub, Unit* Obj)
 {
-	D3DXVECTOR3 DistVec = (Sub->m_CollisionSphere->localCenter - Obj->pSkinnedTrans->GetLocalPosition());
+	D3DXVECTOR3 DistVec = (pSkinnedTrans->GetWorldPosition() - Obj->pSkinnedTrans->GetLocalPosition());
 	float DistLen = D3DXVec3Length(&DistVec);
 
-	if (DistLen <= Obj->getDetectSpere()->radius)
+	if (DistLen <= 2.0f)
 	{
 		m_DetectedUnit = Obj;
 		return true;
@@ -124,19 +124,7 @@ bool Unit::BoxCollisionCheck(Unit * Sub, Unit * Obj)
 	return false;
 }
 
-void Unit::CamControll()
-{
-	if (m_bCamUp == false)
-	{
-		pSkinnedAni->PlayOneShot("STAND_CAM_RAISE", 0.1f);
-		m_bCamUp = true;
-	}
-	else
-	{
-		pSkinnedAni->PlayOneShot("STAND_CAM_LOWER2", 0.1f);
-		m_bCamUp = false;
-	}
-}
+
 
 
 void Unit::Render()
@@ -150,13 +138,13 @@ void Unit::Render()
 	//cXMesh_Skinned::sSkinnedMeshEffect->SetMatrixArray("matLights", matLights, 10);
 	//cXMesh_Skinned::sSkinnedMeshEffect->SetInt("LightNum", this->lights.size());
 
-
 	this->pSkinnedAni->Render(pSkinnedTrans);
+	//GIZMO_MGR->Circle(pSkinnedTrans->GetWorldPosition(), 1);
 
 	//m_CollisionSphere->RenderGizmo(pSkinnedTrans);
 	//m_DetectSphere->RenderGizmo(pSkinnedTrans);
-	m_CollisionBox->RenderGizmo(pSkinnedTrans);
-	//GIZMO_MGR->Circle(pSkinnedTrans->GetWorldPosition(), 1);
+	//m_CollisionBox->RenderGizmo(pSkinnedTrans);
+	
 //	GIZMO_MGR->Circle(m_headPos, 1);
 
 

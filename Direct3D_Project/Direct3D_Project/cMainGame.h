@@ -27,7 +27,7 @@ public:
 
 
 public:
-
+	void zoom();
 	//프로시져
 	LRESULT MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 

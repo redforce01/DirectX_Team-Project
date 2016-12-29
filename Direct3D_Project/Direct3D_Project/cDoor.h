@@ -39,6 +39,7 @@ class cDoor : public cBaseObject
 	cBoundBox* m_InnerBox;
 
 	DOORSTATE m_state;
+	cObject_Sound* m_ObjSound;
 
 public:
 	cDoor(Unit* unit, Unit* enemy_Unit);

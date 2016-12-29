@@ -1,6 +1,5 @@
 #pragma once
 
-#include "cScene.h"
 
 class cMap_Bbox_Load;
 class playerTest;
@@ -21,7 +20,7 @@ struct TAGcollision
 	bool isHallway_8;
 };
 
-class cMap_Active :public cScene
+class cMap_Active 
 {
 private:
 	TAGcollision BoundBoxColl;

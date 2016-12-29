@@ -13,6 +13,10 @@ cTitle::~cTitle()
 
 HRESULT cTitle::Scene_Init()
 {
+
+	SOUNDDATA->stopSound(SOUND_TYPE_CUSTOM, SOUND_PLAY_TYPE_CUSTOM, 1);
+	SOUNDDATA->stopSound(SOUND_TYPE_CUSTOM, SOUND_PLAY_TYPE_CUSTOM, 5);
+
 	this->main = RESOURCE_TEXTURE->GetResource("../Resources/Ui_Effect/rrmain.png");
 	this->mouse = RESOURCE_TEXTURE->GetResource("../Resources/Ui_Effect/maininter/mouse.png");
 	this->background = RESOURCE_TEXTURE->GetResource("../Resources/Ui_Effect/background.png");
@@ -42,7 +46,7 @@ HRESULT cTitle::Scene_Init()
 	logoalpha = 0;
 	newgamecoliRect = { 550,500,807,533 };
 
-	SOUNDDATA->playSound(SOUND_TYPE_MENU, SOUND_PLAY_TYPE_MENUBGM, 0, 0.3);
+	SOUNDDATA->playSound(SOUND_TYPE_MENU, SOUND_PLAY_TYPE_MENUBGM, 0);
 
 	return S_OK;
 }
@@ -51,8 +55,12 @@ void cTitle::Scene_Release()
 {
 }
 
-void cTitle::Scene_Update(float timeDelta)
-{	
+void cTitle::Scene_Update(float timDelta)
+{
+	SOUNDDATA->stopSound(SOUND_TYPE_CUSTOM, SOUND_PLAY_TYPE_CUSTOM, 1);
+	SOUNDDATA->stopSound(SOUND_TYPE_CUSTOM, SOUND_PLAY_TYPE_CUSTOM, 5);
+	SOUNDDATA->playSound(SOUND_TYPE_MENU, SOUND_PLAY_TYPE_MENUBGM, 0);
+
 	count += 1;
 	if (count >= 40)
 	{
@@ -90,13 +98,14 @@ void cTitle::Scene_Update(float timeDelta)
 	{		
 		if (PtInRect(&exitcoliRect, GetMousePos()))
 		{
-			exit(0);
 			SOUNDDATA->stopSound(SOUND_TYPE_MENU, SOUND_PLAY_TYPE_MENUBGM, 0);
+			exit(0);
 		}
 		else if (PtInRect(&newgamecoliRect, GetMousePos()))
 		{
-			SCENE_MGR->ChangeScene("game", 1);
 			SOUNDDATA->stopSound(SOUND_TYPE_MENU, SOUND_PLAY_TYPE_MENUBGM, 0);
+			SCENE_MGR->ChangeScene("game", 1);
+			//SCENE_MGR->ChangeSceneWithLoading("game", "loading", 1, 1);
 		}
 	}
 }
@@ -112,7 +121,7 @@ void cTitle::Scene_RenderSprite()
 
 	SPRITE_MGR->DrawTexture(this->background, &backg, -50, 0, 1.3f, 1.3f, NULL, D3DCOLOR_ARGB(255, back, back, back), &D3DXVECTOR3(0, 0, 0));
 
-	SPRITE_MGR->DrawTexture(this->logo, &Logo, 420, 80, 1.8f, 1.8f, NULL, D3DCOLOR_ARGB(logoalpha, 255, 255, 255), &D3DXVECTOR3(0, 0, 0));
+	SPRITE_MGR->DrawTexture(this->logo, &Logo, 420, 110, 1.8f, 1.2f, NULL, D3DCOLOR_ARGB(logoalpha, 255, 255, 255), &D3DXVECTOR3(0, 0, 0));
 
 	SPRITE_MGR->DrawTexture(this->NewGame, &newgameRect, 550, 500, 0.7f, 0.7f, NULL, D3DCOLOR_ARGB(logoalpha, 255, 255, 255), &D3DXVECTOR3(0, 0, 0));
 

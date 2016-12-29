@@ -52,8 +52,9 @@ public:
 	virtual void InnerOpen() {};
 	virtual void OutterOpen() {};
 
-	virtual void CloseDoor() {};
+	virtual void CloseDoor() {  };
 	virtual bool getOpen() { return false; }
+	void ItemRender();
 
 protected:
 	virtual void setOpen(bool TF) {  }
@@ -65,5 +66,6 @@ protected:
 	virtual void BaseObjectNoActiveUpdate(float timeDelte) {}	//BaseObject 가 비활성화시 업데이트 실행....
 
 	virtual void BaseObjectRender();							//BaseObject 를 그릴때 실행
+
 };
 

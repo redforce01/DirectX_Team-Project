@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cScene.h"
+
 #define OBJSIZE 0.02f
 
 #define MilESPOSX 5.07f
@@ -13,7 +13,7 @@ class cElevator_Door;
 class Player;
 
 
-class cElevator : public cScene
+class cElevator
 {
 private:
 	cBaseObject* elevator_mesh;
@@ -44,7 +44,7 @@ public:
 
 	void SetElevatorLight(bool is) { isEleavotr_Light = is; }
 	bool GetElevatorLight() { return isEleavotr_Light; }
-
+	cTransform* GetElevatorTrans() { return elevator_mesh->pTransform;}
 	void DeBugMode();
 };
 

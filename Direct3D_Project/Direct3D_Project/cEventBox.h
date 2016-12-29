@@ -46,5 +46,25 @@ public:
 
 	virtual void EventCall();
 	virtual void EventUpdate();
+	////virtual void Event1Start();
+	////virtual void Event1End();
+	////virtual void EventEndToNormal();
 };
+
+class cDoorCloseEvent :public cEventBox
+{
+
+public:
+	cDoorCloseEvent(Unit* unit, Unit* enemy, D3DXVECTOR3 pos, D3DXVECTOR3 Size, cScene* scene) : cEventBox(unit, enemy, pos, Size, scene) {}
+
+	~cDoorCloseEvent() {};
+
+	virtual void EventCall();
+	virtual void EventUpdate();
+	////virtual void Event1Start();
+	////virtual void Event1End();
+	////virtual void EventEndToNormal();
+};
+
+
 

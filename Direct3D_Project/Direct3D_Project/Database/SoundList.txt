@@ -94,6 +94,56 @@
  ##Scrag
  ##Surprise
 
+#CustomBGM
+ ##BackgroundMusic
+
+#Courtyard
+ ##Rainy
+ ##Smile
+ ##Ground
+
+*Courtyard
+ -Ground
+  =WwiseDefaultBank_Amb_Courtyard.009
+
+ -Rainy
+  =Rainfallingsoundeffect
+  =WwiseDefaultBank_Amb_Courtyard.008
+  =WwiseDefaultBank_Amb_Courtyard.009
+  =WwiseDefaultBank_Amb_Courtyard.010
+  =WwiseDefaultBank_Amb_Courtyard.034
+  =WwiseDefaultBank_Amb_Courtyard.035
+  =WwiseDefaultBank_Amb_Courtyard.036
+  =WwiseDefaultBank_Amb_Courtyard.037
+  =WwiseDefaultBank_Amb_Courtyard.040
+  =WwiseDefaultBank_Amb_Courtyard.041
+  =WwiseDefaultBank_Amb_Courtyard.042
+  =WwiseDefaultBank_Amb_Courtyard.043
+  =WwiseDefaultBank_Amb_Courtyard.044
+  =WwiseDefaultBank_Amb_Courtyard.045
+
+ -Smile
+  =girlsmilesound
+
+
+
+*CustomBGM
+ -BackgroundMusic
+  =WwiseDefaultBank_General_Sound.013
+  =WwiseDefaultBank_General_Sound.014
+  =WwiseDefaultBank_General_Sound.016
+  =WwiseDefaultBank_General_Sound.017
+  =WwiseDefaultBank_General_Sound.028
+  =WwiseDefaultBank_General_Sound.030
+  =WwiseDefaultBank_General_Sound.038
+  =WwiseDefaultBank_General_Sound.053
+  =WwiseDefaultBank_General_Sound.088
+  =WwiseDefaultBank_General_Sound.089
+  =WwiseDefaultBank_General_Sound.090
+  =WwiseDefaultBank_General_Sound.091
+  =WwiseDefaultBank_General_Sound.093
+  =WwiseDefaultBank_General_Sound.103
+
 *Basement
  -Bend
   =WwiseDefaultBank_Amb_Basement.029
@@ -124,6 +174,19 @@
  -ElectricNoice
   =WwiseDefaultBank_Amb_Basement.028
   =WwiseDefaultBank_Amb_Basement.043
+
+ -Elevator
+  =WwiseDefaultBank_Amb_Labo.009
+  =WwiseDefaultBank_Amb_Labo.010
+  =WwiseDefaultBank_Amb_Labo.011
+  =WwiseDefaultBank_Amb_Labo.025
+
+ -Elevator2
+  =WwiseDefaultBank_Amb_Generic.065
+  =WwiseDefaultBank_Amb_Generic.066
+  =WwiseDefaultBank_Amb_Male_Ward.085
+  =WwiseDefaultBank_Amb_Male_Ward.155
+  =WwiseDefaultBank_Amb_Sewer.049
 
  -HallWay
   =WwiseDefaultBank_Amb_Basement.007
@@ -159,18 +222,6 @@
 
  -Switch
   =WwiseDefaultBank_Amb_Basement.027
-
- -Elevator
-  =WwiseDefaultBank_Amb_Labo.010
-  =WwiseDefaultBank_Amb_Labo.011
-  =WwiseDefaultBank_Amb_Labo.025
-
- -Elevator2
-  =WwiseDefaultBank_Amb_Generic.065
-  =WwiseDefaultBank_Amb_Generic.066
-  =WwiseDefaultBank_Amb_Male_Ward.085
-  =WwiseDefaultBank_Amb_Male_Ward.155
-  =WwiseDefaultBank_Amb_Sewer.049
 
  -OpenDoor
   =WwiseDefaultBank_General_Sound.130
@@ -1141,6 +1192,8 @@
   =WwiseDefaultBank_VO_Miles.070
   =WwiseDefaultBank_VO_Miles.071
   =WwiseDefaultBank_VO_Miles.072
+  =WwiseDefaultBank_VO_Miles.999
+
 
  -Surprise
   =WwiseDefaultBank_VO_Miles.104

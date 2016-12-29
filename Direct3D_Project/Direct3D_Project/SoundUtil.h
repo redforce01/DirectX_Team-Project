@@ -3,23 +3,23 @@
 namespace SoundUtil
 {
 	/*	SOUND DATA를 출력 시 이용 하는 열거형 타입들
-	/	
+	/
 	/	SOUND DATA를 출력 하고 싶을 시 아래
 	/	SOUNDDATA->PlaySound() 함수를 이용
 	/	SOUND_DATA_TYPE, SOUND_DATA_PLAY_TYPE를 입력 후
-	/	SOUND NUMBER를 입력 할 것	
-	/	
+	/	SOUND NUMBER를 입력 할 것
+	/
 	/
 	/	SOUND를 추가 하고 싶을 시
 	/	Database 폴더 내에 있는 shortSoundList.txt 파일을 수정할 것
 	/	SoundList.txt 파일을 참고하여 원하는 사운드의
-	/	
+	/
 	/   1. " * " 이 붙은 카테고리를 추가
 	/   2. " - " 가 붙은 항목을 추가
 	/	3. " = " 이 붙은 파일 이름을 추가
 	/	4. cSoundData.cpp 파일에서 findSoundKey() 함수내에 추가 한
 	/	사운드 파일의 최종 경로의 폴더 이름 soundKey로 추가
-	/	
+	/
 	*/
 
 	enum SOUND_DATA_TYPE
@@ -31,11 +31,21 @@ namespace SoundUtil
 		SOUND_TYPE_NPC,					//NPC EFFECT SOUND
 		SOUND_TYPE_STRUCT_BASEMENT,		//건물 실내 SOUND - 1
 		SOUND_TYPE_STRUCT_FEMALEWARD,	//건물 실내 SOUND - 2
+		SOUND_TYPE_STRUCT_COURTYARD,	//야외 SOUND
+		SOUND_TYPE_CUSTOM,				//추가 커스텀 사운드
 		SOUND_TYPE_ETC,					//기타
 	};
 
 	enum SOUND_DATA_PLAY_TYPE
 	{
+		//COURTYARD SOUND
+		SOUND_PLAY_TYPE_RAINY,						//야외 빗소리							//SOUND_TYPE_STRUCT_COURTYARD
+		SOUND_PLAY_TYPE_SMILE,						//야외 웃음소리							//SOUND_TYPE_STRUCT_COURTYARD
+		SOUND_PLAY_TYPE_GROUND,						//야외 귀뚜리미 소리						//SOUND_TYPE_STRUCT_COURTYARD
+
+		//CUSTOM SOUND
+		SOUND_PLAY_TYPE_CUSTOM,						//CUSTOM SOUND							//SOUND_TYPE_CUSTOM
+
 		//MENU SOUND
 		SOUND_PLAY_TYPE_MENUBGM,					//MENU BGM								//SOUND_TYPE_MENU
 		SOUND_PLAY_TYPE_MENUEFFECT,					//MENU EFFECT							//SOUND_TYPE_MENU
@@ -43,7 +53,7 @@ namespace SoundUtil
 		//GAME BGM
 		SOUND_PLAY_GAME_BGM,						//GAME BGM								//SOUND_TYPE_BGM
 
-		//CHARACTER SOUND(PLAYER)
+													//CHARACTER SOUND(PLAYER)
 		SOUND_PLAY_TYPE_PLAYER_WALKING_NORMAL,		//PLAYER WALKING - 일반					//SOUND_TYPE_PLAYER_EFFECT
 		SOUND_PLAY_TYPE_PLAYER_WALKING_WOOD,		//PLAYER WALKING - 나무					//SOUND_TYPE_PLAYER_EFFECT
 		SOUND_PLAY_TYPE_PLAYER_WALKING_IRON,		//PLAYER WALKING - 철판					//SOUND_TYPE_PLAYER_EFFECT
@@ -71,12 +81,12 @@ namespace SoundUtil
 		SOUND_PLAY_TYPE_PLAYER_SEARCH_DESK,			//PLAYER 책상 뒤지는 소리					//SOUND_TYPE_PLAYER_EFFECT
 		SOUND_PLAY_TYPE_PLAYER_TYPEKEYBOARD,		//PLAYER 키보드 치는 소리					//SOUND_TYPE_PLAYER_EFFECT
 
-		//CAM EFFECT SOUND
+													//CAM EFFECT SOUND
 		SOUND_PLAY_TYPE_CAM_EFFECT,					//캠코더 이펙트 소리						//SOUND_TYPE_PLAYER_EFFECT
 		SOUND_PLAY_TYPE_CAM_OUT,					//캠코더 꺼내는 소리						//SOUND_TYPE_PLAYER_EFFECT
 		SOUND_PLAY_TYPE_CAM_VISION,					//캠코더 나이트비전 소리					//SOUND_TYPE_PLAYER_EFFECT
 
-		//CHARACTER_SOUND(NPC)
+													//CHARACTER_SOUND(NPC)
 		SOUND_PLAY_TYPE_NPC_SCISSORS,				//NPC 가위 질 소리						//SOUND_TYPE_NPC
 		SOUND_PLAY_TYPE_NPC_KNIFE,					//NPC 나이프로 뭔가를 써는 소리			//SOUND_TYPE_NPC
 
@@ -96,26 +106,26 @@ namespace SoundUtil
 		SOUND_PLAY_TYPE_NPC_TRYOPEN_DOOR,			//NPC 문 열려고 시도하는 소리				//SOUND_TYPE_NPC
 		SOUND_PLAY_TYPE_NPC_OPEN_DOOR,				//NPC 문 여는 소리						//SOUND_TYPE_NPC
 
-		//ROOM EFFECT SOUND
+													//ROOM EFFECT SOUND
 		SOUND_PLAY_TYPE_ROOM_RUN_FAR,				//방안에 걷는 소리(멀리서 들리는 듯한)		//SOUND_TYPE_STRUCT_FEMALEWARD
 		SOUND_PLAY_TYPE_ROOM_RUN_CLOSE,				//방안에 걷는 소리(가까이서 들리는 듯한)	//SOUND_TYPE_STRUCT_FEMALEWARD
 		SOUND_PLAY_TYPE_ROOM_SHOWER,				//샤워 룸 소리							//SOUND_TYPE_STRUCT_FEMALEWARD
-		
-		//HALLWAY EFFECT SOUND
+
+													//HALLWAY EFFECT SOUND
 		SOUND_PLAY_TYPE_HALLWAYRUN_FAR,				//복도 걷는 소리(멀리)					//SOUND_TYPE_STRUCT_FEMALEWARD
 		SOUND_PLAY_TYPE_HALLWAYRUN_CLOSE,			//복도 걷는 소리(가까이)					//SOUND_TYPE_STRUCT_FEMALEWARD
 
-		//LOOK EVENT SOUND
+													//LOOK EVENT SOUND
 		SOUND_PLAY_TYPE_LOOKEVENT,					//갑툭튀 귀신 나올 법한 소리들				//SOUND_TYPE_STRUCT_FEMALEWARD
 
-		//THUNDER SOUND
+													//THUNDER SOUND
 		SOUND_PLAY_TYPE_THUNDER,					//천둥소리(실내 기준)						//SOUND_TYPE_STRUCT_FEMALEWARD
 
-		//MOOD SOUND
+													//MOOD SOUND
 		SOUND_PLAY_TYPE_MOOD_HALL,					//복도 또는 실내 분위기 소리(공포)			//SOUND_TYPE_STRUCT_FEMALEWARD
 		SOUND_PLAY_TYPE_MOOD_ROOM,					//방안에 분위기 소리(공포)				//SOUND_TYPE_STRUCT_BASEMENT
 
-		//OBJECT SOUND
+													//OBJECT SOUND
 		SOUND_PLAY_TYPE_BEND,						//뭔가 구부러지는 소리					//SOUND_TYPE_STRUCT_FEMALEWARD
 		SOUND_PLAY_TYPE_MACHINE_01,					//기계 소리 - 1							//SOUND_TYPE_STRUCT_FEMALEWARD
 		SOUND_PLAY_TYPE_MACHINE_02,					//기계 소리 - 2							//SOUND_TYPE_STRUCT_BASEMENT

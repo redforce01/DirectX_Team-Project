@@ -1,10 +1,10 @@
 #pragma once
 
-#include "cScene.h"
+
 
 class cSetBoundObject;
 
-class cMap_Bbox_Save:public cScene
+class cMap_Bbox_Save
 {
 private:
 	std::vector<cSetBoundObject*> boundObj;

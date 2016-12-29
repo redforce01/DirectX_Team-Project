@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cCloseEyeEvent.h"
-
+#include "cScene.h"
+#include "Unit.h"
 
 cCloseEyeEvent::cCloseEyeEvent()
 {
@@ -22,7 +23,11 @@ HRESULT cCloseEyeEvent::Scene_Init()
 	eyealpha = 255;
 	eventstart = false;
 	count = 0;
+	EyeCloseCount = 1;
+	Speed = 5;
 	isPlayEye = false;
+	eyeup = false;
+
 	return S_OK;
 }
 
@@ -33,7 +38,7 @@ void cCloseEyeEvent::Scene_Release()
 void cCloseEyeEvent::Scene_Update(float timeDelta)
 {
 	//페이드
-	if (isPlayEye&&count <1 )
+	if (isPlayEye&&count <1)
 	{
 		event[0] = true;
 		eventstart = true;
@@ -41,99 +46,8 @@ void cCloseEyeEvent::Scene_Update(float timeDelta)
 		downeyeplaceY = 795;
 		count = 1;
 	}
+	SetCloseTime();
 	
-	if (event[0] == true)
-	{
-		if (upeyeplaceY < 0)//<-위치값
-			upeyeplaceY += 15;//<-속도
-		if (downeyeplaceY > 0)//<-위치값
-			downeyeplaceY -= 15;//<-속도
-		if (upeyeplaceY == 0 && downeyeplaceY == 0)//<-위치값
-		{
-			event[1] = true;
-		}
-	}
-	if (event[1] == true)
-	{
-		event[0] = false;
-		if (upeyeplaceY <= 0 && upeyeplaceY > -495)//<-위치값
-			upeyeplaceY -= 15;//<-속도
-		if (downeyeplaceY >= 0 && downeyeplaceY < 495)//<-위치값
-			downeyeplaceY += 15;//<-속도
-		if (upeyeplaceY == -495 && downeyeplaceY == 495)//<-위치값
-		{
-			event[2] = true;
-		}
-	}
-	if (event[2] == true)
-	{
-		event[1] = false;
-		if (upeyeplaceY >= -495 && upeyeplaceY <-90)//<-위치값
-		{
-			upeyeplaceY += 15;//<-속도
-		}
-		if (downeyeplaceY <= 495 && downeyeplaceY >90)//<-위치값
-		{
-			downeyeplaceY -= 15;//<-속도
-		}
-		if (upeyeplaceY == -90 && downeyeplaceY == 90)//<-위치값
-		{
-			event[3] = true;
-
-		}
-	}
-	if (event[3] == true)
-	{
-		event[2] = false;
-		if (upeyeplaceY > -390 && upeyeplaceY <= -90)//<-위치값
-		{
-			upeyeplaceY -= 15;//<-속도
-		}
-		if (downeyeplaceY < 390 && downeyeplaceY >= 90)//<-위치값
-		{
-			downeyeplaceY += 15;//<-속도
-		}
-		if (upeyeplaceY == -390 && downeyeplaceY == 390)//<-위치값
-		{
-			event[4] = true;//<-속도
-
-		}
-	}
-	if (event[4] == true)
-	{
-		event[3] = false;
-		if (upeyeplaceY >= -390 && upeyeplaceY < 0)//<-위치값
-		{
-			upeyeplaceY += 15;//<-속도
-		}
-		if (downeyeplaceY <= 390 && downeyeplaceY > 0)//<-위치값
-		{
-			downeyeplaceY -= 15;//<-속도
-		}
-		if (upeyeplaceY == 0 && downeyeplaceY == 0)//<-위치값
-		{
-			event[5] = true;
-		}
-	}
-	if (event[5] == true)
-	{
-		event[4] = false;
-		if (upeyeplaceY <= 0 && upeyeplaceY > -795)//<-위치값
-		{
-			upeyeplaceY -= 15;//<-속도
-		}
-		if (downeyeplaceY >= 0 && downeyeplaceY < 795)//<-위치값
-		{
-			downeyeplaceY += 15;//<-속도
-		}
-		if (upeyeplaceY == -795 && downeyeplaceY == 795)//<-위치값
-		{
-			event[5] = false;
-			eventstart = false;
-			isPlayEye = false;
-			count = 0;
-		}
-	}
 }
 
 void cCloseEyeEvent::Scene_Render1()
@@ -148,5 +62,58 @@ void cCloseEyeEvent::Scene_RenderSprite()
 		SPRITE_MGR->DrawTexture(this->upeye, &rc, -100, upeyeplaceY, 1.0f, 0.8f, NULL, D3DCOLOR_ARGB(255, 255, 255, 255), &D3DXVECTOR3(0, 0, 0));
 		RECT rc2 = { 0,0,1500,1000 };
 		SPRITE_MGR->DrawTexture(this->downeye, &rc2, -100, downeyeplaceY, 1.0f, 0.8f, NULL, D3DCOLOR_ARGB(255, 255, 255, 255), &D3DXVECTOR3(0, 0, 0));
+	}
+}
+
+void cCloseEyeEvent::SetCloseTime()
+{
+	for (int i = 0; i < EyeCloseCount; i++)
+	{
+
+		if (event[i])
+		{
+
+			if (!eyeup)
+			{
+				if (upeyeplaceY < -20)
+				{
+					upeyeplaceY += Speed;
+				}
+				if (downeyeplaceY > 20)
+				{
+					downeyeplaceY -= Speed;
+				}
+				if (upeyeplaceY >= -20 && downeyeplaceY <= 20)
+				{
+					eyeup = true;
+					if (m_CurUnit->IsDead())
+					{
+						SCENE_MGR->ChangeScene("title");
+						return;
+					}
+				}
+			}
+			else if (eyeup == true)
+			{
+				if (upeyeplaceY >= -800)
+				{
+					upeyeplaceY -= Speed;
+				}
+				if (downeyeplaceY <= 800)
+				{
+					downeyeplaceY += Speed;
+				}
+				if (upeyeplaceY < -800 && downeyeplaceY > 800)
+				{
+					isPlayEye = false;
+					eyeup = false;
+					count = 0;
+					event[i + 1] = true;
+					event[i] = false;
+
+				}
+			}
+		}
+
 	}
 }

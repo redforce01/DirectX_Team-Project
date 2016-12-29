@@ -27,6 +27,7 @@ HRESULT cDoorPosition::Scene_Init()
 		door.push_back(doortemp);
 	}
 	DoorSetPosition();
+	m_EnemyUnit->SetDoorVec(door);
 	return S_OK;
 }
 
@@ -40,12 +41,14 @@ void cDoorPosition::Scene_Release()
 
 void cDoorPosition::Scene_Update(float timeDelta)
 {
-	for (int i = 0; i < door.size(); i++)
-	{
-		door[i]->ComputeRay(camRay);
-		door[i]->Update(timeDelta);
-		PHYSICS_MGR->IsBlocking(m_unit->getTrans(), m_unit->getCollisionBox(), door[i]->pTransform, &door[i]->BoundBox, 1.0f);
-	}
+
+		for (int i = 0; i < door.size(); i++)
+		{
+			door[i]->ComputeRay(camRay);
+			door[i]->Update(timeDelta);
+			PHYSICS_MGR->IsBlocking(m_unit->getTrans(), m_unit->getCollisionBox(), door[i]->pTransform, &door[i]->BoundBox, 1.0f);
+		}
+
 	/*if (KEY_MGR->IsStayDown('3'))
 	door[6]->pTransform->DefaultControl2(timeDelta);*/
 }

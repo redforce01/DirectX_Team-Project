@@ -212,6 +212,9 @@ void cXMesh_Static::Render(const cTransform* Trans)
 	D3DXVECTOR4 lightColor(1, 1, 1, 1);
 	sStaticMeshEffect->SetVector("vLightColor", &lightColor);
 
+	
+	sStaticMeshEffect->SetFloat("g_fTime", TIME_MGR->GetTotalDeltaSec());
+	sStaticMeshEffect->SetBool("g_bIsItem", false);
 
 	//Effect 로 그리기 시작
 	sStaticMeshEffect->SetTechnique("Mesh");
@@ -497,4 +500,58 @@ void cXMesh_Static::SetLighting(std::vector<cLight*>* pLights)
 void cXMesh_Static::SetTechniqueName(std::string name)
 {
 	sStaticMeshEffect->SetTechnique(name.c_str());
+
+	
+}
+
+void cXMesh_Static::ItemRender(const cTransform * pTrans)
+{
+	//월드행렬 셋팅
+	D3DXMATRIXA16 matWorld = pTrans->GetFinalMatrix();
+	sStaticMeshEffect->SetMatrix("matWorld", &matWorld);
+
+	//광원 방향 일단...
+	D3DXVECTOR4 lightDir(1, -1, 1, 1);
+	sStaticMeshEffect->SetVector("vLightDir", &lightDir);
+
+	//라이트 컬러 일단 흰색
+	D3DXVECTOR4 lightColor(1, 1, 1, 1);
+	sStaticMeshEffect->SetVector("vLightColor", &lightColor);
+
+
+	//Effect 로 그리기 시작
+	sStaticMeshEffect->SetTechnique("Mesh");
+
+	sStaticMeshEffect->SetFloat("g_fTime", TIME_MGR->GetTotalDeltaSec());
+	sStaticMeshEffect->SetBool("g_bIsItem", true);
+
+	UINT passNum;
+	sStaticMeshEffect->Begin(&passNum, 0);
+
+	for (UINT i = 0; i < passNum; i++)
+	{
+		sStaticMeshEffect->BeginPass(i);
+
+		//서브셋수만큼 돌아 재낀다...
+		for (unsigned int m = 0; m < this->dwMaterialsNum; m++) {
+
+			//텍스쳐 셋팅
+			sStaticMeshEffect->SetTexture("Diffuse_Tex", this->vecDiffuseTex[m]);
+			sStaticMeshEffect->SetTexture("Normal_Tex", this->vecNormalTex[m]);
+			sStaticMeshEffect->SetTexture("Specular_Tex", this->vecSpecularTex[m]);
+			sStaticMeshEffect->SetTexture("Emission_Tex", this->vecEmissionTex[m]);
+			//스펙파워
+			sStaticMeshEffect->SetFloat("fSpecPower", this->vecMaterials[m].Power);
+
+			//Begin 이 들어오고 난후 값이 바뀌면 다음과 같이 실행
+			sStaticMeshEffect->CommitChanges();
+
+			this->pMesh->DrawSubset(m);
+		}
+
+		sStaticMeshEffect->EndPass();
+	}
+
+	sStaticMeshEffect->End();
+
 }

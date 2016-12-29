@@ -13,9 +13,13 @@ cSoundData::~cSoundData()
 
 void cSoundData::Init()
 {
+	totalSoundSize = 0;
+
 	LoadSoundList();
 	addSoundList();
 
+	//Get totalSoundSize Function
+	//totalSoundSize = GetTotalSoundSize();
 }
 
 void cSoundData::Release()
@@ -130,6 +134,62 @@ void cSoundData::playSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUN
 	}
 }
 
+void cSoundData::resumeSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", 0);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (!SOUNDMANAGER->isPauseSound(applyKey))
+	{
+		SOUNDMANAGER->resume(applyKey);
+	}
+}
+
+void cSoundData::resumeSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", soundNum);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (!SOUNDMANAGER->isPauseSound(applyKey))
+	{
+		SOUNDMANAGER->resume(applyKey);
+	}
+}
+
+void cSoundData::resumeSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum, float volume)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", soundNum);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (!SOUNDMANAGER->isPauseSound(applyKey))
+	{
+		SOUNDMANAGER->resume(applyKey);
+	}
+}
+
+
+
 void cSoundData::stopSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 {
 	string category = findSoundCategory(soundType);
@@ -166,6 +226,42 @@ void cSoundData::stopSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUN
 	}
 }
 
+void cSoundData::pauseSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", 0);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (SOUNDMANAGER->isPauseSound(applyKey))
+	{
+		SOUNDMANAGER->pause(applyKey);
+	}
+}
+
+void cSoundData::pauseSound(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::SOUND_DATA_PLAY_TYPE situation, int soundNum)
+{
+	string category = findSoundCategory(soundType);
+	string soundKey = findSoundKey(situation);
+
+
+	char strNum[10];
+	sprintf_s(strNum, "%d", soundNum);
+	string keyCount = strNum;
+
+	string applyKey = category + "_" + soundKey + keyCount;
+
+	if (SOUNDMANAGER->isPauseSound(applyKey))
+	{
+		SOUNDMANAGER->pause(applyKey);
+	}
+}
+
 string cSoundData::findSoundCategory(SoundUtil::SOUND_DATA_TYPE soundType)
 {
 	string category;
@@ -192,6 +288,12 @@ string cSoundData::findSoundCategory(SoundUtil::SOUND_DATA_TYPE soundType)
 	case SoundUtil::SOUND_TYPE_STRUCT_FEMALEWARD:
 		category = "FemaleWard";
 		break;
+	case SoundUtil::SOUND_TYPE_STRUCT_COURTYARD:
+		category = "Courtyard";
+		break;
+	case SoundUtil::SOUND_TYPE_CUSTOM:
+		category = "CustomBGM";
+		break;
 	case SoundUtil::SOUND_TYPE_ETC:
 		break;
 	}
@@ -213,6 +315,22 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 		break;
 	case SoundUtil::SOUND_PLAY_GAME_BGM:
 		soundKey = "BackgroundMusic";
+		break;
+
+		//CUSTOM SOUND
+	case SoundUtil::SOUND_PLAY_TYPE_CUSTOM:
+		soundKey = "BackgroundMusic";
+		break;
+
+		//Courtyard SOUND
+	case SoundUtil::SOUND_PLAY_TYPE_RAINY:
+		soundKey = "Rainy";
+		break;
+	case SoundUtil::SOUND_PLAY_TYPE_SMILE:
+		soundKey = "Smile";
+		break;
+	case SoundUtil::SOUND_PLAY_TYPE_GROUND:
+		soundKey = "Ground";
 		break;
 
 		//PLAYER SOUND
@@ -393,9 +511,9 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 	case SoundUtil::SOUND_PLAY_TYPE_SWITCH:	//Basement
 		soundKey = "Switch";
 		break;
-	case SoundUtil::SOUND_PLAY_TYPE_WATERFALL:
-		
+	case SoundUtil::SOUND_PLAY_TYPE_WATERFALL:		
 		break;
+
 	case SoundUtil::SOUND_PLAY_TYPE_CAN:
 		soundKey = "Can";
 		break;
@@ -429,6 +547,7 @@ string cSoundData::findSoundKey(SoundUtil::SOUND_DATA_PLAY_TYPE situation)
 	case SoundUtil::SOUND_PLAY_TYPE_LOCKDOOR:
 		soundKey = "LockDoor";
 		break;
+
 	default:
 		break;
 	}
@@ -449,6 +568,24 @@ string cSoundData::getSoundKey(SoundUtil::SOUND_DATA_TYPE soundType, SoundUtil::
 	string applyKey = category + "_" + soundKey + keyCount;
 
 	return applyKey;
+}
+
+int cSoundData::GetTotalSoundSize()
+{
+	int totalSoundSize = 0;
+	for (iterTotalSound = arrTotalSound.begin(); iterTotalSound != arrTotalSound.end(); ++iterTotalSound)
+	{
+		for (iterTotalSound->second->iterPartSound = iterTotalSound->second->arrPartSound.begin();
+		iterTotalSound->second->iterPartSound != iterTotalSound->second->arrPartSound.end(); ++iterTotalSound->second->iterPartSound)
+		{
+			for (int i = 0; i < iterTotalSound->second->iterPartSound->second->arrSound.size(); i++)
+			{
+				totalSoundSize++;
+			}
+		}
+	}
+
+	return totalSoundSize;
 }
 
 void cSoundStruct::SoundMgrAdd()

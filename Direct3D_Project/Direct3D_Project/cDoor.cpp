@@ -8,6 +8,9 @@
 
 cDoor::cDoor(Unit* unit, Unit* enemy_Unit) : m_CurUnit(unit), m_Enemy_Unit(enemy_Unit)
 {
+	m_ObjSound = new cObject_Sound;
+	m_ObjSound->Init(SOUNDDATA->getSoundKey(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 1), 0, false, false, D3DXVECTOR3(0, 0, 0));
+
 
 	m_OuterBox = new cBoundBox();
 	m_InnerBox = new cBoundBox();
@@ -44,8 +47,9 @@ void cDoor::OutterOpen() {
 
 void cDoor::CloseDoor()
 {
-
 	bActive = false;
+	m_isPlayerInner = false;
+	m_isPlayerOuter = false;
 }
 
 bool cDoor::CheckInnerBound(Unit* unit)
@@ -117,13 +121,14 @@ void cDoor::CloseDoorUpdate(float timeDelta)
 	{
 		if (m_state == OUTER_OPENED)
 		{
-			m_Angle += DOORSPEED;
+		m_Angle += DOORSPEED;
 			if (m_Angle >= MAX_OPEN_ANGLE) {
 				m_Angle = 0;
 				bActive = true;
 				m_isOpen = false;
 				m_state = CLOSED;
 			}
+			SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0);
 			m_InnerTrans->RotateLocal(0, DOORSPEED * ONE_RAD , 0);
 			m_OuterTrans->RotateLocal(0, DOORSPEED * ONE_RAD , 0);
 			pTransform->RotateLocal(0, DOORSPEED * ONE_RAD , 0);
@@ -138,6 +143,7 @@ void cDoor::CloseDoorUpdate(float timeDelta)
 				m_state = CLOSED;
 				
 			}
+			SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0);
 			m_InnerTrans->RotateLocal(0, -DOORSPEED * ONE_RAD, 0);
 			m_OuterTrans->RotateLocal(0, -DOORSPEED * ONE_RAD , 0);
 			pTransform->RotateLocal(0, -DOORSPEED * ONE_RAD , 0);
@@ -154,7 +160,7 @@ void cDoor::CloseDoorUpdate(float timeDelta)
 void cDoor::BaseObjectUpdate(float timeDelta)
 {
 	cTransform Trans;
-	
+
 	if (PHYSICS_MGR->IsRayHitStaticMeshObject(&m_ray, this, NULL, NULL))
 	{
 		if (!m_isLock)
@@ -163,7 +169,7 @@ void cDoor::BaseObjectUpdate(float timeDelta)
 			{
 				if (this->CheckInnerBound(m_CurUnit))
 				{
-					SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0, 0.1);
+					SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0, 0.3);
 					//m_state = OUTER_OPENING;
 					bActive = false;
 					m_isPlayerInner = true;
@@ -172,7 +178,7 @@ void cDoor::BaseObjectUpdate(float timeDelta)
 				}
 				else if (CheckOuterBound(m_CurUnit))
 				{
-					SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0, 0.1);
+					SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0, 0.3);
 					//m_state = INNER_OPENING;
 					bActive = false;
 					m_isPlayerInner = false;
@@ -187,7 +193,7 @@ void cDoor::BaseObjectUpdate(float timeDelta)
 			{
 				m_isPlayerInner = false;
 				m_isPlayerOuter = false;
-				SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_TRYOPEN_DOOR, 0, 0.1);
+				SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_TRYOPEN_DOOR, 0, 0.3);
 			}
 		}
 		
@@ -198,20 +204,21 @@ void cDoor::BaseObjectUpdate(float timeDelta)
 
 	if (CheckOuterBound(m_Enemy_Unit))
 	{
+		m_ObjSound->Update(timeDelta, m_CurUnit->getTrans()->GetWorldPosition());
 		bActive = false;
 		m_isPlayerInner = false;
 		m_isPlayerOuter = true;
-		SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0, 0.1);
+		m_ObjSound->SoundPlay(true);
 		return;
 
 	}
 	if (CheckInnerBound(m_Enemy_Unit))
 	{
-
+		m_ObjSound->Update(timeDelta, m_CurUnit->getTrans()->GetWorldPosition());
 		bActive = false;
 		m_isPlayerInner = true;
 		m_isPlayerOuter = false;
-		SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_OPEN_DOOR, 0, 0.1);
+		m_ObjSound->SoundPlay(true);
 		return;
 	}
 		
@@ -235,10 +242,10 @@ void cDoor::BaseObjectNoActiveUpdate(float timeDelte)
 void cDoor::BaseObjectRender()
 {
 	cBaseObject::BaseObjectRender();
-	if(m_OuterBox != NULL)
-	m_OuterBox->RenderGizmo(m_OuterTrans);
-	if (m_InnerBox != NULL)
-	m_InnerBox->RenderGizmo(m_InnerTrans);
+	//if(m_OuterBox != NULL)
+	////m_OuterBox->RenderGizmo(m_OuterTrans);
+	//if (m_InnerBox != NULL)
+	////m_InnerBox->RenderGizmo(m_InnerTrans);
 }
 
 void cDoor::settingPoint()
@@ -253,6 +260,8 @@ void cDoor::settingPoint()
 	ComputeBoundBox();
 	m_OuterBox->SetBound(&D3DXVECTOR3(-0.55f,0, BoundBox.halfSize.z), &BoundBox.halfSize);
 	m_InnerBox->SetBound(&D3DXVECTOR3(0.55f, 0, BoundBox.halfSize.z ), &BoundBox.halfSize);
+
+	m_ObjSound->SetPosition(pTransform->GetWorldPosition());
 }
 
 void cDoor::ComputeRay(Ray ray)

@@ -2,6 +2,10 @@
 #include "cCameraUI.h"
 #include "cCamera.h"
 
+//* Xmas
+int zoombarx = 532;
+bool zoomin = false;
+bool zoomout = false;
 
 cCameraUI::cCameraUI(cCamera* Camera, Unit* unit)
 {
@@ -32,7 +36,6 @@ HRESULT cCameraUI::Scene_Init()
 
 	zoomin = false;
 	zoomout = false;
-	zoombarx = 640;
 	delayCount = 0;
 
 	return S_OK;
@@ -44,27 +47,6 @@ void cCameraUI::Scene_Release()
 
 void cCameraUI::Scene_Update(float timeDelta)
 {
-	if (isRec)
-	{
-		delayCount++;
-		if (delayCount > 50)
-		{
-			//* 카메라 올렸으면
-			if (this->m_CurUnit->IsCamUp())
-			{
-				//* 약간 줌인 된 상태에서 시작함.
-				pMainCamera->fov = this->CamFov + g_Czoom - 0.1f;
-			}
-			else
-			{
-				//* 카메라를 내리면 초기 세팅된 그 값으로
-				pMainCamera->fov = this->CamFov;
-				g_Czoom = 0;
-			}
-			isdelay = true;
-		}
-		
-	}
 	//////rec깜빡임
 	if (this->isdelay == true)
 	{
@@ -77,6 +59,8 @@ void cCameraUI::Scene_Update(float timeDelta)
 	}
 	else
 	{
+		//* Xmas
+		zoombarx = 532;
 		reccount = 0;
 	}
 }

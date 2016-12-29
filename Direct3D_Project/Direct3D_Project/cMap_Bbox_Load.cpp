@@ -218,6 +218,7 @@ void cMap_Bbox_Load::InitLoadBound(string str, std::vector<cBaseObject*>* v_base
 
 		//Çª½¬
 		v_base->push_back(pNewBound);
+		m_vAllBox.push_back(pNewBound);
 	}
 }
 

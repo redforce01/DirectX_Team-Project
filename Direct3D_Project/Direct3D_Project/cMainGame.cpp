@@ -3,9 +3,12 @@
 #include "cImage.h"
 #include "cTitle.h"
 #include "cScene_Game.h"
+#include "cEndingMain.h"
+#include "cScene_Loading.h"
 
 float g_Czoom = 0.0f;
 int zDelta = 0.0f;
+bool bCamUp = false;
 
 cMainGame::cMainGame( void )
 {
@@ -35,8 +38,12 @@ HRESULT cMainGame::Init( void )
 
 	SCENE_MGR->AddScene("title", new cTitle);
 	SCENE_MGR->AddScene("game", new cScene_Game);
+	SCENE_MGR->AddScene("ending", new cEndingMain);
 
-	SCENE_MGR->ChangeScene("game");
+	SCENE_MGR->AddLoadingScene("loading", new cScene_Loading);
+	//SCENE_MGR->AddScene("loading", new cScene_Loading);
+	
+	SCENE_MGR->ChangeScene("title");
 
 	//DXFONT_MGR->addStyle(Device, "차차차", "펜흘림", 30.f);
 
@@ -99,14 +106,14 @@ void cMainGame::Update()
 {
 	//타임매니져 업데이트
 	TIME_MGR->UpdateTime(60.0f);
-
+	SOUNDMANAGER->update();
 	//한프레임 갱신 시간
 	double timeDelta = TIME_MGR->GetFrameDeltaSec();
-	
-	SOUNDMANAGER->update();
 
 	//씬업데이트
 	SCENE_MGR->Update(timeDelta);
+//	EVENT_MGR->Update(timeDelta);
+	zoom();
 }
 
 //드로우
@@ -151,49 +158,170 @@ void cMainGame::Draw()
 
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////
 
+
+
 //메인 프로시져 함수
-LRESULT cMainGame::MainProc( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam )
+LRESULT cMainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	switch ( iMessage )
+	switch (iMessage)
 	{
 	case WM_KEYDOWN:
-		switch ( wParam )
+		switch (wParam)
 		{
 		case VK_ESCAPE:
-			DestroyWindow( hWnd );
+			DestroyWindow(hWnd);
 			break;
 		}
 		break;
 	case WM_MOUSEWHEEL:
-		zDelta = (short)HIWORD(wParam);
-
-		switch (zDelta)
+		if (bCamUp == true)
 		{
-		case 120:
-			g_Czoom -= 0.2f;
-			if (g_Czoom <= -0.8f)
+			zDelta = (short)HIWORD(wParam);
+			//* Xmas
+			switch (zDelta)
 			{
-				g_Czoom = -0.8f;
+			case 120:
+
+				if (532 <= zoombarx && zoombarx <= 744)
+				{
+					zoomin = true;
+					zoomout = false;
+				}
+				break;
+			case -120:
+				if (532 <= zoombarx || zoombarx <= 744)
+				{
+					zoomout = true;
+					zoomin = false;
+				}
+				break;
 			}
-			break;
-		case -120:
-			g_Czoom += 0.2f;
-			if (g_Czoom >= 0.0f)
-			{
-				g_Czoom = 0.0f;
-			}
-			break;
+		}
+		else
+		{
+			g_Czoom = 0.0f;
 		}
 		break;
 
-	case WM_DESTROY:			//윈도우가 파괴된다면..
-		PostQuitMessage( 0 );	//프로그램 종료 요청 ( 메시지 루프를 빠져나가게 된다 )
+
+		//case WM_MOUSEWHEEL:
+		//   zDelta = (short)HIWORD(wParam);
+		//   switch (zDelta)
+		//   {
+		//   case 120:
+		//      g_Czoom -= 0.2f;
+		//      if (g_Czoom <= -0.8f)
+		//      {
+		//         g_Czoom = -0.8f;
+		//      }
+		//      break;
+		//   case -120:
+		//      g_Czoom += 0.2f;
+		//      if (g_Czoom >= 0.1f)
+		//      {
+		//         g_Czoom = 0.1f;
+		//      }
+		//      break;
+		//   }
+		//   break;
+
+	case WM_DESTROY:         //윈도우가 파괴된다면..
+		PostQuitMessage(0);   //프로그램 종료 요청 ( 메시지 루프를 빠져나가게 된다 )
 		break;
 	}
-	return DefWindowProc( hWnd, iMessage, wParam, lParam );
+	return DefWindowProc(hWnd, iMessage, wParam, lParam);
 }
 
+
+
+void cMainGame::zoom()
+{
+	if (zoomin)
+	{
+		if (zoombarx >= 640 && zoombarx < 694)
+		{
+			g_Czoom -= 0.025f;
+			zoombarx += 10;
+			if (zoombarx >= 694)
+			{
+				zoombarx = 694;
+				zoomin = false;
+			}
+		}
+		if (zoombarx >= 694 && zoombarx < 744)
+		{
+			g_Czoom -= 0.025f;
+			zoombarx += 10;
+			if (zoombarx >= 744)
+			{
+				zoombarx = 744;
+				zoomin = false;
+			}
+		}
+		if (zoombarx >= 532 && zoombarx < 584)
+		{
+			g_Czoom -= 0.025f;
+			zoombarx += 10;
+			if (zoombarx >= 584)
+			{
+				zoombarx = 584;
+				zoomin = false;
+			}
+		}
+		if (zoombarx >= 584 && zoombarx < 640)
+		{
+			g_Czoom -= 0.025f;
+			zoombarx += 10;
+			if (zoombarx >= 640)
+			{
+				zoombarx = 640;
+				zoomin = false;
+			}
+		}
+	}
+	if (zoomout)
+	{
+		if (zoombarx > 694 && zoombarx <= 744)
+		{
+			g_Czoom += 0.025f;
+			zoombarx -= 10;
+			if (zoombarx <= 694)
+			{
+				zoombarx = 694;
+				zoomout = false;
+			}
+		}
+		if (zoombarx > 640 && zoombarx <= 694)
+		{
+			g_Czoom += 0.025f;
+			zoombarx -= 10;
+			if (zoombarx <= 640)
+			{
+				zoombarx = 640;
+				zoomout = false;
+			}
+		}
+		if (zoombarx <= 640 && zoombarx > 585)
+		{
+			g_Czoom += 0.025f;
+			zoombarx -= 10;
+			if (zoombarx <= 585)
+			{
+				zoombarx = 585;
+				zoomout = false;
+			}
+		}
+		if (zoombarx <= 585 && zoombarx > 532)
+		{
+			g_Czoom += 0.025f;
+			zoombarx -= 10;
+			if (zoombarx <= 532)
+			{
+				zoombarx = 532;
+				zoomout = false;
+			}
+		}
+	}
+}

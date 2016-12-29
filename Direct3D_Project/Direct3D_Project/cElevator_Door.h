@@ -1,13 +1,13 @@
 #pragma once
 
-#include "cScene.h"
+
 #define DOORSIZE 0.02f
 
 class cSkinnedAnimation;
 class cTransform;
 class cBoundBox;
 
-class cElevator_Door : public cScene
+class cElevator_Door
 {
 private:
 	cSkinnedAnimation* e_doorSkinned;

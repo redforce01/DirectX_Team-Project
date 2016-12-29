@@ -2,6 +2,11 @@
 #include <map>
 #include "cItem.h"
 #include "cCloseEyeEvent.h"
+#include "cObject_Sound.h"
+
+#define MAX_STAMINA 100
+#define HEAL_STAMINA 0.2f
+#define MINUS_STAMINA -0.2f
 
 class cScene;
 class cActionSeq;
@@ -21,6 +26,7 @@ class Dijkstra;
 class MoveMap;
 class LeftArm;
 class cEffect;
+class cCameraUI;
 
 class Unit
 {
@@ -29,6 +35,7 @@ protected:
 	//현재 도는 Action의 IDX는 어디
 	int m_ActionCurIdx;
 	//움직이는가
+	bool m_isDead;
 	bool isMoving;
 	bool isAttacking;
 	bool m_isRayBlocking;
@@ -50,12 +57,16 @@ protected:
 
 	////*왼손 Trans
 	cTransform* m_pRightHandTrans;
+
+	cBoundBox* m_EventCollisionBox;
 	//몸체의 
 	cBoundBox* m_CollisionBox;
 	//유닛의 충돌 구
 	cBoundSphere* m_CollisionSphere;
 	//유닛의 적을 감지하는 구?
 	cBoundSphere* m_DetectSphere;
+	
+	vector<cObject_Sound*> m_vObjSound;
 
 	cActionSeq* m_Action;
 	Action* m_pCurAction;
@@ -66,7 +77,8 @@ protected:
 	cCloseEyeEvent* m_Eye;
 	cBoundSphere* ShortDetectSphere;
 	//현재 상태 값을 나타내는 Class
-
+	cCameraUI* m_CameraUI;
+	cCamera* pMainCamera;
 	Ray ray;
 	// 현재 애니메이션 이름을 저장하기 위한 변수
 	string m_Animation_Name;
@@ -85,6 +97,8 @@ protected:
 	// 유닛의 XFile을 담은 변수
 	string m_FilePath;
 	cBaseObject* house;
+
+	std::vector <cBaseObject*> m_vDoor;
 	std::map< string, Action* > m_MState;
 	std::map< string, Action* >::iterator m_MiState;
 	std::vector <Unit*> m_vEnemy;
@@ -96,9 +110,16 @@ protected:
 
 	bool m_bCamUp;
 	bool isHoldingCam;
+	bool m_isCanControll;
+	bool m_isCanCamControll;
+	bool m_isEventMod;
 
+	bool m_isGet5RoomKey;
+	bool m_isGetEscapeRoomKey;
 
-
+	float m_CurStamina;
+	float m_MaxStamina;
+	int camUpDelayCount;
 public:
 	Unit() {};
 	~Unit() {};
@@ -186,11 +207,30 @@ public:
 
 	cTransform* GetItemPocketTrans() { return this->m_ItemPocketTrans; }
 	cBoundBox* GetItemPocketBound() { return this->m_ItemPocketBound; }
-	bool IsCamUp()
-	{
-		return this->m_bCamUp;
-	}
-	virtual void CamControll();
+
+	bool IsDead() { return this->m_isDead; }
+
+	virtual void IsContoroll(bool TF) { m_isCanControll = TF; }
+	virtual void IsCamContoroll(bool TF) { m_isCanCamControll = TF; }
+
+	virtual void SetEventMod(bool TF) { m_isEventMod = TF; }
+	virtual bool GetEventMod() { return m_isEventMod;  }
+	void SetIsHoldingCam(bool is) { this->isHoldingCam = is; }
+	bool GetIsHoldingCam() { return this->isHoldingCam; }
+	virtual void EventCollisionEvent() {};
+	virtual void SetMemoryCameraUI(class cCameraUI* CUI) { m_CameraUI = CUI;  }
+
+	virtual void RunningStamina() {};
+	virtual void PlusStamina() {};
+
+	virtual float GetCurStamina() { return m_CurStamina; }
+	virtual void StaminaSound() {};
+	virtual void PlayDoorSound() {};
+	virtual bool GetisFind() { return false; }
+
+	bool IsCamUp() { return bCamUp; }
+	void SetCamUpState(bool camUp) { bCamUp = camUp; }
+	void SetDoorVec(vector<cBaseObject*>vDoor) { m_vDoor = vDoor; }
 	//D3DXVECTOR3 getHeadPos() { return m_headPos; }
 
 };
@@ -213,6 +253,8 @@ class PigEnemy : public Unit
 
 	bool m_isChange;
 
+	int walkTime;
+
 public:
 	PigEnemy(std::string filePath, D3DXVECTOR3 pos, cScene* Scene);
 
@@ -223,10 +265,12 @@ public:
 	virtual void setPatroll(bool TF) { isPatroll = TF; }
 	virtual bool CollisionEvent(float timeDelta);
 	virtual bool RayCollisionCheck();
+	virtual bool DoorRayCollisionCheck();
 
 	virtual void NULLCollisionEvent();
 	virtual void DetectCollisionEvent();
 	virtual void BodyCollisionEvent();
+	virtual void EventCollisionEvent();
 
 	virtual void InitAnimation() override;
 	virtual void InitLight() override;
@@ -235,6 +279,11 @@ public:
 	virtual void PushActionSeq(vector<cTransform*> vWay, int MinusNum);
 	virtual void AlongPlayerMove(cTransform* DestTrans);
 	virtual void setObjBox(vector <cBaseObject*> Obj) { m_vBox = Obj; }
+
+	virtual void PlayWalkSound();
+	virtual void PlayRunSound();
+	virtual void PlayDoorSound();
+	virtual bool GetisFind() { return m_isFind; }
 
 };
 
@@ -253,21 +302,27 @@ public:
 	Player(std::string filePath, D3DXVECTOR3 pos);
 	~Player() {};
 
-	//	HRESULT Init();
+	//   HRESULT Init();
 	virtual void Update(float timeDelta) override;
 	virtual void Release() override;
 	virtual bool CollisionEvent(float timeDelta) { return false; }
-
-	virtual void 	PlayerControll(float timeDelta);
+	virtual void EventCollisionEvent();
+	virtual void    PlayerControll(float timeDelta);
 	virtual void InitAnimation() override;
 	virtual void InitLight() override;
 	virtual void setDamage(int Damage);
 	virtual void Render();
 
 
+	//   void SetCamUpState(bool camUp){ this->m_bCamUp = camUp; }
 
+	void CamUP_DOWNControll();
 	void AttachToItem(cTransform* item);
 	void AttachItemToUnit(cTransform* item);
+
+	virtual void RunningStamina();
+	virtual void PlusStamina();
+	virtual void StaminaSound();
 
 
 };

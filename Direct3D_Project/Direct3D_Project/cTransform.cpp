@@ -319,6 +319,11 @@ void cTransform::MovePositionSelf(float dx, float dy, float dz)
 
 	//아래의 함수에서 TransformUpdate 가 일어남
 	this->SetWorldPosition(nowWorldPos + move);
+
+	if (pFirstChild != NULL)
+	{
+		pFirstChild->SetWorldPosition(nowWorldPos + move);
+	}
 	
 }
 void cTransform::MovePositionSelf(D3DXVECTOR3 delta)

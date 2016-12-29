@@ -16,20 +16,19 @@ private:
 	LPDIRECT3DTEXTURE9 rec;
 	LPDIRECT3DTEXTURE9 cube;
 	int reccount;
-	int zoombarx;
+
 
 	bool isRec;
 	bool isdelay;
 	int delayCount;
 
-	bool zoomin;
-	bool zoomout;
+
 	Unit* m_CurUnit;
 
 	float CamFov;
 
 public:
-	cCameraUI(cCamera* Camera,  Unit* unit );
+	cCameraUI(cCamera* Camera, Unit* unit);
 	~cCameraUI();
 
 	virtual HRESULT Scene_Init();
@@ -41,6 +40,12 @@ public:
 	void SetisRec(bool is) { isRec = is; }
 	bool GetisRec() { return isRec; }
 	void TurnOnCam();
+	void SetDelayCount(int count) { delayCount = count; }
+	int GetDelayCount() { return delayCount; }
+	void IncreaseDelayCount() { delayCount++; }
+
+	void SetIsDelay(bool is) { isdelay = is; }
+	bool GetIsDelay() { return isdelay; }
+
 
 };
-

@@ -17,7 +17,11 @@
 #include "cMovieEvent.h"
 #include "cCloseEyeEvent.h"
 
+#define EndingX -21.21
+#define EndingZ -36.49
 
+class cDustFog;
+class cLightGlow;
 class cLight;
 class cXMesh_Static;
 class Unit;
@@ -41,8 +45,12 @@ enum EVENTNUM
 
 
 class cScene_Game : public cScene
-{	
+{
+	
 private:
+	LPDIRECT3DTEXTURE9   noneTex;
+	vector<cDustFog*>         arrDustFog;
+	vector<cLightGlow*>      arrGlow;
 	vector<cLight*> vLight;
 	cEffect* effect;
 	cCameraUI* cameraUI;
@@ -94,8 +102,14 @@ private:
 	cBaseObject* testmap;
 
 	//*GameItem
-	cGameItem* keyItem;
-	cGameItem* noteItem;
+	cGameItem* keyItem_0;
+	cGameItem* keyItem_1;
+	cGameItem* noteItem_2;
+	cGameItem* noteItem_3;
+	cGameItem* noteItem_4;
+	cGameItem* noteItem_5;
+	cGameItem* noteItem_6;
+
 	vector<cGameItem*> vecGameItem;
 	int         m_itemIndex;
 
@@ -115,6 +129,8 @@ private:
 
 	float camFov;
 
+	bool isEscape;
+	bool isRoom_Five;
 
 public:
 
@@ -131,6 +147,10 @@ public:
 	virtual void GainItem();
 	virtual void ItemMoveToMiles(float timeDelta);
 
+	virtual void InnerOpenDoor(int Idx);
+	virtual void OutterOpenDoor(int Idx);
+	virtual void CloseDoor(int Idx);
+
 	virtual void Event1Start();
 	virtual void Event1End();
 	virtual void EventEndToNormal();
@@ -138,15 +158,22 @@ public:
 	virtual void ControllNightVision();
 	virtual void ControllCamMode();
 
-	void InitEventObject();
-	void InitSoundObject();
+	virtual void DeadEvent();
 
-
-	static bool SetBroken(bool isBroken) { m_bIsBroken = isBroken; }
-	static bool SetNightVision(bool isNightVision) { m_bNightVision = isNightVision; }
+	static void SetBroken(bool isBroken) { m_bIsBroken = isBroken; }
+	static void SetNightVision(bool isNightVision) { m_bNightVision = isNightVision; }
 	static bool GetBroken() { return m_bIsBroken; }
 	static bool GetNightVision() { return m_bNightVision; }
 
-	virtual void CloseEye(int num);
-};
+	virtual void CloseEye(int num, float speed);
+	virtual void SetCamFove(float fov) { camFov = fov; }
+	virtual float GetCamFov() { return camFov; }
+	void ItemInit();
+	void ItemUseFile(bool rayHit, int i);
 
+	bool GetIsEscape() { return isEscape; }
+	bool GetIsRoom_Five() { return isRoom_Five; }
+	
+	void InitEventObject();
+	void InitSoundObject();
+};

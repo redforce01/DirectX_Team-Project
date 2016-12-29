@@ -101,23 +101,40 @@ void cObject_Sound::FunctionFarSound()
 {
 	float value = FunctionDistance();
 
-	if (value > 20)
+
+	if (value >= 30 )
 	{
-		m_SoundVolume = 0.0;
-		//SOUNDMANAGER->stop(m_SoundName);
+		m_SoundVolume = 0.00;
+	}
+	else if (value >= 25 && value < 30)
+	{
+		m_SoundVolume = 0.03;
+	}
+	else if (value >= 20 && value < 25)
+	{
+		m_SoundVolume = 0.07;
 	}
 	else if (value >= 15 && value < 20)
 	{
-		m_SoundVolume = 0.1;
+		m_SoundVolume = 0.12;
 	}
 	else if (value >= 10 && value < 15)
 	{
-		m_SoundVolume = 0.3;
+		m_SoundVolume = 0.18;
 	}
-	else if (value >= 0 && value < 10)
+	else if (value >= 6 && value < 10)
 	{
-		m_SoundVolume = 0.5;
+		m_SoundVolume = 0.25;
 	}
+	else if (value >= 3 && value < 6)
+	{
+		m_SoundVolume = 0.32;
+	}
+	else if (value >= 0 && value < 3)
+	{
+		m_SoundVolume = 0.4;
+	}
+	int a = 0;
 }
 
 void cObject_Sound::FunctionEventSound()

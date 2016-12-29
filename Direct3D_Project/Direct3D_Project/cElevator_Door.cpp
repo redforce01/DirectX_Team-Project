@@ -81,6 +81,6 @@ void cElevator_Door::Scene_Render1()
 {
 	this->e_doorSkinned->Render(e_doorTransform);
 	this->e_doorSkinned_1->Render(e_doorTransform_1);
-	e_doorBoundBox->RenderGizmo(e_doorTransform);
-	e_doorBoundBox_1->RenderGizmo(e_doorTransform_1);
+	//e_doorBoundBox->RenderGizmo(e_doorTransform);
+	//e_doorBoundBox_1->RenderGizmo(e_doorTransform_1);
 }

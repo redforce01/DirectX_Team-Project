@@ -1,9 +1,9 @@
 #pragma once
 
-#include "cScene.h"
+
 #define OBJSIZE 0.02f
 
-class cElevator_passageway : public cScene
+class cElevator_passageway 
 {
 private:
 

@@ -65,5 +65,6 @@ public:
 
 	//technique ¼³Á¤
 	static void SetTechniqueName(std::string name);
+	virtual void ItemRender(const cTransform* pTrans)override;
 };
 

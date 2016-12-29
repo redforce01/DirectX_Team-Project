@@ -93,7 +93,8 @@ void cObject_EventObj::Update(float timeDelta, D3DXVECTOR3 playerPos)
 
 
 	pAnimation->Update(timeDelta);	
-	pAnimation->Play(m_PoseName, 0.3);
+	pAnimation->Play(m_PoseName, 0);
+	//pAnimation->PlayOneShotAfterHold(m_PoseName, 0);
 
 	//정적인 오브젝트가 아닌 이벤트 오브젝트인지를 체크
 	if (! m_IsStatic)

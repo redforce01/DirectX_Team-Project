@@ -61,29 +61,35 @@ void cElevator::ElevatorRoop(float timeDelta)
 {
 	float Move = 3.0f*timeDelta;
 	float posY = elevator_mesh->pTransform->GetWorldPosition().y;
+	SOUNDDATA->playSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 0, 0.5);
 
-	if (elevatorRoop >= 6 && fabs(posY > 0.0f  ))
+	if (elevatorRoop >= 6 && fabs(posY > 0.0f))
+	{
+		SOUNDDATA->stopSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 0);
+		//SOUNDDATA->playSound(SOUND_TYPE_BGM, SOUND_PLAY_GAME_BGM, 0, 0.5);
 		return;
-	
-	isGameEvent = true;
-
-	if (posY > -6.2f&&elevatorRoop <= 4)
-	{
-		elevator_mesh->pTransform->SetWorldPosition(5.33f, -20.6f, 13.5f);
-		Miles->getTrans()->SetWorldPosition(MilESPOSX, MilESPOSY, MilESPOSZ);
-		elevator_door->GetTrans()->SetWorldPosition(3.87f, -20.4f, 11.41f);
-		elevatorRoop++;
 	}
-	else if (elevatorRoop == 5 && posY > -0.1f)
+	else
 	{
-		elevatorRoop++;
+		isGameEvent = true;
+		Miles->IsContoroll(false);
+
+		if (posY > -6.2f&&elevatorRoop <= 4)
+		{
+			elevator_mesh->pTransform->SetWorldPosition(5.33f, -20.6f, 13.5f);
+			Miles->getTrans()->SetWorldPosition(MilESPOSX, MilESPOSY, MilESPOSZ);
+			elevator_door->GetTrans()->SetWorldPosition(3.87f, -20.4f, 11.41f);
+			elevatorRoop++;
+		}
+		else if (elevatorRoop == 5 && posY > -0.1f)
+		{
+			elevatorRoop++;
+		}
+
+		elevator_mesh->pTransform->MovePositionWorld(0.f, Move, 0.f);
+		Miles->getTrans()->MovePositionWorld(0.f, Move, 0.f);
+		elevator_door->GetTrans()->MovePositionWorld(0.f, Move, 0.f);
 	}
-
-	elevator_mesh->pTransform->MovePositionWorld(0.f, Move, 0.f);
-	Miles->getTrans()->MovePositionWorld(0.f, Move, 0.f);
-	elevator_door->GetTrans()->MovePositionWorld(0.f, Move, 0.f);
-
-	//SOUNDDATA->playSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 2, 0.3f);
 }
 
 void cElevator::ElevatorLight()
@@ -104,23 +110,23 @@ void cElevator::ElevatorEvent(float timeDelta)
 	float MilesZ = Miles->getTrans()->GetWorldPosition().z;
 	if (MilesZ <= 8.0f)
 	{
+		Miles->IsContoroll(true);
 		isPlayerMove = false;
 		isGameEvent = false;
 		Miles->getSkinned()->Play("STAND", 0.0f);
 		elevator_door->GetAni_1()->PlayOneShotAfterHold("close", 0.0f);
 		elevator_door->GetAni_2()->PlayOneShotAfterHold("close", 0.0f);
-		//SOUNDDATA->playSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 0, 0.3);
-
 		elevatorRoop++;
+		//SOUNDDATA->playSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 1, 0.5);
 	}
 
 	if (elevatorRoop == 6 && fabs(posY > 0.0f))
 	{
 		elevator_door->GetAni_1()->PlayOneShotAfterHold("open", 0.0f);
 		elevator_door->GetAni_2()->PlayOneShotAfterHold("open", 0.0f);
-
-		//SOUNDDATA->playSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 1, 0.3);
 		isPlayerMove = true;
+		SOUNDDATA->stopSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 0);
+		SOUNDDATA->playSound(SOUND_TYPE_STRUCT_BASEMENT, SOUND_PLAY_TYPE_ELEVATOR, 2, 0.5);
 	}
 
 	if (isPlayerMove)
@@ -138,6 +144,7 @@ void cElevator::ElevatorBlock()
 
 void cElevator::DeBugMode()
 {
+	Miles->IsContoroll(true);
 	isPlayerMove = false;
 	isGameEvent = false;
 	Miles->getTrans()->SetWorldPosition(3.87f, 0.0f, 8.0f);

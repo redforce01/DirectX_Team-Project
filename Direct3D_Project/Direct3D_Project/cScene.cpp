@@ -11,7 +11,6 @@ cScene::cScene()
 	//환경 Effect 물어 놓는다.
 	this->evironmentEffect =
 		RESOURCE_FX->GetResource("../Resources/Shaders/EvironmentCUBE.fx");
-
 	cCamera* mainmenuCamera = new MainMenuCamera;
 	cCamera* DebuggingCamera = new FreeCamera;
 	cCamera* MilesCamera = new PlayerCamera;
@@ -21,7 +20,7 @@ cScene::cScene()
 	vCamera.push_back(MilesCamera);
 	vCamera.push_back(DebuggingCamera);
 	vCamera.push_back(EnemyCamera);
-
+	m_isGameOver = false;
 	viCamera = vCamera.begin();
 	pMainCamera = vCamera[MAINMENU];
 
@@ -166,6 +165,7 @@ void cScene::Render()
 	this->postEffect->SetTexture("BrokenCamera_D_Tex", this->pTexScreenDiff);
 	this->postEffect->SetTexture("BrokenCamera_N_Tex", this->pTexScreenNorm);
 	this->postEffect->SetTexture("NanoNoise_Tex", this->pTexScreenNoise);
+
 
 	this->postEffect->SetBool("g_IsCameraBroken", cScene_Game::GetBroken());
 	this->postEffect->SetBool("g_IsNightVision", cScene_Game::GetNightVision());

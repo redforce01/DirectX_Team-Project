@@ -49,26 +49,32 @@
     <Filter Include="TeamCode\Unit">
       <UniqueIdentifier>{b923938a-1bc9-4739-964e-648163914311}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\cScene_Main">
+      <UniqueIdentifier>{c5f2216f-0186-4ccd-8c7b-13a80e2cf992}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Scenes\cScene_Game">
       <UniqueIdentifier>{bdd799f8-d90f-4da1-be34-a4fbcf6cc645}</UniqueIdentifier>
     </Filter>
     <Filter Include="TeamCode\UI">
       <UniqueIdentifier>{df994f98-7ed3-4f52-837e-63003d2f6251}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes\cScene_Main">
-      <UniqueIdentifier>{e0ca26b5-df01-4cbc-bb55-d55c0fba3acd}</UniqueIdentifier>
+    <Filter Include="TeamCode\Ending">
+      <UniqueIdentifier>{b1bedaf7-c2a9-47d7-aff4-a17562fed29c}</UniqueIdentifier>
     </Filter>
     <Filter Include="TeamCode\cEvent">
-      <UniqueIdentifier>{8cd7c2e2-e6b6-49f4-bd57-94ec9f47cb76}</UniqueIdentifier>
+      <UniqueIdentifier>{81046d16-edab-4e35-8466-1339e05f9e19}</UniqueIdentifier>
     </Filter>
     <Filter Include="TeamCode\cEventObject">
-      <UniqueIdentifier>{068db3cc-6e35-4dbc-912e-64c9ce51b8ee}</UniqueIdentifier>
+      <UniqueIdentifier>{f09e69b4-0eb1-4763-bf7d-5d09bead4953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TeamCode\cEventObject\cObject_Sound">
+      <UniqueIdentifier>{aa405af9-17d7-47ca-9325-95ccedb649c4}</UniqueIdentifier>
     </Filter>
     <Filter Include="TeamCode\cEventObject\cObject_Event">
       <UniqueIdentifier>{5237c7f9-37ec-4969-891f-cd641f556f32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TeamCode\cEventObject\cObject_Sound">
-      <UniqueIdentifier>{aa405af9-17d7-47ca-9325-95ccedb649c4}</UniqueIdentifier>
+    <Filter Include="Scenes\cScene_Loading">
+      <UniqueIdentifier>{b6cb1a1f-642a-4f10-9050-e4a9507cece7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +216,6 @@
     <ClInclude Include="cSoundManager.h">
       <Filter>SoundData</Filter>
     </ClInclude>
-    <ClInclude Include="cObject_EventObj.h">
-      <Filter>TeamCode\cEventObject\cObject_Event</Filter>
-    </ClInclude>
     <ClInclude Include="cScene_Mgr.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -258,12 +261,6 @@
     <ClInclude Include="cScene_Game.h">
       <Filter>Scenes\cScene_Game</Filter>
     </ClInclude>
-    <ClInclude Include="cObjectReaction.h">
-      <Filter>TeamCode\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="cReactionMap.h">
-      <Filter>TeamCode\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="LeftArm.h">
       <Filter>TeamCode\Unit</Filter>
     </ClInclude>
@@ -288,8 +285,23 @@
     <ClInclude Include="cMovieEvent.h">
       <Filter>TeamCode\UI</Filter>
     </ClInclude>
-    <ClInclude Include="cTitle.h">
-      <Filter>Scenes\cScene_Main</Filter>
+    <ClInclude Include="..\Resources\Shaders\LightEffect\cDustFog.h">
+      <Filter>TeamCode\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Resources\Shaders\LightEffect\cLightGlow.h">
+      <Filter>TeamCode\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cEndingMain.h">
+      <Filter>TeamCode\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="cRainParticle.h">
+      <Filter>TeamCode\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="cTown.h">
+      <Filter>TeamCode\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="cEventObjectManager.h">
+      <Filter>TeamCode\cEventObject</Filter>
     </ClInclude>
     <ClInclude Include="cEventManager.h">
       <Filter>TeamCode\cEvent</Filter>
@@ -306,8 +318,14 @@
     <ClInclude Include="cEventBox.h">
       <Filter>TeamCode\cEvent</Filter>
     </ClInclude>
-    <ClInclude Include="cEventObjectManager.h">
-      <Filter>TeamCode\cEventObject</Filter>
+    <ClInclude Include="cObject_EventObj.h">
+      <Filter>TeamCode\cEventObject\cObject_Event</Filter>
+    </ClInclude>
+    <ClInclude Include="cTitle.h">
+      <Filter>Scenes\cScene_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="cScene_Loading.h">
+      <Filter>Scenes\cScene_Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -434,9 +452,6 @@
     <ClCompile Include="cSoundManager.cpp">
       <Filter>SoundData</Filter>
     </ClCompile>
-    <ClCompile Include="cObject_EventObj.cpp">
-      <Filter>TeamCode\cEventObject\cObject_Event</Filter>
-    </ClCompile>
     <ClCompile Include="cScene_Mgr.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -488,12 +503,6 @@
     <ClCompile Include="cScene_Game.cpp">
       <Filter>Scenes\cScene_Game</Filter>
     </ClCompile>
-    <ClCompile Include="cObjectReaction.cpp">
-      <Filter>TeamCode\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="cReactionMap.cpp">
-      <Filter>TeamCode\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="LeftArm.cpp">
       <Filter>TeamCode\Unit</Filter>
     </ClCompile>
@@ -518,14 +527,29 @@
     <ClCompile Include="cMovieEvent.cpp">
       <Filter>TeamCode\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Direct3D_Project.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cTitle.cpp">
-      <Filter>Scenes\cScene_Main</Filter>
+    <ClCompile Include="..\Resources\Shaders\LightEffect\cDustFog.cpp">
+      <Filter>TeamCode\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Resources\Shaders\LightEffect\cLightGlow.cpp">
+      <Filter>TeamCode\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cEndingMain.cpp">
+      <Filter>TeamCode\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="cRainParticle.cpp">
+      <Filter>TeamCode\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="cTown.cpp">
+      <Filter>TeamCode\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="cEventObjectManager.cpp">
+      <Filter>TeamCode\cEventObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cElevator.cpp">
+      <Filter>TeamCode\cEvent</Filter>
     </ClCompile>
     <ClCompile Include="cElevator_Door.cpp">
       <Filter>TeamCode\cEvent</Filter>
@@ -539,11 +563,17 @@
     <ClCompile Include="cEventManager.cpp">
       <Filter>TeamCode\cEvent</Filter>
     </ClCompile>
-    <ClCompile Include="cElevator.cpp">
-      <Filter>TeamCode\cEvent</Filter>
+    <ClCompile Include="Direct3D_Project.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cEventObjectManager.cpp">
-      <Filter>TeamCode\cEventObject</Filter>
+    <ClCompile Include="cObject_EventObj.cpp">
+      <Filter>TeamCode\cEventObject\cObject_Event</Filter>
+    </ClCompile>
+    <ClCompile Include="cTitle.cpp">
+      <Filter>Scenes\cScene_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene_Loading.cpp">
+      <Filter>Scenes\cScene_Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -563,10 +593,5 @@
     <FxCompile Include="..\Resources\CameraEffect\PostCameraEffect.fx">
       <Filter>소스 파일</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cSoundDataLoad.cpp~RF194d3f99.TMP">
-      <Filter>Manager</Filter>
-    </None>
   </ItemGroup>
 </Project>

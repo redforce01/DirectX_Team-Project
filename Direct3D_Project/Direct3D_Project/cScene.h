@@ -16,6 +16,8 @@ private:
 
 
 protected:
+
+	bool m_isGameOver;
 	LPDIRECT3DTEXTURE9 pTexScreenDiff;
 	LPDIRECT3DTEXTURE9 pTexScreenNorm;
 	LPDIRECT3DTEXTURE9 pTexScreenNoise;
@@ -40,6 +42,7 @@ protected:
 	float							shadowDistance;				//그림자 거리
 
 public:
+	bool isEnding = false;
 	cScene(void);
 	virtual ~cScene(void);
 
@@ -52,17 +55,27 @@ public:
 	virtual void CloseEye(int num) {};
 	void ReadyShadowMap(std::vector<cBaseObject*>* renderObjects, cTerrain* pTerrain = NULL);
 
+
+	virtual void InnerOpenDoor(int Idx) {};
+	virtual void OutterOpenDoor(int Idx) {};
+	virtual void CloseDoor(int Idx) {};
+
+	virtual void ControllNightVision() {};
+	virtual void ControllCamMode() {};
+
 	virtual void Event1Start() {};
 	virtual void Event1End() {};
 	virtual void setRay(Ray ray) { camRay = ray; }
 	//
 	//추가
 	//
-
-
+	virtual void SetGameOver(bool TF) { m_isGameOver = TF; }
+	virtual void DeadEvent() {} ;
 	//메인 카메라의 RenderToTexture 만 업데이트한다.
 	void RenderToMainCamTexture();
 
+	virtual void SetCamFov(float fov) {};
+	virtual float GetCamFov() { return 0; };
 	//메인카메라의 랜더 Texture 를 얻는다.
 	LPDIRECT3DTEXTURE9 GetTexture();
 

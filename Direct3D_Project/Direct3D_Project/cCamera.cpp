@@ -27,8 +27,8 @@ cCamera::cCamera(void)
 
 cCamera::~cCamera(void)
 {
-	SAFE_RELEASE(m_pRenderTexture);
-	SAFE_RELEASE(m_pRenderSurface);
+	//SAFE_RELEASE(m_pRenderTexture);
+	//SAFE_RELEASE(m_pRenderSurface);
 }
 
 

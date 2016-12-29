@@ -19,6 +19,7 @@
 
 PigEnemy::PigEnemy(std::string filePath, D3DXVECTOR3 pos, cScene* Scene)
 {
+	m_isDead = false;
 	m_FilePath = filePath;
 	D3DXMATRIXA16 matCorrection;
 	D3DXMatrixScaling(&matCorrection, 0.02f, 0.02f, 0.02f);
@@ -64,6 +65,10 @@ PigEnemy::PigEnemy(std::string filePath, D3DXVECTOR3 pos, cScene* Scene)
 	this->m_LeftHandTrans = new cTransform();
 	this->pSkinnedAni->AddBoneTransform("NPCLarge-L-Hand", m_LeftHandTrans);
 
+	//*오른손 Transform 동적할당
+	this->m_pRightHandTrans = new cTransform();
+	this->pSkinnedAni->AddBoneTransform("NPCLarge-R-Hand", m_pRightHandTrans);
+
 	m_LArm = new LeftArm(this);
 	//m_LArm->AddToBody(pSkinnedTrans);
 
@@ -91,7 +96,20 @@ PigEnemy::PigEnemy(std::string filePath, D3DXVECTOR3 pos, cScene* Scene)
 			m_mvWay.insert(make_pair(make_pair(i, j), cTran)); // 찾은길 map에 넣는다.
 		}
 	}
-	int a = 0;
+
+	walkTime = 0;
+	cObject_Sound* temp = new cObject_Sound;
+	temp->Init(SOUNDDATA->getSoundKey(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_WALKING_HEAVY, 1), 0, false, false, D3DXVECTOR3(0, 0, 0));
+	m_vObjSound.push_back(temp);
+
+	temp = new cObject_Sound;
+	temp->Init(SOUNDDATA->getSoundKey(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_WALKING_HEAVY, 1), 0, false, false, D3DXVECTOR3(0, 0, 0));
+	m_vObjSound.push_back(temp);
+
+	 temp = new cObject_Sound;
+	temp->Init(SOUNDDATA->getSoundKey(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_CHAIN, 0),0, false, false, D3DXVECTOR3(0, 0, 0));
+	m_vObjSound.push_back(temp);
+
 };
 
 
@@ -99,24 +117,19 @@ PigEnemy::PigEnemy(std::string filePath, D3DXVECTOR3 pos, cScene* Scene)
 void PigEnemy::Update(float timeDelta)
 {
 	this->pSkinnedAni->Update(timeDelta); // Animation 업데이트
-
-	if (!isGameEvent && m_isActive)
+	m_headPos = pHeadTrans->GetWorldPosition(); // 적의 대갈빡 위치 고정.
+	m_rightHandPos = m_pRightHandTrans->GetWorldPosition();
+	if ( m_isActive)
 	{
-		
-		m_CollisionSphere->SetBound(&pSkinnedTrans->GetLocalPosition(), &D3DXVECTOR3(0.4f, 2, 0.4f)); 	// 충돌 구 업데이트
+	
 		m_CollisionBox->SetBound(&D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0.6f, 2.5f, 0.6f));
-		m_DetectSphere->SetBound(&(pSkinnedTrans->GetLocalPosition()), &D3DXVECTOR3(1.f, 4, 1.f)); 	//감지구 업데이트
+		m_DetectSphere->SetBound(&(pSkinnedTrans->GetLocalPosition()), &D3DXVECTOR3(4.f, 4, 4.f)); 	//감지구 업데이트
 
 		m_isFind = this->CollisionEvent(timeDelta); // 적이 플레이어 감지했니?
-		pHeadTrans->RotateLocal(0, 180 * ONE_RAD, 0);
-		m_headPos = pHeadTrans->GetWorldPosition(); // 적의 대갈빡 위치 고정.
-
 		m_LArm->CollisionUnit();
 		m_LArm->setEnemy(m_vEnemy[0]);
 		m_LArm->setTrans(m_LeftHandTrans);
 		m_LArm->Update(timeDelta);
-
-		//m_vEnemy[0]->getTrans()->GetWorldPosition()
 
 		if (m_isFind)
 		{
@@ -128,6 +141,13 @@ void PigEnemy::Update(float timeDelta)
 
 		m_Action->Update(timeDelta);
 		m_Action->setCurActionSpeed((*m_MState.find(m_Animation_Name)).second->getMoveSpeed());
+
+		for (int i = 0; i < m_vObjSound.size(); i++)
+		{
+			m_vObjSound[i]->Update(timeDelta, m_vEnemy[0]->getTrans()->GetWorldPosition());
+			m_vObjSound[i]->SetPosition(pSkinnedTrans->GetWorldPosition());
+		}
+
 	}
 	//지우면 안됨. 이 부분.
 }
@@ -141,42 +161,57 @@ void PigEnemy::Release()
 	SAFE_DELETE(this->pSkinnedTrans);
 	this->pSkinnedAni->Release();
 	SAFE_DELETE(this->pSkinnedAni);
+	SAFE_DELETE(this->pHeadTrans);
+	SAFE_DELETE(this->m_Action);
 
 }
 
 bool PigEnemy::CollisionEvent(float timeDelta)
 {
-	// 감지구에 충돌된지 
-	bool isDetected;
-	// 충돌구에 충돌된지
-	bool isCollisioned = SpCollisionCheck(this, m_vEnemy[0]);
-
-	if ( SpDetectionCheck(this, m_vEnemy[0]))
-		isDetected = true;
-	else isDetected = false;
-
-
-	if (RayCollisionCheck()) {
-		isDetected = false;
-	}
-	else {
-		isDetected =  true;
-	}
-
-	if (!isAttacking && pSkinnedAni->getisAniEnd())
+	if (!m_vEnemy[0]->IsDead())
 	{
-		// 아무것도 감지가 안된 경우 -> 그냥 정찰돌자~
-		if (!isDetected && !isCollisioned)
-			NULLCollisionEvent();
-		// 감지는 했으나 몸 충돌 없음 -> 플레이어를 쫓자!.
-		else if (isDetected && !isCollisioned)
-			DetectCollisionEvent();
-		//몸 충돌 일어난 경우 -> 공격하자!
-		else if (isCollisioned && isDetected)
-			BodyCollisionEvent();
+		// 감지구에 충돌된지 
+		bool isDetected;
+		// 충돌구에 충돌된지
+		bool isCollisioned = SpCollisionCheck(this, m_vEnemy[0]);
+
+		//if (SpDetectionCheck(this, m_vEnemy[0]))
+		//	isDetected = true;
+		//else isDetected = false;
+
+		if ( (RayCollisionCheck() || DoorRayCollisionCheck())) 
+		{
+			isDetected = false;
+		}
+		else {
+			isDetected = true;
+		}
+
+		if (SpDetectionCheck(this, m_vEnemy[0]))
+			isDetected = true;
+
+		if (!isAttacking && pSkinnedAni->getisAniEnd())
+		{
+			// 아무것도 감지가 안된 경우 -> 그냥 정찰돌자~
+			if (!isDetected && !isCollisioned)
+				NULLCollisionEvent();
+			// 감지는 했으나 몸 충돌 없음 -> 플레이어를 쫓자!.
+			else if (isDetected && !isCollisioned)
+				DetectCollisionEvent();
+			//몸 충돌 일어난 경우 -> 공격하자!
+			else if (isCollisioned && isDetected)
+			{
+				if (!m_isEventMod)
+					BodyCollisionEvent();
+				else EventCollisionEvent();
+			}
+		}
+
+		return isDetected;
 	}
 
-	return isDetected;
+	return false;
+
 }
 
 bool PigEnemy::RayCollisionCheck()
@@ -184,8 +219,8 @@ bool PigEnemy::RayCollisionCheck()
 	ray.direction = m_vEnemy[0]->getTrans()->GetWorldPosition() - pSkinnedTrans->GetWorldPosition();
 	ray.origin = pSkinnedTrans->GetWorldPosition();
 
-	ray.origin.y += 2.0f;
-	ray.direction.y += 2.0f;
+	ray.origin.y += 3.f;
+	ray.direction.y += 3.f;
 
 	if (!m_vBox.empty()) {
 		for (int i = 0; i < m_vBox.size(); i++)
@@ -202,10 +237,35 @@ bool PigEnemy::RayCollisionCheck()
 	}
 }
 
+bool PigEnemy::DoorRayCollisionCheck()
+{
+	ray.direction = m_vEnemy[0]->getTrans()->GetWorldPosition() - pSkinnedTrans->GetWorldPosition();
+	ray.origin = pSkinnedTrans->GetWorldPosition();
+
+	ray.origin.y += 3.f;
+	ray.direction.y += 3.f;
+
+	if (!m_vDoor.empty()) {
+		for (int i = 0; i < m_vDoor.size(); i++)
+		{
+			if (PHYSICS_MGR->IsRayHitBound(&ray, &m_vDoor[i]->BoundBox, m_vDoor[i]->pTransform, NULL, NULL))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	else {
+		return false;
+	}
+}
+
 void PigEnemy::NULLCollisionEvent()
 {
 	m_DetectedUnit = NULL;
 	StatePlayChange("WALK", 0.3f);
+
+	PlayWalkSound();
 	m_LArm->setActive(false);
 	// 적이 플레이어 쫓다가 -> 플레이어를 놓쳐서 정찰 돌때, 플레이어 쫓던 경로를 Clear 해주어, 정찰 경로를 만들수 있게 한다.
 	if (m_isChange) {
@@ -219,6 +279,7 @@ void PigEnemy::DetectCollisionEvent()
 {
 	m_DetectedUnit = m_vEnemy[0];  // 감지된 유닛을 디텍티드에 넣어주고
 	this->StatePlayChange("RUN", 0.3f);  //모션을 달리자!
+	PlayRunSound();
 	m_LArm->setActive(false);
 	// 적이 정찰돌다가 -> 플레이어를 쫓을때, 정찰 경로를 Clear하고 새로운 경로를 만들수 있게 함.
 	if (!m_isChange)
@@ -231,24 +292,29 @@ void PigEnemy::DetectCollisionEvent()
 
 void PigEnemy::BodyCollisionEvent()
 {
+	SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_ATTACK, 0);
+
 	m_LArm->setActive(true);
 	m_DetectedUnit = m_vEnemy[0];  // 감지된 캐릭터 집어넣고
-
-	//pSkinnedTrans->LookDirection(m_vEnemy[0]->getTrans()->GetWorldPosition());
-
-//	if (m_vEnemy[0]->getHp() >= 1)
 		this->StateOneShotChange("ATTACK_LEFT", 0.3f); // 왼팔 휘두르자!
-	//else
-	//{
-	//	//pSkinnedTrans->LookDirection(m_vEnemy[0]->getTrans()->GetWorldPosition());
-	//	this->StateOneShotChange("GRAB", 0.3f);
-	//	if (m_Animation_Name == "GRAB" && pSkinnedAni->getisAniEnd())
-	//	{
-	//		this->StateOneShotHoldChange("GRAB_FATALITY", 0.3f);
-	//	}
-	//}
 	m_Action->ClearVector(); // 걍 클리어하자~
 	m_isAttacking = true;
+}
+
+void PigEnemy::EventCollisionEvent()
+{
+	isGameEvent = true;
+	m_DetectedUnit = m_vEnemy[0];  // 감지된 캐릭터 집어넣고
+	this->StateOneShotHoldChange("GRAB_FATALITY", 0.0f); // 왼팔 휘두르자!
+	m_headPos = pHeadTrans->GetWorldPosition();
+
+	pSkinnedTrans->LookDirection(m_DetectedUnit->getTrans()->GetWorldPosition());
+	SOUNDDATA->playSound(SOUND_TYPE_NPC, SOUND_PLAY_TYPE_NPC_CHAIN, 0);
+	m_Action->ClearVector(); // 걍 클리어하자~
+	m_isActive = false;
+	m_rightHandPos = m_pRightHandTrans->GetWorldPosition();
+	m_DetectedUnit->EventCollisionEvent();
+	//m_Action->ClearVector(); // 걍 클리어하자~
 }
 
 
@@ -264,8 +330,8 @@ void PigEnemy::InitAnimation()
 
 	animationClip animationList[14] = {
 		{ 0.0f,  0.1f, "IDLE" },
-		{ 0.05f, 0.2f, "WALK" },
-		{ 0.11f, 0.2f, "RUN" },
+		{ 0.06f, 0.2f, "WALK" },
+		{ 0.13f, 0.2f, "RUN" },
 		{ 0.0f, 0.2f,"IDLE_CHASE" },
 		{ 0.0f, 0.2f,"IDLE_SEARCH1" },
 		{ 0.0f, 0.2f,"IDLE_SEARCH2" },
@@ -304,7 +370,20 @@ void PigEnemy::Render()
 {
 	Unit::Render();
 	
-	m_LArm->render();
+	//m_LArm->render();
+
+#ifdef _DEBUG
+	//char szTemp[128];
+	//for (int i = 0; i < m_vObjSound.size(); i++)
+	//{		
+	//	sprintf_s(szTemp, "obj[%d] Dis : %.2f", i, m_vObjSound[i]->FunctionDistance());
+	//	DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 400, 200 + (i * 60), 0xffffff00, 0xff000000);
+
+	//	sprintf_s(szTemp, "obj[%d] Vol : %.2f", i, m_vObjSound[i]->GetSoundVolume());
+	//	DXFONT_MGR->PrintTextOutline(szTemp, WINSIZE_X - 400, 230 + (i * 60), 0xffffff00, 0xff000000);
+	//}
+
+#endif // DEBUG
 }
 
 void PigEnemy::AlongPlayerMove(cTransform* DestTrans)
@@ -331,6 +410,48 @@ void PigEnemy::AlongPlayerMove(cTransform* DestTrans)
 	}
 
 	//vecWay = Dij.CalcWay(this->pSkinnedTrans->GetWorldPosition(), m_DetectedUnit->getTrans()->GetLocalPosition());
+}
+
+void PigEnemy::PlayWalkSound()
+{
+	walkTime++;
+	if (walkTime % 32 == 0)
+	{
+		walkTime = 0;
+		if (m_vObjSound[0]->GetIsSoundPlay())
+		{
+			m_vObjSound[1]->SoundPlay(true);
+			m_vObjSound[2]->SoundPlay(true);
+		}
+		else
+		{
+			m_vObjSound[0]->SoundPlay(true);
+			m_vObjSound[2]->SoundPlay(true);
+		}
+	}
+}
+
+void PigEnemy::PlayRunSound()
+{
+	walkTime++;
+	if (walkTime % 16 == 0)
+	{
+		walkTime = 0;
+		if (m_vObjSound[0]->GetIsSoundPlay())
+		{
+			m_vObjSound[1]->SoundPlay(true);
+			m_vObjSound[2]->SoundPlay(true);
+		}
+		else
+		{
+			m_vObjSound[0]->SoundPlay(true);
+			m_vObjSound[2]->SoundPlay(true);
+		}
+	}
+}
+
+void PigEnemy::PlayDoorSound()
+{
 }
 
 // 이제 정한 경로를 Actoin 벡터에 넣어서 그 벡터따라 움직이도록 한다!

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "cScene.h"
 
 class cBaseObject;
 class cMap_Active;
 
-class cMap_Bbox_Load : public cScene
+class cMap_Bbox_Load
 {
 private:
+	std::vector<cBaseObject*> m_vAllBox;
 
 	std::vector<cBaseObject*> v_Room_0_boundBox;
 	std::vector<cBaseObject*>::iterator vI_Room_0_boundBox;
@@ -78,7 +78,7 @@ public:
 	std::vector<cBaseObject*> Get_V_Collision_Inspection() { return v_Collision_Inspection; }
 	std::vector<cBaseObject*>::iterator Get_VI_Collision_Inspection() { return vI_Collision_Inspection; }
 
-
+	std::vector<cBaseObject*> GetAllBox() { return m_vAllBox; }
 
 	void SetLink_MapActive(cMap_Active* ma) { map_active = ma; }
 

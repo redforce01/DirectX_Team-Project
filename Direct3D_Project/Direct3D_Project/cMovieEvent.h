@@ -1,8 +1,8 @@
 #pragma once
 
-#include "cScene.h"
 
-class cMovieEvent : public cScene
+
+class cMovieEvent
 {
 private:
 	//¿Ã∫•∆Æ

@@ -49,6 +49,8 @@ void ComputeLight(
 		float minRange = matLight._42;
 		float DistancePow = matLight._24;
 
+		float3 baseLightDir = float3(0.f, -1.f, 0.f);
+
 		//광원의 방향
 		float3 lightDir = lightPosition - position;
 
@@ -58,24 +60,74 @@ void ComputeLight(
 		//정규화
 		lightDir *= (1.0f / dist);
 
+		float lightSpread = dot(-lightDir, baseLightDir);
+
 		//광원 량....
-		float NdotL = dot(lightDir, normal);
-		float diff = saturate(NdotL);
+		//float NdotL = dot(lightDir, normal);
+		//float diff = saturate(NdotL);
 
 		//거리에 따른 감쇠율
-		float t = saturate((dist - minRange) / (maxRange - minRange));
-		t = 1.0f - pow(t, DistancePow);
+		//float t = saturate((dist - minRange) / (maxRange - minRange));
+		//t = 1.0f - pow(t, DistancePow);
 
 		//만약 Spot 이라면....
-		diff *= t;			//받는 광원 량에 감쇠율 적용
+		//diff *= t;			//받는 광원 량에 감쇠율 적용
 
 		//라이트 반사
-		float3 lightRefl = normalize(-lightDir + 2.0f * NdotL * normal);
-			float spec = saturate(dot(lightRefl, viewDir));
-		spec = pow(spec, fSpecPower);
+		//float3 lightRefl = normalize(-lightDir + 2.0f * NdotL * normal);
+		//	float spec = saturate(dot(lightRefl, viewDir));
+		//spec = pow(spec, fSpecPower);
 
-		addDiffuse = lightColor * diff;
-		addSpecular = lightColor * spec * diff;		//Spec 은 Diff 의 영향을 받는다.
+		//addDiffuse = lightColor * diff;
+		//addSpecular = lightColor * spec * diff;		//Spec 은 Diff 의 영향을 받는다.
+
+		if (lightSpread > 0.65f)
+		{
+			//광원 량....
+			float NdotL = dot(lightDir, normal);
+			float diff = saturate(NdotL);
+
+			//거리에 따른 감쇠율
+			float t = saturate((dist - minRange) / (maxRange - minRange));
+			t = 1.0f - pow(t, DistancePow);
+
+			//만약 Spot 이라면....
+
+			diff *= t;			//받는 광원 량에 감쇠율 적용
+
+								//라이트 반사
+			float3 lightRefl = normalize(-lightDir + 2.0f * NdotL * normal);
+			float spec = saturate(dot(lightRefl, viewDir));
+			spec = pow(spec, fSpecPower);
+
+			addDiffuse = lightColor * diff * lightSpread + 0.05f / LightNum;
+			addSpecular = lightColor * spec * diff * lightSpread + 0.05f / LightNum;		//Spec 은 Diff 의 영향을 받는다.
+		}
+		else if (lightSpread > 0.f)
+		{
+			//광원 량....
+			float NdotL = dot(lightDir, normal);
+			float diff = saturate(NdotL);
+
+			//거리에 따른 감쇠율
+			float t = saturate((dist - minRange) / (maxRange - minRange));
+			t = 1.0f - pow(t, DistancePow);
+
+			diff *= t;	//받는 광원 량에 감쇠율 적용
+
+						//라이트 반사
+			float3 lightRefl = normalize(-lightDir + 2.0f * NdotL * normal);
+			float spec = saturate(dot(lightRefl, viewDir));
+			spec = pow(spec, fSpecPower);
+
+			addDiffuse = lightColor * diff * (lightSpread * lightSpread / 0.65f * lightSpread / 0.65f) + 0.05f / LightNum;
+			addSpecular = lightColor * spec * diff * (lightSpread * lightSpread / 0.65f * lightSpread / 0.65f) + 0.05f / LightNum;		//Spec 은 Diff 의 영향을 받는다.
+		}
+		else
+		{
+			addDiffuse = 0.05f / LightNum;
+			addSpecular = 0.05f / LightNum;
+		}
 	}
 }
 

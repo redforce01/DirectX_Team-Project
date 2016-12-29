@@ -106,7 +106,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -137,7 +137,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -155,6 +155,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Resources\Shaders\LightEffect\cDustFog.h" />
+    <ClInclude Include="..\Resources\Shaders\LightEffect\cLightGlow.h" />
     <ClInclude Include="Action.h" />
     <ClInclude Include="BoneHierachy.h" />
     <ClInclude Include="cActionSeq.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="cDoorPosition.h" />
     <ClInclude Include="cDXFontManager.h" />
     <ClInclude Include="cEffect.h" />
+    <ClInclude Include="cEndingMain.h" />
     <ClInclude Include="cEventManager.h" />
     <ClInclude Include="cElevator.h" />
     <ClInclude Include="cElevator_Door.h" />
@@ -190,7 +193,6 @@
     <ClInclude Include="cMap_Bbox_Save.h" />
     <ClInclude Include="cMovieEvent.h" />
     <ClInclude Include="cNode.h" />
-    <ClInclude Include="cObjectReaction.h" />
     <ClInclude Include="cObject_EventObj.h" />
     <ClInclude Include="cObject_Sound.h" />
     <ClInclude Include="Command.h" />
@@ -199,7 +201,7 @@
     <ClInclude Include="cParticleQuad.h" />
     <ClInclude Include="cPhysicManager.h" />
     <ClInclude Include="cQuadTree.h" />
-    <ClInclude Include="cReactionMap.h" />
+    <ClInclude Include="cRainParticle.h" />
     <ClInclude Include="cResourceMgr.h" />
     <ClInclude Include="cResourceMgr_ShaderFX.h" />
     <ClInclude Include="cResourceMgr_Texture.h" />
@@ -209,6 +211,7 @@
     <ClInclude Include="cSceneChangeEffect.h" />
     <ClInclude Include="cSceneChangeEffectUpDown.h" />
     <ClInclude Include="cScene_Game.h" />
+    <ClInclude Include="cScene_Loading.h" />
     <ClInclude Include="cScene_Mgr.h" />
     <ClInclude Include="cSetBoundObject.h" />
     <ClInclude Include="cSingletonBase.h" />
@@ -219,6 +222,7 @@
     <ClInclude Include="cTerrain.h" />
     <ClInclude Include="cTimeMgr.h" />
     <ClInclude Include="cTitle.h" />
+    <ClInclude Include="cTown.h" />
     <ClInclude Include="cTransform.h" />
     <ClInclude Include="cXMesh.h" />
     <ClInclude Include="cXMesh_Skinned.h" />
@@ -235,6 +239,8 @@
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Resources\Shaders\LightEffect\cDustFog.cpp" />
+    <ClCompile Include="..\Resources\Shaders\LightEffect\cLightGlow.cpp" />
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="BoneHierachy.cpp" />
     <ClCompile Include="cActionSeq.cpp" />
@@ -248,6 +254,7 @@
     <ClCompile Include="cDoorPosition.cpp" />
     <ClCompile Include="cDXFontManager.cpp" />
     <ClCompile Include="cEffect.cpp" />
+    <ClCompile Include="cEndingMain.cpp" />
     <ClCompile Include="cEventManager.cpp" />
     <ClCompile Include="cElevator.cpp" />
     <ClCompile Include="cElevator_Door.cpp" />
@@ -270,7 +277,6 @@
     <ClCompile Include="cMap_Bbox_Save.cpp" />
     <ClCompile Include="cMovieEvent.cpp" />
     <ClCompile Include="cNode.cpp" />
-    <ClCompile Include="cObjectReaction.cpp" />
     <ClCompile Include="cObject_EventObj.cpp" />
     <ClCompile Include="cObject_Sound.cpp" />
     <ClCompile Include="Command.cpp" />
@@ -279,7 +285,7 @@
     <ClCompile Include="cParticleQuad.cpp" />
     <ClCompile Include="cPhysicManager.cpp" />
     <ClCompile Include="cQuadTree.cpp" />
-    <ClCompile Include="cReactionMap.cpp" />
+    <ClCompile Include="cRainParticle.cpp" />
     <ClCompile Include="cResourceMgr.cpp" />
     <ClCompile Include="cResourceMgr_ShaderFX.cpp" />
     <ClCompile Include="cResourceMgr_Texture.cpp" />
@@ -289,6 +295,7 @@
     <ClCompile Include="cSceneChangeEffect.cpp" />
     <ClCompile Include="cSceneChangeEffectUpDown.cpp" />
     <ClCompile Include="cScene_Game.cpp" />
+    <ClCompile Include="cScene_Loading.cpp" />
     <ClCompile Include="cScene_Mgr.cpp" />
     <ClCompile Include="cSetBoundObject.cpp" />
     <ClCompile Include="cSingletonBase.cpp" />
@@ -299,6 +306,7 @@
     <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="cTimeMgr.cpp" />
     <ClCompile Include="cTitle.cpp" />
+    <ClCompile Include="cTown.cpp" />
     <ClCompile Include="cTransform.cpp" />
     <ClCompile Include="cXMesh.cpp" />
     <ClCompile Include="cXMesh_Skinned.cpp" />
@@ -333,9 +341,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">2.0</ShaderModel>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cSoundDataLoad.cpp~RF194d3f99.TMP" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,46 +6,44 @@ class Unit;
 
 class Command
 {
-protected:
 	int walkTime = 0;
 public:
 	virtual ~Command() {};
-	virtual void execute(Unit& gameActor, float timeDelta) = 0;
-
 	void PlaySoundWalk();
 	void PlaySoundRun();
 	void PlaySoundCamTakeOut();
+	virtual void execute(Unit& gameActor, float timeDelta) = 0;
 };
 
-class WalkCommand : public Command
+class ForwardCommand : public Command
 {
 public:
-	WalkCommand() {};
+	ForwardCommand() {};
 	virtual void execute(Unit& gameActor, float timeDelta);
 
 };
 
-class CrouchCommand : public Command
+class LeftCommand : public Command
 {
 public:
-	CrouchCommand() {};
+	LeftCommand() {};
 	virtual void execute(Unit& gameActor, float timeDelta);
 
 };
 
-class RunCommand : public Command
+class RightCommand : public Command
 {
 public:
-	RunCommand() {};
+	RightCommand() {};
 	virtual void execute(Unit& gameActor, float timeDelta);
 
 };
 
 
-class UpStandCommand : public Command
+class BackwardCommand : public Command
 {
 public:
-	UpStandCommand() {};
+	BackwardCommand() {};
 	virtual void execute(Unit& gameActor, float timeDelta);
 
 };
@@ -58,38 +56,22 @@ public:
 
 };
 
-class CamUpCommand : public Command
+class CrouchCommand : public Command
 {
 public:
-	CamUpCommand() {};
+	CrouchCommand() {}
 	virtual void execute(Unit& gameActor, float timeDelta);
 };
-
-class CamDownCommand : public Command
-{
-public:
-	CamDownCommand() {};
-	virtual void execute(Unit& gameActor, float timeDelta);
-};
-
-class TestCommand : public Command
-{
-public:
-	TestCommand() {}
-	virtual void execute(Unit& gameActor, float timeDelta);
-};
-
 
 
 class InputHandler
 {
-	Command*      m_ButtonWASD;
-	Command*      m_ButtonCtrl;
+	Command*      m_ButtonW;
+	Command*      m_ButtonA;
+	Command*      m_ButtonD;
+	Command*      m_ButtonS;
 	Command*      m_ButtonNULL;
-	Command*      m_ButtonShift;
-	Command*      m_ButtonCtrlUo;
-	Command*      m_MouseRight1;
-	Command*      m_MouseRight2;
+	Command*	  m_ButtonCtrl;
 
 
 	Unit*         m_CurUnit;
